@@ -1,0 +1,30 @@
+<!-- <div class="body animated-background"> -->
+<div class="body">
+  <mat-card>
+    <mat-card-header class="center-content">
+      <img src="assets\Images\activacion.png" alt="Reset Password Icon" class="header-icon">
+      <mat-card-title class="center-title">Activar Cuenta</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form  [formGroup]="formActivacion">
+        <mat-form-field appearance="fill" >
+          <mat-label>Código de activación</mat-label>
+          <mat-icon matPrefix>vpn_key</mat-icon>
+          <input matInput formControlName="codigo" maxlength="10" required autocomplete="off" />
+          <mat-error *ngIf="formActivacion.get('codigo')?.hasError('required')">
+            El código es obligatorio
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit"
+        (click)="activarCuenta()" [disabled]="formActivacion.invalid">
+          <mat-icon>send</mat-icon>
+          Activar
+        </button>
+
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>

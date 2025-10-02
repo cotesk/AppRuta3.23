@@ -1,0 +1,51 @@
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  touch-action: none;
+  cursor: grab;
+}
+
+.image-container:active {
+  cursor: grabbing;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+button.mat-icon-button {
+  background-color: #3498db;
+  color: #ffffff;
+  border-radius: 50%;
+  padding: 10px;
+  margin: 0 5px;
+}
+
+button.mat-icon-button:hover {
+  background-color: #2980b9;
+}
+
+button[color="warn"]:hover {
+  background-color: #e8c8c8;
+}
+button[color="primary"]:hover {
+  background-color: #c5c7ed;
+}
+button[color="accent"]:hover {
+  background-color: #e8c9e8;
+}

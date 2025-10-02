@@ -1,0 +1,271 @@
+
+
+.icon-green {
+ color: green !important;
+}
+
+.icon-red {
+ color: red;
+}
+.icon-naraja {
+ color: rgb(217, 125, 33);
+}
+.icon-blue {
+ color: rgb(60, 60, 175) !important;
+}
+.custom-toolbar {
+ background-color: #7e3f88; /* Color de fondo personalizado (azul en este caso) */
+ color: white; /* Color del texto */
+}
+.minimal-modal {
+ background-color: white;
+ color: black;
+ padding: 20px;
+ border-radius: 5px;
+}
+.badge {
+ background-color: red;
+ color: white;
+ border-radius: 50%;
+ padding: 2px 6px;
+ font-size: 12px;
+ position: absolute;
+ top: 5px;
+ right: 5px;
+}
+/* styles.css o tu archivo de estilos globales */
+
+.swal-cart-popup {
+ width: 80%; /* Ajusta el tamaño según sea necesario */
+ max-width: 600px; /* Tamaño máximo del modal */
+ height: 80vh; /* Ajusta la altura según sea necesario */
+}
+
+.swal-cart-container {
+ max-height: 60vh; /* Ajusta la altura del contenedor interno */
+ overflow-y: auto; /* Permite el desplazamiento vertical */
+}
+.toolbar-morado {
+ background-color: #7e3f88; /* Fondo morado */
+}
+
+.toolbar-morado .custom-mat-line,
+.toolbar-morado .custom-icon {
+ color: white !important; /* Color de texto black */
+}
+.toolbar-black {
+ background-color: #000000; /* Fondo morado */
+}
+.toolbar-azul {
+ background-color: #174093; /* Fondo morado */
+}
+
+.toolbar-azul .custom-mat-line,
+.toolbar-azul .custom-icon {
+ color: white !important; /* Color de texto black */
+}
+.toolbar-black {
+ background-color: #000000; /* Fondo morado */
+}
+
+.toolbar-black .custom-mat-line,
+.toolbar-black .custom-icon {
+ color: white !important; /* Color de texto black */
+}
+/* Estilos para el fondo y el color de texto cuando el fondo es blanco */
+.toolbar-white {
+ background-color: #ffffff; /* Fondo blanco */
+}
+
+.toolbar-white .custom-mat-line,
+.toolbar-white .custom-icon {
+ color: black !important; /* Color de texto black */
+}
+
+/* Estilos para el fondo y el color de texto cuando el fondo es rojo */
+.toolbar-red {
+ background-color: #940c0c; /* Fondo rojo */
+}
+
+.toolbar-red .custom-mat-line,
+.toolbar-red .custom-icon {
+ color: white !important; /* Color de texto blanco */
+}
+
+/* Estilos para el fondo y el color de texto cuando el fondo es verde */
+.toolbar-green {
+ background-color: #064006; /* Fondo verde oscuro */
+}
+
+.toolbar-green .custom-mat-line,
+.toolbar-green .custom-icon {
+ color: white !important; /* Color de texto blanco */
+}
+.sidenav-morado {
+ background-color: #ffffff; /* Fondo blanco */
+ color: black; /* Texto black */
+}
+.sidenav-white {
+ background-color: #ffffff; /* Fondo blanco */
+ color: black; /* Texto black */
+}
+.sidenav-black {
+ background-color: #ffffff; /* Fondo blanco */
+ color: black;
+}
+.sidenav-azul {
+ background-color: #ffffff;
+ color: black;
+}
+.sidenav-red {
+ background-color: #ffffff; /* Fondo rojo claro */
+ color: black; /* Texto black */
+}
+
+.sidenav-green {
+ background-color: #ffffff; /* Fondo verde más claro */
+ color: black; /* Texto black */
+}
+
+.ng-container-white {
+ background-color: #f4eeee; /* Fondo blanco */
+ color: black !important;
+}
+
+.ng-container-red {
+ background-color: #c72c2c; /* Fondo rojo */
+ color: black !important;
+}
+.ng-container-morado {
+ background-color: #522b41; /* Fondo verde */
+ color: white !important;
+}
+.ng-container-azul {
+ background-color: #365594; /* Fondo verde */
+ color: white !important;
+}
+.ng-container-green {
+ background-color: #126b12; /* Fondo verde */
+ color: black !important;
+}
+.ng-container-black {
+ background-color: #242222;
+ color: white !important;
+}
+.panel-white {
+ background-color: #ffffff;
+}
+
+.panel-red {
+ background-color: #f44336;
+}
+
+.panel-green {
+ background-color: #4caf50;
+}
+
+.panel-morado {
+ background-color: #9c27b0;
+}
+
+.panel-black {
+ background-color: #000000;
+}
+
+.panel-azul {
+ background-color: #2196f3;
+}
+
+.icon-black {
+ color: #000000;
+}
+
+.icon-white {
+ color: #ffffff;
+}
+
+.text-black {
+ color: #000000;
+}
+
+.text-white {
+ color: #ffffff;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.vertical-carousel {
+  height: 285px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-inner {
+  height: 100%;
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.carousel-slide {
+  width: 100%;
+  text-align: center;
+  display: none;
+  transition: opacity 0.6s ease;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+.carousel-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.carousel-image:not(.lazy-load) {
+  opacity: 1;
+}
+.contenido {
+  text-align: justify;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+
+/* Contenedor para centrar el botón del menú */
+.toolbar-menu-container {
+  flex: 1; /* Ocupa el espacio disponible */
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+}
+
+/* Estilo para el botón del menú */
+.mat-menu-trigger {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el texto del botón */
+}
+
+
+mat-toolbar {
+  display: flex;
+  flex-wrap: nowrap; /* Evita que los elementos dentro se desborden */
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* Previene cualquier desbordamiento dentro del toolbar */
+}
+
+mat-toolbar-row {
+  width: 100%;
+  justify-content: space-between; /* Ajusta los elementos para que se distribuyan bien */
+}
+@media only screen and (max-width: 768px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}

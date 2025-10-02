@@ -1,0 +1,128 @@
+<!-- presentation.component.html -->
+<!-- <div class="mat-elevation-z2">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Bienvenido a nuestra Aplicación
+      </mat-card-title>
+      <mat-card-subtitle>
+        Descubre todo lo que tenemos para ofrecerte
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <div *ngIf="comentarioTextoLogin ">
+        <p style=" text-align: justify;">{{ comentarioTextoLogin.comentarios }}</p>
+      </div>
+
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>
+        Explorar Ahora
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div> -->
+
+<h2 style="text-align: center;">Servicios de la empresa</h2>
+<br>
+<mat-grid-list cols="4" rowHeight="400px">
+  <mat-grid-tile>
+    <mat-card class="business-card">
+      <mat-card-header>
+
+        <div mat-card-avatar class="business-card-avatar">
+          <mat-icon  style="color: #4caf50;">check_circle</mat-icon>
+        </div>
+        <mat-card-title>Calidad</mat-card-title>
+        <mat-card-subtitle>Productos de alta calidad y durabilidad garantizada.</mat-card-subtitle>
+
+      </mat-card-header>
+      <mat-card-content>
+        <p>Nos comprometemos a ofrecer productos de alta calidad, seleccionados cuidadosamente para garantizar el mejor rendimiento y durabilidad. Ya sea que busques partes para tu PC o accesorios para tu celular, contamos con las mejores marcas del mercado.</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button>Acción 1</button>
+        <button mat-button>Acción 2</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card class="business-card">
+      <mat-card-header>
+        <div mat-card-avatar class="business-card-avatar">
+          <mat-icon style="color: #2196f3;">schedule</mat-icon>
+        </div>
+        <mat-card-title>Puntualidad</mat-card-title>
+        <mat-card-subtitle>Entrega rápida y a tiempo para todos tus pedidos.</mat-card-subtitle>
+
+      </mat-card-header>
+      <mat-card-content>
+        <p>Entendemos la importancia del tiempo para nuestros clientes. Por eso, garantizamos entregas puntuales y rápidas, asegurando que tus pedidos lleguen en el menor tiempo posible, ya sea para componentes de PC, accesorios de celular, o cualquier otro producto tecnológico.</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button>Acción 1</button>
+        <button mat-button>Acción 2</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card class="business-card">
+      <mat-card-header>
+        <div mat-card-avatar class="business-card-avatar">
+          <mat-icon style="color: #dec804;">lightbulb</mat-icon>
+        </div>
+        <mat-card-title>Innovación</mat-card-title>
+        <mat-card-subtitle>Últimos productos y accesorios tecnológicos.</mat-card-subtitle>
+
+      </mat-card-header>
+      <mat-card-content>
+        <p>Nos mantenemos a la vanguardia de la tecnología, ofreciendo los últimos productos y accesorios innovadores. Desde las últimas tarjetas gráficas y procesadores hasta los más modernos gadgets y accesorios, te ofrecemos lo más reciente del mercado.</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button>Acción 1</button>
+        <button mat-button>Acción 2</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card class="business-card">
+      <mat-card-header>
+        <div mat-card-avatar class="business-card-avatar">
+          <mat-icon style="color: #e91e63;">favorite</mat-icon>
+        </div>
+        <mat-card-title>Compromiso</mat-card-title>
+        <mat-card-subtitle>Soporte personalizado y atención al cliente.</mat-card-subtitle>
+
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="comentarioTextoLogin ">
+          <p style=" text-align: justify;">{{ comentarioTextoLogin.comentarios }}</p>
+        </div>
+
+      </mat-card-content>
+      <!-- <mat-card-content>
+        <p>Nuestro compromiso es con la satisfacción total del cliente. Brindamos soporte y asesoría personalizada para ayudarte a encontrar el producto perfecto para tus necesidades tecnológicas, asegurando que recibas exactamente lo que buscas.</p>
+      </mat-card-content>
+       -->
+       <mat-card-actions class="center-actions">
+        <button mat-icon-button class="ver">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-button color="primary">Acción 2</button>
+      </mat-card-actions>
+
+    </mat-card>
+  </mat-grid-tile>
+
+
+
+</mat-grid-list>
+
+<!-- <footer class="footer">
+  <p>Copyright &copy; 2024 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer> -->

@@ -1,0 +1,302 @@
+/* menu.component.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+table {
+  width: 25%; /* Reducimos el ancho de la tabla */
+  margin: 20px auto; /* Centra la tabla horizontalmente */
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd; /* Agrega un borde a las celdas */
+  padding: 1px; /* Espaciado interno de las celdas */
+  text-align: center; /* Alineación del texto a la izquierda */
+  max-width: 200px; /* Ancho máximo de las celdas */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  font-size: 16px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* menu.component.css */
+/* Estilo personalizado para los checkboxes */
+input[type="checkbox"] {
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ddd; /* Agrega un borde alrededor del checkbox */
+  border-radius: 3px; /* Redondea las esquinas del checkbox */
+  outline: none;
+  cursor: pointer;
+}
+input[type="checkbox"] {
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px; /* Ancho del checkbox */
+  height: 20px; /* Alto del checkbox */
+  border: 1px solid #ddd; /* Agrega un borde alrededor del checkbox */
+  border-radius: 3px; /* Redondea las esquinas del checkbox */
+  outline: none;
+  cursor: pointer;
+}
+/* Pseudo-elemento para el tick del checkbox */
+input[type="checkbox"]::before {
+  content: ''; /* Se añade un contenido vacío */
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid transparent; /* El color transparente para el chulito */
+  border-width: 0 2px 2px 0; /* Crea un triángulo */
+  transform: rotate(45deg); /* Rota el triángulo para formar un chulito */
+  transition: border-color 0.3s; /* Transición de color */
+}
+
+input[type="checkbox"]:hover {
+  border-color: #0066cc; /* Resalta el borde */
+}
+input[type="checkbox"]:checked {
+  background-color: #4caf50; /* Verde */
+}
+input[type="checkbox"]:checked::before {
+  border-color: white; /* Marca en blanco */
+}
+
+
+/* Asegura que el texto junto al checkbox tenga un espacio blanco después de la coma */
+td {
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+td label {
+  margin-left: 5px; /* Añade un margen a la izquierda para separar el texto del checkbox */
+}
+
+
+/* Agrega estos estilos en tu archivo CSS */
+
+select {
+  padding: 8px 10px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño de fuente */
+  border: 1px solid #ccc; /* Borde */
+  border-radius: 4px; /* Borde redondeado */
+  background-color: #fff; /* Color de fondo */
+  color: #333; /* Color del texto */
+}
+
+/* Opcional: Estilo cuando el select está enfocado */
+select:focus {
+  outline: none; /* Quita el borde de enfoque */
+  border-color: #0066cc; /* Cambia el color del borde al enfocar */
+}
+
+/* Opcional: Estilo para los options */
+option {
+  background-color: #fff; /* Color de fondo */
+  color: #333; /* Color del texto */
+}
+
+/* Opcional: Estilo para el hover en los options */
+option:hover {
+  background-color: #f2f2f2; /* Color de fondo al pasar el mouse */
+}
+
+
+button:hover {
+  background-color: rgb(79, 96, 113);
+}
+button[color="warn"]:hover {
+  background-color: #9e3434; /* Cambia el color al pasar el ratón sobre el botón */
+}
+button[color="primary"]:hover {
+  background-color: #0e2465; /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+button.agregar {
+  background-color: #3351aa; /* Fondo del botón Cancelar */
+  color: #fff; /* Color del texto del botón Cancelar */
+}
+button.precio {
+  background-color: #ff4081; /* Fondo del botón Cancelar */
+  color: #fff; /* Color del texto del botón Cancelar */
+}
+button.agregar:hover {
+  background-color:  rgb(79, 96, 113); /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+button.agregar[disabled] {
+  background-color: #ccc; /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666; /* Color del texto en gris cuando está deshabilitado */
+}
+
+button.agregar[disabled]:hover {
+  background-color: #ccc; /* Mantener el color de fondo en gris al pasar el ratón sobre el botón deshabilitado */
+}
+
+
+.minimalist-Operacion {
+  position: absolute;
+  top: 200px;
+  left: 875px; /* Ajusta el valor de left según sea necesario */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.minimalist-deseleccionar {
+  position: absolute;
+  top: 100px;
+  left: 100px; /* Ajusta el valor de left según sea necesario */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/*
+.minimalist-Rol {
+  position: absolute;
+  top: 120px;
+  left: 600px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 10px;
+    border-radius: 5px;
+} */
+.minimalist-Operacion,
+.minimalist-Rol {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.minimalist-Operacion label,
+.minimalist-Rol label {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.minimalist-Operacion select,
+.minimalist-Rol select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #555;
+  outline: none;
+}
+
+.minimalist-Operacion select:focus,
+.minimalist-Rol select:focus {
+  border-color: #007bff;
+}
+
+
+
+.icon-composite {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 8px; /* Espacio entre el icono y el texto */
+}
+
+.icon-composite mat-icon {
+  font-size: 24px; /* Tamaño del ícono principal */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: red; /* Ajusta el color del ícono de tachado */
+  font-size: 18px; /* Tamaño del ícono superpuesto */
+}
+
+button.ver {
+  background-color: #e9a742;
+ color: #fff; /* Color del texto del botón Cancelar */
+}
+button.ver:hover {
+ background-color:  #c58b35; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+button.ver[disabled] {
+ background-color: #ccc; /* Fondo del botón en gris cuando está deshabilitado */
+ color: #666; /* Color del texto en gris cuando está deshabilitado */
+}
+
+button.ver[disabled]:hover {
+ background-color: #ccc; /* Mantener el color de fondo en gris al pasar el ratón sobre el botón deshabilitado */
+}
+table tr:hover {
+  background-color: #f2f2f2; /* Color suave */
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .container h1 {
+    font-size: 1.5rem;
+  }
+
+  /* Flex direction changes to column for smaller screens */
+  .container > div {
+    flex-direction: column;
+  }
+
+  /* Adjust margin and padding for elements */
+  .minimalist-Rol {
+    width: 100%;
+  }
+
+  /* Make the tables scrollable horizontally */
+  table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  /* Ensure the buttons stack vertically */
+  .container > div > div {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Adjust button width to fit the smaller screen */
+  button {
+    width: 100%;
+  }
+
+  /* Adjust table headers to be more compact */
+  th, td {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  /* For small screens, reduce icon and text size */
+  .icon-composite {
+    font-size: 1rem;
+  }
+}

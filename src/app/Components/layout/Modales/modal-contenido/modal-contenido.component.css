@@ -1,0 +1,253 @@
+mat-form-field {
+
+  width: 100%;
+  margin: 10px 10px;
+
+}
+
+/* form{
+    width: 350px;
+  } */
+/* Agrega estas reglas al final del archivo modal-producto.component.css */
+.preview-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  /* Añade una posición relativa al contenedor */
+}
+
+.icon-blue {
+  color: #2196F3;
+  /* Color azul */
+}
+
+.clear-image {
+  position: absolute;
+  top: 55px;
+  /* Ajusta la posición vertical del botón según tus preferencias */
+  right: 55px;
+  /* Ajusta la posición horizontal del botón según tus preferencias */
+}
+
+.preview-image {
+  max-width: 300px;
+  max-height: 200px;
+  margin-top: 10px;
+  /* Ajusta el margen superior según tus preferencias */
+}
+
+
+
+
+
+/* Agrega estas reglas al final del archivo modal-producto.component.css */
+.custom-upload-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-upload-button {
+  background-color: #7e3f88;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.custom-upload-button:hover {
+  background-color: #7e3f88;
+}
+
+.mat-input-file {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-name-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+  /* Ajusta el margen superior a tu preferencia */
+}
+
+.file-name-container input {
+  flex: 1;
+}
+
+.file-name-container button {
+  margin-left: 5px;
+  /* Ajusta el margen izquierdo a tu preferencia */
+}
+
+/* Añade este estilo para alinear el icono más abajo */
+.custom-upload-container mat-icon {
+  margin-top: 5px;
+  /* Ajusta el margen superior a tu preferencia */
+}
+
+button[color="warn"] {
+    color: white;
+  background-color: #df2323; 
+}
+button[color="warn"]:hover {
+    color: white;
+  background-color: #d16969; 
+}
+
+button.agregar {
+  background-color: #3351aa;
+  /* Fondo del botón Cancelar */
+  color: #fff;
+  /* Color del texto del botón Cancelar */
+}
+
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+button.agregar[disabled] {
+  background-color: #ccc;
+  /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666;
+  /* Color del texto en gris cuando está deshabilitado */
+}
+
+button.agregar[disabled]:hover {
+  background-color: #ccc;
+  /* Mantener el color de fondo en gris al pasar el ratón sobre el botón deshabilitado */
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog-actions button:first-child {
+  margin-right: auto;
+  /* Mueve el botón "Guardar" al centro */
+}
+
+.icon-green {
+  color: rgb(0, 152, 0);
+}
+
+.icon-red {
+  color: red;
+}
+
+.icon-blue {
+  color: #007bff;
+}
+
+.icon-orange {
+  color: #fd7e14;
+}
+
+.icon-purple {
+  color: #6f42c1;
+}
+
+.icon-yellow {
+  color: #ffc107;
+}
+
+.icon-black {
+  color: #343a40;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.full-width {
+
+  width: 95%;
+}
+
+.image-preview-card {
+  position: relative;
+  display: inline-block;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out;
+  cursor: zoom-in;
+
+  /* &:hover {
+    transform: scale(1.01);
+  } */
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: inherit;
+  }
+}
+
+.remove-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .flex-container {
+    padding: 0 8px;
+    /* Reducir padding en pantallas pequeñas */
+    overflow-x: hidden;
+  }
+
+  .full-width {
+
+    width: 80%;
+  }
+
+  .comentarios {
+    width: 100%;
+
+  }
+
+  .dialog-content {
+    padding: 0.5em;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    /* Los botones se colocan en una columna */
+    gap: 8px;
+    /* Espaciado entre botones */
+    align-items: stretch;
+    /* Botones ocupan todo el ancho */
+  }
+
+  .preview-image {
+    max-width: 200px;
+    max-height: 150px;
+  }
+}

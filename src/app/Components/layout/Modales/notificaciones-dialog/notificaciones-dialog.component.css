@@ -1,0 +1,111 @@
+/* Contenedor general */
+#notificaciones-dialog-container {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Contenedor con scroll horizontal */
+.table-container {
+  border-radius: 6px;
+  overflow-x: auto; /* Habilita desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch; /* Scroll suave en móviles */
+}
+
+/* Tabla */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Para forzar scroll si el contenido es grande */
+}
+
+/* Encabezados y celdas */
+#notificaciones-dialog-container th,
+#notificaciones-dialog-container td {
+  /* border: 1px solid #d6d6d6; */
+  padding: 8px;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+#notificaciones-dialog-container th {
+  text-align: center;
+  background-color: #2c3e50;
+  color: white;
+}
+
+/* Imagen de producto */
+.imagen-producto {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.imagen-producto:hover {
+  transform: scale(1.1);
+}
+
+/* Botones */
+#notificaciones-dialog-container .confirm-button,
+#notificaciones-dialog-container .pagination-button {
+  background-color: #2a3884;
+  color: white;
+  margin: 5px;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#notificaciones-dialog-container .pagination-button:hover,
+#notificaciones-dialog-container .confirm-button:hover {
+  background-color: #545454;
+}
+
+#notificaciones-dialog-container .pagina-actual {
+  background-color: #4caf50;
+  font-weight: bold;
+}
+
+/* Texto rojo para stock agotado */
+.texto-rojo {
+  color: red;
+}
+
+/* Paginador */
+mat-paginator {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+::ng-deep .mat-mdc-paginator-icon {
+
+  fill: #2196f3 !important;
+}
+
+::ng-deep .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
+  fill: rgb(169, 169, 169) !important;
+}
+
+
+/* Vista móvil */
+@media (max-width: 768px) {
+  #notificaciones-dialog-container {
+    padding: 5px;
+  }
+
+  #notificaciones-dialog-container th,
+  #notificaciones-dialog-container td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .imagen-producto {
+    width: 45px;
+    height: 45px;
+  }
+}

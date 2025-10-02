@@ -1,0 +1,164 @@
+<h3 mat-dialog-title style="text-align: center;">{{tituloAccion}} Usuario </h3>
+
+<!-- <div mat-dialog-title style="text-align: center;">
+    <h1>Employee Form</h1>
+  </div> -->
+<!-- <mat-dialog-content> -->
+
+
+
+
+<form [formGroup]="formularioUsuario">
+    <div mat-dialog-content class="content">
+
+  <!-- <div mat-dialog-content class="content"> -->
+    <!-- <mat-form-field appearance="outline" class="full-width"> -->
+
+    <div class="row">
+      <mat-form-field appearance="fill"  style="width: 200px;">
+        <mat-label>Opciones</mat-label>
+        <mat-select formControlName="metodoBusqueda" >
+
+          <mat-option (click)="reenviar()">
+            <mat-icon class="icon-verde">verified_user</mat-icon>
+            Activar Cuenta
+          </mat-option>
+
+
+
+        </mat-select>
+        <mat-icon matSuffix>more_vert</mat-icon>
+      </mat-form-field>
+    </div>
+
+      <div class="row">
+
+      <mat-form-field   appearance="outline" *ngIf="!modoEdicion">
+        <!-- <mat-label>Imagen</mat-label> -->
+        <!-- Reemplaza el código del input original con este código -->
+        <div class="custom-upload-container">
+          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()"
+            matTooltip="Seleccionar Archivo">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Imagen"
+            (change)="selectFile($event)" accept=".png, .jpg, .jpeg">
+        </div>
+
+        <input matInput formControlName="Urlimagen" readonly
+          [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+        <button mat-icon-button matSuffix color="warn"  *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div  *ngIf="previsualizacion">
+        <!-- <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button> -->
+        <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen"
+          style="max-width: 300px; max-height: 200px;" (click)="verImagen()">
+
+      </div>
+
+    </div >
+    <!-- </div> -->
+    <div class="row">
+      <!-- Nombre Completo -->
+      <mat-form-field >
+        <mat-label>Nombre de Usuario</mat-label>
+        <input matInput autocomplete="off" formControlName="nombreCompleto">
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="formularioUsuario.get('nombreCompleto')?.hasError('letrasSinNumerosValidator')">
+          No se permiten números en el nombre.
+        </mat-error>
+        <mat-error *ngIf="formularioUsuario.get('nombreCompleto')?.hasError('maxlength')">
+          El nombre no puede exceder los 25 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Correo -->
+      <mat-form-field >
+        <mat-label>Correo</mat-label>
+        <input matInput autocomplete="off" formControlName="correo">
+        <mat-icon matSuffix>mail</mat-icon>
+        <mat-error *ngIf="formularioUsuario.get('correo')">
+          Digita un correo valido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <!-- Agrega esto en tu formulario HTML -->
+      <!-- <mat-form-field >
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="ocultarPassword ? 'password' : 'text'" formControlName="clave" maxlength="20"
+          (input)="onPasswordChange()">
+        <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+          <mat-icon matSuffix>{{ocultarPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+
+        <ng-container *ngFor="let error of passwordErrors">
+          <mat-error>
+            <mat-icon style="margin-right: 4px;">error_outline</mat-icon>
+            {{ error }}
+          </mat-error>
+        </ng-container>
+      </mat-form-field> -->
+      <mat-form-field appearance="fill" class="contra">
+        <mat-label>Contraseña</mat-label>
+        <mat-icon matPrefix *ngIf="passwordErrors.length > 0" style="color: #f44336; margin-right: 8px;">error_outline</mat-icon>
+
+        <input matInput
+               [type]="ocultarPassword ? 'password' : 'text'"
+               maxlength="20"
+               formControlName="clave"
+               (input)="onPasswordChange()"
+               [matTooltip]="getPasswordErrorTooltip()"
+               matTooltipPosition="above"
+               matTooltipShowDelay="0"
+               matTooltipHideDelay="2000"
+               (click)="showTooltip()"
+               [matTooltipDisabled]="passwordErrors.length === 0">
+        <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+          <mat-icon>{{ ocultarPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Confirmar Contraseña</mat-label>
+        <input matInput [type]="ocultarPassword ? 'password' : 'text'" maxlength="20" formControlName="confirmarClave"
+          (input)="onPasswordChange()">
+        <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+          <mat-icon matSuffix>{{ocultarPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formularioUsuario.hasError('contrasenasNoCoinciden')">
+          <mat-icon style="margin-right: 4px;">error_outline</mat-icon>
+          Las contraseñas no coinciden.
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+
+
+
+
+    <!-- ... Otro contenido ... -->
+  </div>
+
+  <mat-dialog-actions class="dialog-actions">
+    <span class="spacer"></span> <!-- Este elemento ocupa el espacio izquierdo -->
+
+    <button mat-raised-button color="primary" [disabled]="formularioUsuario.invalid" (click)="guardarEditar_Usuario()">
+      <mat-icon>save</mat-icon> {{botonAccion}}
+    </button>
+
+    <button mat-raised-button mat-dialog-close color="warn">
+      <mat-icon>close</mat-icon> Volver
+    </button>
+  </mat-dialog-actions>
+
+</form>
+<!-- </mat-dialog-content> -->
+
+

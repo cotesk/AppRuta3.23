@@ -1,0 +1,174 @@
+<h2 mat-dialog-title style="text-align: center;">
+    Asignar Paseo
+</h2>
+
+<!-- Vista previa del paseador -->
+<div *ngIf="paseadorSeleccionado" class="paseador-preview">
+    <img [src]="paseadorSeleccionado.imagenUrl" (click)="verImagen2(paseadorSeleccionado)"
+        alt="{{ paseadorSeleccionado.nombreCompleto }}" />
+    <p>{{ paseadorSeleccionado.nombreCompleto }}</p>
+</div>
+
+<form [formGroup]="formularioPaseo" class="formulario-paseo">
+    <div mat-dialog-content class="content">
+
+        <div class="form-row">
+
+            <!-- Seleccionar Pasador -->
+            <mat-form-field appearance="fill" class="half-width">
+                <mat-label>Paseador</mat-label>
+                <mat-select formControlName="idUsuarioPasador" (selectionChange)="onPasadorChange($event)">
+                    <mat-option *ngFor="let pasador of listaPaseador" [value]="pasador.idUsuario">
+                        <mat-icon style="color:#4caf50; margin-right:5px;">person</mat-icon>
+                        {{ pasador.nombreCompleto }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formularioPaseo.get('idUsuarioPasador')?.hasError('required')">
+                    Selecciona un pasador
+                </mat-error>
+            </mat-form-field>
+
+
+            <!-- Seleccionar Tarifa -->
+            <mat-form-field appearance="fill" class="half-width">
+                <mat-label>Tarifa</mat-label>
+                <mat-select formControlName="idTarifa">
+                    <mat-option *ngFor="let tarifa of listaTarifas" [value]="tarifa.idTarifa">
+                        <mat-icon style="color:#ff9800; margin-right:5px;">attach_money</mat-icon>
+                        {{ tarifa.nombre }} - {{ formatearNumero(tarifa.precioPorHoraTexto!) }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formularioPaseo.get('idTarifa')?.hasError('required')">
+                    Selecciona una tarifa
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Fecha -->
+            <mat-form-field appearance="fill" class="half-width">
+                <mat-label>Fecha</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="fecha">
+
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+
+                <!-- Errores -->
+                <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('required')">
+                    La fecha es obligatoria
+                </mat-error>
+
+                <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('fechaAnterior')">
+                    La fecha no puede ser anterior a hoy.
+                </mat-error>
+
+                <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('maxDate')">
+                    La fecha no puede superar una semana desde hoy.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Paseo toda la semana -->
+            <mat-form-field appearance="fill" class="half-width">
+                <mat-label>Paseo toda la semana</mat-label>
+                <mat-select formControlName="todaSemana">
+                    <mat-option [value]="true">
+                        <mat-icon style="color:#4caf50; margin-right:5px;">done</mat-icon>
+                        Sí
+                    </mat-option>
+                    <mat-option [value]="false">
+                        <mat-icon style="color:#f44336; margin-right:5px;">close</mat-icon>
+                        No
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <!-- Turno -->
+            <mat-form-field appearance="fill" class="half-width">
+                <mat-label>Turno</mat-label>
+                <mat-select formControlName="turno">
+                    <mat-option value="mañana">
+                        <mat-icon style="color:#ffc107; margin-right:5px;">wb_sunny</mat-icon>
+                        Mañana
+                    </mat-option>
+                    <mat-option value="tarde">
+                        <mat-icon style="color:#ff5722; margin-right:5px;">brightness_5</mat-icon>
+                        Tarde
+                    </mat-option>
+                    <mat-option value="noche">
+                        <mat-icon style="color:#3f51b5; margin-right:5px;">nights_stay</mat-icon>
+                        Noche
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formularioPaseo.get('turno')?.hasError('required')">
+                    El turno es obligatorio
+                </mat-error>
+            </mat-form-field>
+
+
+        </div>
+
+        <!-- Mostrar días que trabaja -->
+        <div *ngIf="listaDiasPasador.length > 0" class="dias-pasador">
+            <h3 style=" text-align: center;">Dias disponibles y cupos disponibles</h3>
+            <mat-chip-set style=" text-align: center;">
+                <mat-chip *ngFor="let dia of listaDiasPasador" [ngClass]="getColorDia(dia.diaSemana)" selected>
+                    {{ dia.diaSemana }}
+                    <span class="cupos-info">
+                        (M: {{ dia.cupoManana }} | T: {{ dia.cupoTarde }} | N: {{ dia.cupoNoche }})
+                    </span>
+                </mat-chip>
+            </mat-chip-set>
+        </div>
+
+        <br>
+        <!-- Seleccionar Perros -->
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Perros</mat-label>
+            <mat-select formControlName="idsPerros" multiple (selectionChange)="onPerrosChange($event)">
+                <mat-option *ngFor="let perro of listaPerros" [value]="perro.idPerro">
+                    <mat-icon style="color:#795548; margin-right:5px;">pets</mat-icon>
+                    {{ perro.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formularioPaseo.get('idsPerros')?.hasError('required')">
+                Selecciona al menos un perro
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Vista previa de fotos seleccionadas -->
+        <div class="perros-preview" *ngIf="perrosSeleccionados.length > 0">
+            <div class="perro-img" *ngFor="let perro of perrosSeleccionados">
+                <img *ngIf="perro.imagenUrl?.length > 0" (click)="verImagen(perro)" [src]="perro.imagenUrl[0]"
+                    [alt]="perro.nombre" />
+                <span>{{ perro.nombre }}</span>
+            </div>
+        </div>
+
+
+
+
+        <!-- Fecha -->
+        <!-- <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fecha">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('required')">
+        La fecha es obligatoria
+      </mat-error>
+    </mat-form-field> -->
+
+
+
+    </div>
+
+    <!-- Botones -->
+    <mat-dialog-actions class="dialog-actions">
+        <span class="spacer"></span>
+        <button mat-raised-button color="primary" (click)="asignarPaseo()" [disabled]="formularioPaseo.invalid">
+            <mat-icon>save</mat-icon> Asignar Paseo
+        </button>
+        <button mat-raised-button mat-dialog-close color="warn">
+            <mat-icon>close</mat-icon> Cancelar
+        </button>
+    </mat-dialog-actions>
+</form>

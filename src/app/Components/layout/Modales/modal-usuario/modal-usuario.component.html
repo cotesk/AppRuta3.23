@@ -1,0 +1,251 @@
+<h2 mat-dialog-title style="text-align: center;">{{tituloAccion}} Usuario </h2>
+
+<!-- <div mat-dialog-title style="text-align: center;">
+  <h1>Employee Form</h1>
+</div> -->
+<form [formGroup]="formularioUsuario">
+  <div mat-dialog-content class="content">
+
+    <div class="row">
+
+      <mat-form-field appearance="fill" *ngIf="!modoEdicion">
+        <mat-label>Seleccionar acción</mat-label>
+        <mat-select (selectionChange)="onSeleccionAccion($event)">
+          <mat-option value="tomarFoto">
+            <mat-icon color="primary">photo_camera</mat-icon>
+            Tomar Foto
+          </mat-option>
+          <mat-option value="elegirFoto">
+            <mat-icon color="accent">photo_library</mat-icon>
+            Elegir Foto
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+    </div>
+
+
+
+    <div class="row">
+
+      <!-- Sección para tomar foto -->
+      <div class="camera-section" *ngIf="accionSeleccionada === 'tomarFoto'">
+        <!-- <button mat-raised-button color="primary" (click)="activarCamara()">Activar Cámara</button> -->
+        <video #videoElement autoplay style="width: 100%; max-width: 600px; transform: scaleX(-1);"></video>
+        <br>
+        <div class="button-center">
+          <button mat-raised-button color="accent" (click)="tomarFoto()" *ngIf="camaraActiva"
+            [disabled]="!camaraActiva">
+            <mat-icon>photo_camera</mat-icon> Tomar Foto
+          </button>
+        </div>
+      </div>
+
+      <!-- Sección para elegir foto -->
+      <mat-form-field appearance="outline" *ngIf="accionSeleccionada === 'elegirFoto'">
+        <div class="custom-upload-container">
+          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Imagen"
+            (change)="selectFile($event)" accept=".png, .jpg, .jpeg">
+        </div>
+
+        <input matInput formControlName="Urlimagen" readonly
+          [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+        <button mat-icon-button matSuffix class="eliminar" *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Vista previa de la imagen -->
+      <div class="preview-img" *ngIf="previsualizacion">
+        <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen"
+          style="max-width: 300px; max-height: 200px;" (click)="verImagen()">
+      </div>
+
+    </div>
+    <br>
+    <!-- Otros campos del formulario -->
+    <!-- <mat-grid-list cols="1" rowHeight="100px">
+
+      </mat-grid-list> -->
+    <div class="row">
+      <!-- Nombre Completo -->
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre Completo</mat-label>
+        <input matInput autocomplete="off" maxlength="30" formControlName="nombreCompleto">
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="formularioUsuario.get('nombreCompleto')?.hasError('letrasSinNumerosValidator')">No se permiten
+          números en el nombre.</mat-error>
+        <mat-error *ngIf="formularioUsuario.get('nombreCompleto')?.hasError('maxlength')">El nombre no puede exceder los
+          30 caracteres.</mat-error>
+      </mat-form-field>
+
+      <!-- Contraseña -->
+      <!-- <mat-form-field appearance="fill" class="contra">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="ocultarPassword ? 'password' : 'text'" maxlength="20" formControlName="clave"
+          (input)="onPasswordChange()">
+        <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+          <mat-icon matSuffix>{{ ocultarPassword ? 'visibility_off' :'visibility' }}</mat-icon>
+        </button>
+        <ng-container *ngFor="let error of passwordErrors">
+          <mat-error>
+            <mat-icon style="margin-right: 4px;">error_outline</mat-icon>
+            {{ error }}
+          </mat-error>
+        </ng-container>
+      </mat-form-field>
+      -->
+      <mat-form-field appearance="fill" class="contra">
+        <mat-label>Contraseña</mat-label>
+        <mat-icon matPrefix *ngIf="passwordErrors.length > 0"
+          style="color: #f44336; margin-right: 8px;">error_outline</mat-icon>
+
+        <input matInput [type]="ocultarPassword ? 'password' : 'text'" maxlength="20" formControlName="clave"
+          (input)="onPasswordChange()" [matTooltip]="getPasswordErrorTooltip()" matTooltipPosition="above"
+          matTooltipShowDelay="0" matTooltipHideDelay="2000" (click)="showTooltip()"
+          [matTooltipDisabled]="passwordErrors.length === 0">
+        <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+          <mat-icon>{{ ocultarPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+
+    </div>
+
+
+
+
+
+    <div class="row">
+      <mat-form-field appearance="fill" maxlength="35">
+        <mat-label>Correo</mat-label>
+        <input matInput autocomplete="off" formControlName="correo">
+        <mat-icon matSuffix>mail</mat-icon>
+        <mat-error *ngIf="formularioUsuario.get('correo')">
+          Digita un correo valido
+        </mat-error>
+        <mat-error *ngIf="formularioUsuario.get('correo')?.hasError('maxlength')">
+          Máximo de 35 dígitos.
+        </mat-error>
+      </mat-form-field>
+
+
+
+      <!-- <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="idRol">
+            <mat-option *ngFor="let item of listaRoles" [value]="item.idRol">
+              {{item.nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>assignment</mat-icon>
+        </mat-form-field> -->
+      <mat-form-field appearance="fill">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="idRol" (selectionChange)="onRolChange($event)">
+          <mat-option *ngFor="let item of listaRoles" [value]="item.idRol">
+            <mat-icon class="role-icon" [ngClass]="getRoleIcon(item.nombre)">
+              {{ getRoleIconName(item.nombre) }}
+            </mat-icon>
+            {{ item.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>assignment</mat-icon>
+      </mat-form-field>
+
+
+
+    </div>
+
+
+    <div *ngIf="rolSeleccionado === 2 || rolSeleccionado === 1 ">
+      <div class="row">
+        <mat-form-field appearance="fill">
+          <mat-label>Dirección</mat-label>
+          <input matInput formControlName="direccion">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Barrio</mat-label>
+          <input matInput formControlName="barrio">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="fill">
+          <mat-label>Referencia</mat-label>
+          <input matInput formControlName="referencia">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Capacidad Mañana</mat-label>
+          <input type="number" matInput formControlName="capacidadManana">
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="fill">
+          <mat-label>Capacidad Tarde</mat-label>
+          <input type="number" matInput formControlName="capacidadTarde">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Capacidad Noche</mat-label>
+          <input type="number" matInput formControlName="capacidadNoche">
+        </mat-form-field>
+      </div>
+
+
+
+
+
+    </div>
+
+
+
+
+    <div class="row">
+      <mat-form-field appearance="fill" *ngIf="!modoEdicion2">
+        <mat-label>Estado</mat-label>
+        <mat-select asp-for="esActivo" formControlName="esActivo">
+          <mat-option value="1">
+            <mat-icon class="icon-green">check_circle</mat-icon>
+            Activo
+          </mat-option>
+          <mat-option value="0">
+            <mat-icon class="icon-red">highlight_off</mat-icon>
+            No Activo
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+
+    </div>
+
+
+
+  </div>
+
+  <mat-dialog-actions class="dialog-actions">
+    <span class="spacer"></span> <!-- Este elemento ocupa el espacio izquierdo -->
+    <button mat-raised-button class="agregar" [disabled]="formularioUsuario.invalid" (click)="guardarEditar_Usuario()">
+      <mat-icon>save</mat-icon> {{botonAccion}}
+    </button>
+    <button mat-raised-button mat-dialog-close color="warn">
+      <mat-icon>close</mat-icon> Volver
+    </button>
+  </mat-dialog-actions>
+
+</form>
+
+
+
+<!-- align="end" para que los botones queden al final
+ align="center" centrado los botones -->

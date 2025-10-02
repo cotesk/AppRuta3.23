@@ -1,0 +1,24 @@
+<!-- <h2 mat-dialog-title style="text-align: center;">Confirmar Anulación</h2>
+<mat-dialog-content>
+  <p>¿Está seguro de que desea anular esta venta?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button  mat-raised-button color="warn" (click)="cancelarAnulacion()">Cancelar</button>
+  <button  mat-raised-button color="primary" (click)="confirmarAnulacion()">Anular</button>
+</mat-dialog-actions> -->
+<!-- confirmacion-anulacion.component.html -->
+
+<h2 mat-dialog-title style="text-align: center;">Confirmar Anulación</h2>
+<mat-dialog-content>
+  <p>¿Está seguro de que desea anular ?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button class="cancelar" (click)="cancelarAnulacion()">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+  <button mat-raised-button class="anular" (click)="confirmarAnulacion()">
+    <mat-icon matSuffix class="fas fa-trash"></mat-icon>
+    Anular
+  </button>
+</mat-dialog-actions>

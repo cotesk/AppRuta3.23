@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import '~@angular/material/theming';
+ @import '@angular/material/prebuilt-themes/indigo-pink.css';
+ @import 'ngx-extended-pdf-viewer/ngx-extended-pdf-viewer.css';
+ @import '~ngx-extended-pdf-viewer/ngx-extended-pdf-viewer.css';
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+  border-color: #49c52b !important;
+  background-color: #49c52b !important;
+}
+ /* @import url('https://fonts.googleapis.com/icon?family=Material+Icons'); */
+
+ /* @import "~@fortawesome/fontawesome-free/css/all.css"; */
+
+/* ✅ Cambiar el color del track y thumb cuando está activo */
+.mdc-switch.mdc-switch--selected .mdc-switch__track::after {
+  background-color: #49c52b !important; /* color de fondo (ON) */
+}
+
+.mdc-switch.mdc-switch--selected .mdc-switch__handle::after {
+  background-color: #49c52b !important; /* color del circulito */
+}
+
+.mdc-switch.mdc-switch--selected .mdc-switch__icons {
+  color: #fff !important; /* iconos ON, si usas con iconos */
+}
+
+/* Opcional: borde cuando está apagado */
+.mdc-switch .mdc-switch__track::after {
+  border: 1px solid #49c52b !important;
+}

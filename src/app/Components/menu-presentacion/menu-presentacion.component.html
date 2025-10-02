@@ -1,0 +1,170 @@
+<mat-toolbar [class]="toolbarColorClass">
+  <mat-toolbar-row>
+    <div *ngIf="empresa && empresa.logo" (click)="verImagen2()" style="margin-right: 20px;">
+      <img [src]="'data:image/png;base64,' + empresa.logo"
+        style="width: 50px; height: 50px; border-radius: 50%; cursor: pointer; object-fit: cover;"
+        [matTooltip]="nombreEmpresa">
+    </div>
+    <div *ngIf="empresa && !empresa.logo" style="margin-right: 20px;">
+      <!-- <p>No hay imagen</p> -->
+    </div>
+
+    <h1 [class]="getTextColorClass()" style="margin: 0 10px 0 0;"
+      [ngStyle]="{ 'display': isMobileView() ? 'none' : 'block' }">
+      {{ nombreEmpresa }}
+    </h1>
+
+    <!-- <button [class]="getTextColorClass()" mat-icon-button (click)="sidenav.toggle();">
+      <mat-icon>menu</mat-icon>
+    </button> -->
+
+    <div class="toolbar-menu-container">
+
+      <button mat-button [matMenuTriggerFor]="menu">
+
+        <mat-label [class]="getTextColorClass()">Productos</mat-label>
+        <mat-icon [class]="getIconColorClass()">arrow_drop_down</mat-icon>
+      </button>
+
+
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['cards']">
+          <mat-icon class="icon-green">attach_money</mat-icon>
+          <span>Cards</span>
+        </button>
+        <button mat-menu-item [routerLink]="['presentacion']">
+          <mat-icon class="icon-blue">slideshow</mat-icon>
+          <span>Presentacion</span>
+        </button>
+        <button mat-menu-item [routerLink]="['consultar_Abonos']">
+          <mat-icon class="icon-green">attach_money</mat-icon>
+          <span>Consultar Abonos</span>
+        </button>
+        <button mat-menu-item [routerLink]="['consultar_Compra_Online']">
+          <mat-icon class="icon-green">check_circle</mat-icon>
+          <span>Consultar Compras Online</span>
+        </button>
+
+          <button mat-menu-item [routerLink]="['consultar_Venta']">
+          <mat-icon class="icon-green">check_circle</mat-icon>
+          <span>Consultar Compras</span>
+        </button>
+        <!-- <button mat-menu-item [routerLink]="['login']">
+          <mat-icon class="icon-green">check_circle</mat-icon>
+          <span>Login</span>
+        </button> -->
+
+      </mat-menu>
+    </div>
+
+
+    <!-- <samp style="flex: 1 1 auto;"></samp> -->
+
+    <div style="display: flex; align-items: center;">
+
+
+
+       <!-- Contenedor para centrar el botón del menú -->
+
+
+
+      <div class="notifications-button">
+        <!-- <button [class]="getTextColorClass()" mat-icon-button (click)="verCarrito2()" [matTooltip]="'Ver Carrito'"
+          style="margin: 0 10px 0 0;">
+          <mat-icon>shopping_cart</mat-icon>
+          <span *ngIf="carritoProductos.length > 0" class="badge">{{ carritoProductos.length }}</span>
+        </button> -->
+      </div>
+
+
+      <select (change)="cambiarColor($event)" [value]="selectedColor" style="margin: 0 10px 0 0;">
+        <option value="black">Negro</option>
+        <option value="morado">Morado</option>
+        <option value="blanco">Blanco</option>
+        <option value="rojo">Rojo</option>
+        <option value="verde">Verde</option>
+        <option value="azul">Azul</option>
+      </select>
+
+      <button [class]="getTextColorClass()" style="margin: 0 10px 0 0;"
+       mat-icon-button (click)="iniciarSesion()" matTooltip="Iniciar Sesión">
+        <mat-icon>login</mat-icon>
+      </button>
+
+
+    </div>
+
+
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<mat-sidenav-container [class]="sidenavColorClass">
+  <!-- <mat-sidenav [class]="ngContainerColorClass" #sidenav opened="true" mode="side" style="width: 235px;">
+    <div [class]="ngContainerColorClass">
+      <mat-nav-list>
+
+
+        <mat-list-item [routerLink]="['cards']">
+          <div style="display: flex; align-items: center;">
+            <mat-icon [class]="getIconColorClass()">collections_bookmark</mat-icon>
+            <div [class]="getTextColorClass()" mat-line style="margin-left: 10px;">Cards</div>
+          </div>
+        </mat-list-item>
+
+        <mat-list-item [routerLink]="['presentacion']">
+          <div style="display: flex; align-items: center;">
+            <mat-icon [class]="getIconColorClass()">dashboard</mat-icon>
+            <a [class]="getTextColorClass()" mat-line style="margin-left: 10px;">Presentacion</a>
+          </div>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav> -->
+
+  <mat-sidenav-content>
+    <div style="height: 90vh;">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<!-- <div class="vertical-carousel">
+  <div class="carousel-inner">
+    <div *ngFor="let imageUrl of images; let i = index" class="carousel-slide"
+      [class.active]="i === currentIndex">
+      <img data-src="{{ imageUrl }}" alt="Slide Image" class="carousel-image lazy-load"
+        (click)="verImagen(imageUrl)">
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<!-- <mat-sidenav-content> -->
+  <!-- Mostrar el carrusel si el router-outlet está vacío -->
+  <!-- <ng-container *ngIf="isRouterOutletEmpty">
+    <div style="height: 90vh;">
+      <div class="vertical-carousel">
+        <div class="carousel-inner">
+          <div *ngFor="let imageUrl of images; let i = index" class="carousel-slide" [class.active]="i === currentIndex">
+            <img data-src="{{ imageUrl }}" alt="Slide Image" class="carousel-image lazy-load" (click)="verImagen(imageUrl)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container> -->
+
+  <!-- Mostrar el contenido del router-outlet si hay un componente activo -->
+  <!-- <ng-container *ngIf="!isRouterOutletEmpty">
+    <div style="height: 90vh;">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container> -->
+<!-- </mat-sidenav-content> -->

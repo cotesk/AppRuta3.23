@@ -1,0 +1,697 @@
+.example-card {
+  width: 80%
+}
+
+/* .card-info {
+  width: 85%
+} */
+.card-info {
+  flex: 1 1 calc(100% - 32px); /* Toma toda la fila en dispositivos móviles */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.img-hover-zoom {
+
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.img-hover-zoom:hover {
+  transform: scale(1.2);
+  z-index: 10;
+}
+
+.mat-icon {
+
+  font-size: 50px !important;
+  height: 50px !important;
+  width: 50px !important;
+}
+
+
+mat-icon[color="accent"] {
+  color: #4CAF50;
+}
+
+mat-icon[color="accent2"] {
+  color: #155492;
+}
+
+mat-icon[color="warn"] {
+  color: #df2e2e;
+}
+
+mat-icon[color="warn2"] {
+  color: #e7b343;
+}
+
+mat-icon[color="primary"] {
+  color: #6a4caf;
+}
+
+mat-icon[color="primary2"] {
+  color: rgb(44, 57, 75);
+}
+
+:host {
+  display: block;
+}
+
+mat-card {
+  margin-top: 5px;
+}
+
+
+
+
+/* Agrega estilos CSS para un diseño minimalista */
+.productos-mas-vendidos-container {
+  margin: 20px 40px;
+  text-align: center;
+}
+
+.titulo-productos-mas-vendidos {
+  margin: 0 0 20px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.productos-mas-vendidos-lista {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+}
+
+.producto-mas-vendido {
+  /* background-color: #522b41; */
+  /* background-color: #474569; */
+  /* background-color: #2c3e50; */
+  background: linear-gradient(to top, #433e3e 39%, #ffffff 35%);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #fafafa;
+  transition: transform 0.3s ease-out;
+}
+
+.nombre-producto {
+  font-weight: bold;
+}
+
+.cantidad-vendida {
+  margin-top: 5px;
+  color: #f5f2f2;
+}
+
+.sin-productos-mas-vendidos {
+  margin: 20px 0;
+  color: #575252;
+}
+
+/* Agrega estilos CSS para el botón "Ver Más" y la tabla oculta */
+.ver-mas-container {
+  margin: 20px 40px;
+  text-align: center;
+}
+
+/* .ver-mas-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #3469db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+
+} */
+
+.ver-mas-btn {
+
+  display: flex;
+  justify-content: center;
+
+}
+
+.ver-mas-btn button mat-icon {
+  font-size: 16px !important;
+  /* Puedes ajustar el tamaño según sea necesario */
+  height: 16px !important;
+  width: 16px !important;
+}
+
+.ver-mas-btn2 button mat-icon {
+  font-size: 18px !important;
+  /* Puedes ajustar el tamaño según sea necesario */
+  height: 18px !important;
+  width: 18px !important;
+}
+
+button[color="accent"] {
+  background-color: #3469db;
+  /* Verde similar al color de Excel */
+  color: #fff;
+  /* Texto en blanco para mayor contraste */
+}
+
+button[color="accent"]:hover {
+  background-color: #123f9f;
+  /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+button[color="accent"][disabled] {
+  background-color: #ccc;
+  /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666;
+  /* Color del texto en gris cuando está deshabilitado */
+}
+
+button[color="accent"][disabled]:hover {
+  background-color: #ccc;
+  /* Mantener el color de fondo en gris al pasar el ratón sobre el botón deshabilitado */
+}
+
+button.ver {
+  background-color: #e9a742;
+  color: #fff;
+  /* Color del texto del botón Cancelar */
+}
+
+button.ver:hover {
+  background-color: #c58b35;
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+button.ver[disabled] {
+  background-color: #ccc;
+  /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666;
+  /* Color del texto en gris cuando está deshabilitado */
+}
+
+button.ver[disabled]:hover {
+  background-color: #ccc;
+  /* Mantener el color de fondo en gris al pasar el ratón sobre el botón deshabilitado */
+}
+
+
+/* .ver-mas-btn:hover {
+  background-color: #522b41;
+} */
+
+.tabla-productos {
+  margin-top: 20px;
+
+}
+
+/* Agrega estilos CSS para la tabla */
+table {
+    border-radius: 6px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  border: 1px solid #eceaea;
+  padding: 8px;
+  /* text-align: left; */
+  text-align: center;
+}
+
+th {
+    border-radius: 6px;
+  /* background-color: #522b41; */
+  /* background-color: #474569; */
+  /* background-color: #2c3e50; */
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+.producto-mas-vendido:hover {
+  transform: scale(1.1);
+}
+
+/* Agrega estilos para destacar los productos más vendidos */
+.producto-destacado-1 {
+  border: 5px solid #FFD700;
+  /* Borde dorado para el primer producto */
+}
+
+.producto-destacado-2 {
+  border: 5px solid #C0C0C0;
+  /* Borde plateado para el segundo producto */
+}
+
+.producto-destacado-3 {
+  border: 5px solid #cd7f32;
+  /* Borde bronceado para el tercer producto */
+}
+
+.generar-botones button mat-icon {
+  font-size: 20px !important;
+  /* Puedes ajustar el tamaño según sea necesario */
+  height: 20px !important;
+  width: 20px !important;
+}
+
+.generar-botones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  /* Ajusta el espacio según tus preferencias */
+}
+
+.icon-pdf {
+  font-size: 2rem; /* Tamaño por defecto para pantallas grandes */
+}
+
+.icon-excel {
+  font-size: 2rem; /* Tamaño por defecto para pantallas grandes */
+}
+
+button[color="primary"] {
+  background-color: #358637;
+  /* Verde similar al color de Excel */
+  color: #fff;
+  /* Texto en blanco para mayor contraste */
+}
+
+button[color="primary"]:hover {
+  background-color: #194f1c;
+  /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+button[color="warn"]:hover {
+  background-color: #9e3434;
+  /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+.minimalist-Ventas {
+  /* position: absolute; */
+
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+button.minimalist-Ventas {
+  background-color: #3351aa;
+  /* Fondo del botón Cancelar */
+  color: #fff;
+  /* Color del texto del botón Cancelar */
+  width: 97%;
+
+}
+
+button.minimalist-Ventas:hover {
+  background-color: rgb(79, 96, 113);
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+.Ventas button mat-icon {
+  font-size: 20px !important;
+  /* Puedes ajustar el tamaño según sea necesario */
+  height: 20px !important;
+  width: 20px !important;
+}
+
+.sales-card {
+  margin-left: -10px;
+  background-color: #f0e8e8;
+  margin-top: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.chart-container {
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.chart {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart h3 {
+  color: #1d1d1f;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* canvas {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+} */
+canvas {
+  width: 100% ;
+  height: auto !important;
+  margin-top: 10px;
+}
+
+#productNames {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.product-name {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid #000;
+  /* Borde para asegurar la visibilidad */
+}
+
+.color-oro {
+  background-color: rgba(255, 215, 0, 1);
+  /* Oro */
+}
+
+.color-plata {
+  background-color: rgba(192, 192, 192, 1);
+  /* Plata */
+}
+
+.color-bronce {
+  background-color: rgba(205, 127, 50, 1);
+  /* Bronce */
+}
+
+.paginacion {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.paginacion button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+.paginacion span {
+  align-self: center;
+}
+
+
+/* Estilos para el campo de búsqueda futurista */
+.futuristic-search-field {
+  width: 100%;
+  max-width: 500px;
+  /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  /* Color de fondo semitransparente */
+  border-radius: 25px;
+  /* Esquinas redondeadas */
+  padding: 10px 20px;
+  /* Espaciado interno */
+  border: 2px solid transparent;
+  /* Borde transparente inicial */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+
+/* Estilos para el campo de entrada */
+.futuristic-search-field input {
+  flex: 1;
+  /* El campo de entrada ocupa el espacio restante */
+  color: #323131 !important;
+  /* Color del texto */
+  border: none;
+  /* Borde transparente */
+  outline: none;
+  /* Elimina el contorno de enfoque */
+  background-color: transparent;
+  /* Fondo transparente */
+  font-size: 16px;
+  /* Tamaño de fuente */
+}
+
+/* Estilos para el icono de búsqueda */
+.futuristic-search-button {
+  background-color: transparent;
+  /* Fondo transparente */
+  color: #434546 !important;
+  /* Color del icono */
+  border: none;
+  /* Borde transparente */
+  cursor: pointer;
+}
+
+.futuristic-search-button:hover {
+  color: #ffffff;
+  /* Cambia el color al pasar el cursor */
+}
+
+/* Estilos para el campo de entrada cuando está enfocado */
+.futuristic-search-field:focus-within {
+  border-color: #8ac6d1 !important;
+  /* Cambia el color del borde al enfocar */
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  /* Cambia el fondo al enfocar */
+}
+
+/* Estilos para la etiqueta (placeholder) del campo de entrada */
+.futuristic-search-field input::placeholder {
+  color: #0a0b0b !important;
+  /* Color del placeholder */
+}
+
+/* Estilos para la etiqueta del campo de entrada cuando está enfocado */
+.futuristic-search-field input:focus::placeholder {
+  color: #0a0b0b !important;
+  /* Cambia el color del placeholder al enfocar */
+}
+
+.footer {
+position: relative;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  left: -20px;
+  /* Salir del contenedor principal */
+  width: calc(100% + 20px);
+}
+
+.product-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 columnas en pantallas grandes */
+  gap: 16px;
+  /* Espaciado entre las tarjetas */
+}
+
+.table-container {
+   border-radius: 6px;
+  width: 100%; /* Limita el ancho del contenedor */
+  overflow-x: auto; /* Permite el scroll horizontal si es necesario */
+  padding: 10px; /* Espaciado interno opcional */
+  box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+
+}
+
+
+
+/* Ajustes generales para pantallas pequeñas */
+@media (max-width: 768px) {
+
+
+
+  .table-container {
+    width: 145%; /* Asegura que la tabla ocupe el 100% del contenedor principal */
+    margin-left: -60px; /* Desplaza la tabla hacia la izquierda */
+    overflow-x: auto; /* Agrega desplazamiento horizontal si es necesario */
+  }
+
+  .table-container table {
+    font-size: 14px; /* Tamaño de texto más pequeño para pantallas móviles */
+  }
+
+  .table-container td img {
+    width: 80px; /* Tamaño más pequeño para las imágenes en móvil */
+    height: 80px;
+  }
+
+
+  .producto-mas-vendido {
+    /* background-color: #522b41; */
+    /* background-color: #474569; */
+    /* background-color: #2c3e50; */
+    background: linear-gradient(to top, #433e3e 45%, #ffffff 30%);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #fafafa;
+    transition: transform 0.3s ease-out;
+  }
+
+
+
+  .icon-pdf {
+    font-size: 1rem; /* Tamaño por defecto para pantallas grandes */
+  }
+
+  .icon-excel {
+    font-size: 1rem; /* Tamaño por defecto para pantallas grandes */
+  }
+
+  .product-container,
+  .productos-mas-vendidos-container,
+  .ver-mas-container,
+  .tabla-productos {
+    max-width: 100%; /* Asegura que no exceda el ancho de la pantalla */
+    padding: 0 0px; /* Espaciado interno */
+    box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
+  }
+
+
+
+  .productos-mas-vendidos-lista {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en filas adicionales */
+    justify-content: center;
+    gap: 10px; /* Ajusta el espacio entre elementos */
+  }
+  /* .chart {
+    flex: 0 0 100%;
+
+    margin-bottom: 20px;
+  } */
+
+  .futuristic-search-field {
+    width: 90%;
+  }
+
+
+  .ver-mas-btn2 {
+    justify-content: center;
+  }
+
+  .minimalist-Ventas {
+    padding: 10px;
+  }
+
+  .paginacion {
+    flex-direction: column;
+  }
+
+  .paginacion button {
+    margin-bottom: 5px;
+  }
+
+  .titulo-productos-mas-vendidos {
+    font-size: 1.2em;
+  }
+
+  /* Ajustes para los iconos de botones en pantallas pequeñas */
+  .generar-botones i {
+    font-size: 1.5rem;
+    /* Ajusta el tamaño de los iconos */
+  }
+
+  .generar-botones button {
+    padding: 5px;
+    /* Ajusta el padding de los botones */
+  }
+
+  .card-info {
+    flex: 1 1 calc(50% - 32px); /* Dos tarjetas por fila en pantallas medianas */
+  }
+
+  .card-info .mat-icon {
+    font-size: 30px !important;
+    /* Reduce el tamaño del icono en pantallas pequeñas */
+    height: 30px !important;
+    width: 30px !important;
+  }
+
+  .card-info .texto {
+    font-size: 12px;
+    /* Ajusta el tamaño del texto en pantallas pequeñas */
+    margin-left: 0;
+    /* Elimina el margen izquierdo para mejor alineación */
+  }
+
+
+
+
+
+  .footer {
+
+    font-size: 10px;
+    position: relative;
+    left: -25px;
+    /* Salir del contenedor principal */
+    width: calc(97% + 36px);
+    /* Hacerlo más largo que el mat-card */
+    background-color: #2c3e50;
+    /* Cambiar color si es necesario */
+  }
+
+
+
+  .table {
+    width: 100%; /* Para que ocupe todo el ancho disponible */
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  mat-card {
+    margin: 10px;
+    width: 100% !important;
+    font-size: larger;
+  }
+
+  .chart-container {
+    margin-left: -35px; /* Desplaza la tabla hacia la izquierda */
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .chart {
+    flex: 1 1 calc(50% - 16px); /* 50% de ancho para dos columnas en pantallas grandes */
+    min-width: 308px;
+  }
+
+  .sales-card {
+    width: 107% !important ;
+  }
+
+}

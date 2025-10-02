@@ -1,0 +1,60 @@
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  border-radius: 0px;
+  touch-action: none;
+  cursor: grab;
+}
+
+.image-container img {
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  transition: transform 0.2s ease-out;
+}
+
+.image-container:active {
+  cursor: grabbing;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+
+
+button {
+  margin: 5px;
+}
+
+/* Estilos adicionales para los botones */
+button.mat-icon-button {
+  background-color: #3498db; /* Color de fondo */
+  color: #ffffff; /* Color del icono */
+  border-radius: 50%; /* Borde redondeado */
+  padding: 10px; /* Espaciado interno */
+}
+
+button.mat-icon-button:hover {
+  background-color: #2980b9; /* Cambia el color de fondo al pasar el mouse */
+}
+
+
+.button-container button {
+  margin: 0 5px; /* Espaciado entre los botones */
+}
+button[color="warn"]:hover {
+  background-color: #e8c8c8; /* Cambia el color al pasar el ratón sobre el botón */
+}
+button[color="primary"]:hover {
+  background-color: #c5c7ed; /* Cambia el color al pasar el ratón sobre el botón */
+}
+button[color="accent"]:hover {
+  background-color: #e8c9e8; /* Cambia el color al pasar el ratón sobre el botón */
+}
+

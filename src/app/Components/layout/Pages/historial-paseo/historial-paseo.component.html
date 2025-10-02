@@ -1,0 +1,31 @@
+<h2 style="text-align:center; margin:20px 0;">Mis Paseos</h2>
+
+<div class="paseos-grid">
+  <mat-card *ngFor="let paseo of paseos" class="paseo-card">
+
+    <mat-card-header>
+      <mat-card-title>{{ paseo.nombreTarifa }}</mat-card-title>
+      <mat-card-subtitle>
+        <mat-icon style="color:#4caf50; margin-right:5px;">person</mat-icon>
+        {{ paseo.nombrePasador }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p><strong>Fecha:</strong> {{ paseo.fecha | date:'fullDate' }}</p>
+      <p><strong>Turno:</strong> {{ paseo.turno | titlecase }}</p>
+      <p><strong>Costo:</strong> {{ paseo.costoTotal  | number:'1.0-0':'es' }}</p>
+      <p><strong>Estado:</strong> {{ paseo.estado }}</p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-mini-fab color="primary" (click)="editarPaseo(paseo)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-mini-fab color="warn" (click)="eliminarPaseo(paseo)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

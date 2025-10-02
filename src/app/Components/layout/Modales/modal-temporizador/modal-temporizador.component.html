@@ -1,0 +1,25 @@
+<!-- modal-temporizador.component.html -->
+
+<!-- modal-temporizador.component.html -->
+
+<!-- <div class="modal-content">
+  <h2 class="modal-title">Tiempo restante</h2>
+  <p class="modal-timer">{{ tiempoRestante }} segundos</p>
+  <div class="progress-bar-container">
+    <div class="progress-bar" [style.width]="getProgressBarWidth()"></div>
+  </div>
+</div> -->
+<mat-grid-list cols="1" rowHeight="150px">
+  <!-- modal-temporizador.component.html -->
+  <form class="cambiar-imagen-container" style="width: 350px; margin: auto; text-align: center;">
+  <h2 class="modal-title">Tiempo restante</h2>
+  <div class="modal-container">
+
+    <div class="content">
+      <p>{{ tiempoRestante }} segundos restantes</p>
+      <div class="progress-bar" [style.width]="getProgressBarWidth()"></div>
+    </div>
+
+  </div>
+</form>
+</mat-grid-list>

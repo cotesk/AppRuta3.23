@@ -1,0 +1,29 @@
+En api.component.html
+<div>
+  <h2>Data Api demo</h2>
+
+  <!-- Mostrar departamentos -->
+  <label>Selecciona un departamento:</label>
+  <select [(ngModel)]="selectedDepartamentoId" (change)="cargarCiudadesPorDepartamento()">
+    <option *ngFor="let departamento of departamentos" [value]="departamento.id">
+      {{ departamento.name }}
+    </option>
+  </select>
+
+  <!-- Mostrar ciudades -->
+  <div *ngIf="ciudades.length > 0">
+    <label>Selecciona una ciudad:</label>
+    <select [(ngModel)]="selectedCiudadId" (change)="mostrarInfoCiudad()">
+      <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">
+        {{ ciudad.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Mostrar información de la ciudad seleccionada -->
+  <div *ngIf="selectedCiudadId !== null">
+    <h3>Información de la ciudad seleccionada:</h3>
+    <p>Nombre del departamento: {{ getNombreDepartamento() }}</p>
+    <p>ID de la ciudad: {{ selectedCiudadId }}</p>
+  </div>
+</div>

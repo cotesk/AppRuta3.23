@@ -1,0 +1,164 @@
+mat-card {
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.center-title {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+}
+
+
+div[ngIf] {
+  margin-top: 20px;
+  text-align: center;
+  color: #00796b;
+}
+
+button.submit-btn {
+  background-color: #3351aa;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+button.submit-btn:hover {
+  background-color: rgb(79, 96, 113);
+}
+
+button.submit-btn[disabled] {
+  background-color: #ccc;
+  color: #666;
+}
+
+button.submit-btn[disabled]:hover {
+  background-color: #ccc;
+}
+
+button.agregar {
+  background-color: #3351aa;
+  /* Fondo del botón Cancelar */
+  color: #fff;
+  /* Color del texto del botón Cancelar */
+
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  border-radius: 5px;
+
+}
+
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+button.agregar[disabled] {
+  background-color: #ccc;
+  /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666;
+  /* Color del texto en gris cuando está deshabilitado */
+}
+
+button.agregar[disabled]:hover {
+  background-color: #ccc;
+  /* Mantener el color de fondo en gris al pasar el ratón sobre el botón deshabilitado */
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-background {
+  animation: backgroundAnimation 10s infinite;
+  background-size: 200% 200%;
+  background-image: linear-gradient(to right, #f5f5f5, #feb47b, #ff7e5f);
+}
+
+.animated-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: -1;
+  animation: waveAnimation 10s infinite;
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Ajusta la altura según sea necesario */
+  padding: 0 12em;
+  /* Ajusta el relleno horizontal alrededor del contenedor principal */
+  font-family: Arial, sans-serif;
+  text-align: center;
+  /* background-color: #522b41; */
+  flex-direction: row;
+  /* Alineación horizontal por defecto */
+  gap: 2em;
+  /* Espacio entre las tarjetas */
+  background-image: url('/assets/Images/fondo.jpeg');
+  background-size: cover;
+  /* Ajusta la imagen para que cubra todo el fondo */
+  background-position: center;
+  /* Centra la imagen */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+  min-height: 100vh;
+  /* Asegura que cubra toda la pantalla */
+}

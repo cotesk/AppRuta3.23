@@ -1,0 +1,234 @@
+table {
+
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.producto-no-activo {
+  color: red;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(79, 96, 113);
+}
+
+button[color="warn"]:hover {
+  background-color: #c6a5a5;
+  /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+button[color="primary"]:hover {
+  background-color: #b4c1ea;
+  /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+button.ver {
+  /* background-color: #9b8f67;  */
+  color: #73673e;
+  /* Color del texto del botón Cancelar */
+}
+
+button.ver:hover {
+  background-color: #e0ddbf;
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+button.agregar {
+  background-color: #3351aa;
+  /* Fondo del botón Cancelar */
+  color: #fff;
+  /* Color del texto del botón Cancelar */
+
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.botonContenido {
+  position: absolute;
+  top: -30px;
+  left: 840px;
+
+}
+
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+/* Estilos para el campo de búsqueda futurista */
+.futuristic-search-field {
+  width: 100%;
+  max-width: 500px;
+  /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.1);
+  /* Color de fondo semitransparente */
+  border-radius: 25px;
+  /* Esquinas redondeadas */
+  padding: 10px 20px;
+  /* Espaciado interno */
+  border: 2px solid transparent;
+  /* Borde transparente inicial */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+
+/* Estilos para el campo de entrada */
+.futuristic-search-field input {
+  flex: 1;
+  /* El campo de entrada ocupa el espacio restante */
+  color: #323131;
+  /* Color del texto */
+  border: none;
+  /* Borde transparente */
+  outline: none;
+  /* Elimina el contorno de enfoque */
+  background-color: transparent;
+  /* Fondo transparente */
+  font-size: 16px;
+  /* Tamaño de fuente */
+}
+
+/* Estilos para el icono de búsqueda */
+.futuristic-search-button {
+  background-color: transparent;
+  /* Fondo transparente */
+  color: #434546;
+  /* Color del icono */
+  border: none;
+  /* Borde transparente */
+  cursor: pointer;
+}
+
+.futuristic-search-button:hover {
+  color: #ffffff;
+  /* Cambia el color al pasar el cursor */
+}
+
+/* Estilos para el campo de entrada cuando está enfocado */
+.futuristic-search-field:focus-within {
+  border-color: #8ac6d1;
+  /* Cambia el color del borde al enfocar */
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Cambia el fondo al enfocar */
+}
+
+/* Estilos para la etiqueta (placeholder) del campo de entrada */
+.futuristic-search-field input::placeholder {
+  color: #0a0b0b;
+  /* Color del placeholder */
+}
+
+/* Estilos para la etiqueta del campo de entrada cuando está enfocado */
+.futuristic-search-field input:focus::placeholder {
+  color: #0a0b0b;
+  /* Cambia el color del placeholder al enfocar */
+}
+
+.footer {
+  position: relative;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  left: -20px;
+  /* Salir del contenedor principal */
+  width: calc(100% + 20px);
+}
+
+/* para que no se salgan las tabla del mat-card en vista movil */
+.table-container {
+  border-radius: 6px;
+  overflow-x: auto;
+  /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch;
+  /* Mejora el desplazamiento en dispositivos táctiles */
+}
+
+.table-container2 {
+  border-radius: 6px;
+  overflow-x: auto;
+  /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch;
+  /* Mejora el desplazamiento en dispositivos táctiles */
+}
+
+.table-container3 {
+  border-radius: 6px;
+  overflow-x: auto;
+  /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch;
+  /* Mejora el desplazamiento en dispositivos táctiles */
+}
+
+@media (max-width: 768px) {
+
+
+
+  .footer {
+
+    font-size: 10px;
+    position: relative;
+    left: -25px;
+    /* Salir del contenedor principal */
+    width: calc(97% + 36px);
+    /* Hacerlo más largo que el mat-card */
+    background-color: #2c3e50;
+    /* Cambiar color si es necesario */
+  }
+
+  mat-card {
+    margin: 10px;
+    width: calc(100% - 20px);
+    /* Ajusta el ancho del mat-card */
+    font-size: larger;
+
+  }
+
+  /* Estilos adicionales para la tabla en dispositivos móviles */
+  .table-container {
+    margin: 0 -15px;
+    /* Ajusta el margen para que el contenedor se alinee bien */
+  }
+
+  .table-container2 {
+    margin: 0 -15px;
+    /* Ajusta el margen para que el contenedor se alinee bien */
+  }
+
+  .table-container3 {
+    margin: 0 -15px;
+    /* Ajusta el margen para que el contenedor se alinee bien */
+  }
+
+  .futuristic-search-field {
+    width: 90%;
+  }
+
+  .botonContenido {
+    position: relative;
+    top: 0px;
+    /* Mantiene la posición, ajusta según sea necesario */
+    left: 0;
+    /* Asegúrate de que esté alineado al contenedor */
+    right: -50 !important;
+    width: calc(22% - 20px);
+    /* Ajusta el ancho para que ocupe todo el espacio disponible */
+    padding: 10px;
+    /* Ajusta el padding si es necesario */
+    margin: 0 auto;
+    /* Centra el botón en el contenedor */
+  }
+
+}

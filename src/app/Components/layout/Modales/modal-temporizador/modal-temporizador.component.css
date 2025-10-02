@@ -1,0 +1,18 @@
+/* modal-temporizador.component.css */
+
+.modal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120%; /* Tamaño del modal - Ajusta según tus necesidades */
+  width: 100%; /* Tamaño del modal - Ajusta según tus necesidades */
+}
+
+.content {
+  text-align: center;
+}
+
+.progress-bar {
+  height: 20px; /* Ajusta la altura según tus preferencias */
+  background-color: #3498db; /* Color de fondo de la barra de progreso */
+}

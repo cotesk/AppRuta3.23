@@ -1,0 +1,29 @@
+<h2 mat-dialog-title class="modal-title">Historial</h2>
+
+<mat-dialog-content>
+  <div class="modal-content">
+    <div *ngFor="let comentario of comentariosPaginados" class="product-details">
+      {{ formatComentario(comentario) }}
+    </div>
+  </div>
+
+  <!-- Paginación -->
+  <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+    <button mat-icon-button (click)="paginaAnterior()" [disabled]="page === 1" matTooltip="Anterior">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+
+    <span style="margin: 0 15px;">Página {{ page }} de {{ totalPages }}</span>
+
+    <button mat-icon-button (click)="siguientePagina()" [disabled]="page === totalPages" matTooltip="Siguiente">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close color="warn">
+    <mat-icon>close</mat-icon>
+    Cerrar
+  </button>
+</mat-dialog-actions>

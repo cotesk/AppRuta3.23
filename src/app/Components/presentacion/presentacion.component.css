@@ -1,0 +1,56 @@
+.business-card {
+  max-width: 400px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(200, 66, 66, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.business-card:hover {
+  box-shadow: 0px 8px 16px rgba(255, 98, 0, 0.2);
+}
+
+.business-card-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e1e0e0; /* Puedes ajustar el color de fondo del avatar aquí */
+  border-radius: 50%;
+  width: 64px; /* Ajusta el tamaño del avatar según tus necesidades */
+  height: 64px; /* Ajusta el tamaño del avatar según tus necesidades */
+}
+.avatar-icon {
+  font-size: 34px; /* Ajusta el tamaño del ícono según tus necesidades */
+  line-height: 0; /* Ajusta la altura de la línea para centrar verticalmente el ícono */
+}
+.center-actions {
+  display: flex;
+  justify-content: center;
+  margin: 0 10px;
+}
+button[color="primary"]:hover {
+  background-color: #b4c1ea; /* Cambia el color al pasar el ratón sobre el botón */
+}
+button.ver {
+  /* background-color: #9b8f67;  */
+  color: #73673e; /* Color del texto del botón Cancelar */
+}
+button.ver:hover {
+  background-color:  #e0ddbf; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+.footer {
+  position: relative;
+  left: -20px; /* Salir del contenedor principal */
+  width: calc(250% + 40px); /* Hacerlo más largo que el mat-card */
+  background-color: #333; /* Cambiar color si es necesario */
+}
+
+
+@media (max-width: 768px) {
+  .footer {
+    position: relative;
+    left: -20px; /* Salir del contenedor principal */
+    width: calc(250% + 40px); /* Hacerlo más largo que el mat-card */
+    background-color: #333; /* Cambiar color si es necesario */
+  }
+}

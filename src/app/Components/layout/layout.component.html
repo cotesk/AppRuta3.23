@@ -1,0 +1,287 @@
+<mat-toolbar [class]="toolbarColorClass">
+  <mat-toolbar-row>
+    <!-- <img src="assets/Images/laptop-support.png" style="width: 40px; height: 40px; border-radius: 50%;"> -->
+    <div *ngIf="empresa && empresa.imagenUrl"  (click)="verImagen2()" style="margin-right: 20px;"
+    [ngStyle]="{ 'display': isMobileView() ? 'none' : 'block' }">
+      <img [src]="empresa.imagenUrl"
+        style="width: 50px; height: 50px; border-radius: 50%; cursor: pointer; object-fit: cover;"
+        [matTooltip]="nombreEmpresa" >
+    </div>
+    <div *ngIf="empresa && !empresa.imagenUrl" style="margin-right: 20px;"  [ngStyle]="{ 'display': isMobileView() ? 'none' : 'block' }">
+      <p>No hay imagen</p>
+    </div>
+
+    <h1 [class]="getTextColorClass()" style="margin: 0 10px 0 0;"
+      [ngStyle]="{ 'display': isMobileView() ? 'none' : 'block' }">
+      {{ nombreEmpresa }}
+    </h1>
+
+    <button [class]="getTextColorClass()" mat-icon-button (click)="sidenav.toggle();">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <samp style="flex: 1 1 auto;"></samp>
+
+    <div style="display: flex; align-items: center;">
+
+
+      <!-- <select (change)="cambiarColor($event)">
+
+        <option value="blanco">Blanco</option>
+        <option value="morado">Morado</option>
+        <option value="rojo">Rojo</option>
+        <option value="verde">Verde</option>
+      </select> -->
+
+
+      <!-- Esto esta funcional lo de los colores  -->
+      <!-- <div class="color-selector">
+        <mat-form-field appearance="outline">
+          <mat-label [ngStyle]="{ 'color': selectedColor === 'blanco' ? 'black' : 'white' }">Selecciona un color</mat-label>
+          <mat-select [(value)]="selectedColor" (selectionChange)="cambiarColor($event.value)"
+          [ngClass]="selectedColor === 'blanco' ? 'text-black' : 'text-white'">
+            <mat-option *ngFor="let color of colors" [value]="color.value">
+              {{ color.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+      <div class="notifications-button">
+        <!-- <button [class]="getTextColorClass()" mat-icon-button (click)="verCarrito2()" [matTooltip]="'Ver Carrito'"
+          *ngIf="usuario?.rolDescripcion !== 'Empleado' && usuario?.rolDescripcion !== 'Supervisor'  && usuario?.rolDescripcion !== 'Administrador' ">
+          <mat-icon>shopping_cart</mat-icon>
+          <span *ngIf="carritoProductos.length > 0" class="badge">{{ carritoProductos.length }}</span>
+        </button> -->
+      </div>
+
+      <div class="notifications-button">
+        <button [class]="getTextColorClass()" mat-icon-button
+          *ngIf="usuario?.rolDescripcion !== 'Empleado' && usuario?.rolDescripcion !== 'Supervisor' && usuario?.rolDescripcion !== 'Clientes'"
+          (click)="abrirNotificaciones()">
+          <mat-icon>notifications</mat-icon>
+          <span *ngIf="numeroProductosBajoStock > 0" class="badge">{{ numeroProductosBajoStock }}</span>
+        </button>
+      </div>
+
+
+      <!--
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="custom-menu">
+        <img *ngIf="imageData"
+             [src]="isUint8Array(imageData) ? convertirBytesAURL(imageData) : imageData"
+             style="width: 50px; height: 50px; border-radius: 50%;">
+      </button> -->
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="custom-menu" [matTooltip]="nombreUsuario">
+        <img *ngIf="imagenUrl" [src]="imagenUrl"
+          class="custom-image">
+      </button>
+
+    </div>
+
+
+    <mat-menu #menu="matMenu" class="minimal-menu">
+      <button mat-menu-item (click)="verImagen()">
+        <mat-icon class="icon-view">image</mat-icon>
+        <span class="text-view">Ver Imagen</span>
+      </button>
+      <button mat-menu-item (click)="cambiarNombre()">
+        <mat-icon class="icon-edit">edit</mat-icon>
+        <span class="text-edit">Cambiar Nombre</span>
+      </button>
+      <button mat-menu-item (click)="openCambiarImagenModal()">
+        <mat-icon class="icon-change">photo_camera</mat-icon>
+        <span class="text-change">Cambiar Imagen</span>
+      </button>
+    </mat-menu>
+
+
+    <!-- <img
+      *ngIf="imageData"
+      [src]="isUint8Array(imageData) ? convertirBytesAURL(imageData) : imageData"
+      style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
+      [matTooltip]="nombreUsuario"
+    > -->
+    <div class="user-info-container">
+      <label [class]="getTextColorClass()" class="user-info-label">
+        {{ isMobileView() ? (nombreUsuario | slice:0:7) : nombreUsuario }} |
+        {{ isMobileView() ? (rolUsuario | slice:0:0) : rolUsuario }}
+      </label>
+      <button [class]="getTextColorClass()" mat-icon-button (click)="cerrarSesion()" class="logout-button">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<!--  <mat-toolbar class="custom-toolbar">
+  <mat-toolbar-row>
+
+    <img src="assets/Images/laptop-support.png" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+
+
+    <div style="display: flex; align-items: center;">
+      <h1 style="margin-right: 10px;">CotSof</h1>
+      <label style="font-size: 14px;">
+        {{nombreUsuario}} | {{rolUsuario}}
+      </label>
+    </div>
+
+
+    <button mat-icon-button (click)="sidenav.toggle();">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+
+    <samp style="flex: 1 1 auto;"></samp>
+
+
+    <button mat-icon-button (click)="cerrarSesion()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar> -->
+
+
+<mat-sidenav-container [class]="sidenavColorClass">
+  <mat-sidenav [class]="ngContainerColorClass" #sidenav opened="true" mode="side" style="width: 300px;">
+    <div [class]="ngContainerColorClass">
+      <mat-nav-list>
+        <!-- <mat-list-item routerLink="/pages/dashboard">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <a mat-line>DashBoard</a>
+      </mat-list-item>
+      <mat-list-item routerLink="/pages/usuarios">
+        <mat-icon matListItemIcon >group</mat-icon>
+        <div mat-line>Usuarios</div>
+      </mat-list-item>
+      <mat-list-item routerLink="/pages/productos">
+        <mat-icon matListItemIcon>collections_bookmark</mat-icon>
+        <div mat-line> Productos</div>
+    </mat-list-item>
+      <mat-list-item routerLink="/pages/venta">
+        <mat-icon matListItemIcon >currency_exchange</mat-icon>
+        <div mat-line>Venta</div>
+      </mat-list-item>
+      <mat-list-item routerLink="/pages/historial_venta">
+        <mat-icon matListItemIcon >edit_note</mat-icon>
+        <div mat-line>Historial Ventas</div>
+      </mat-list-item> -->
+
+
+        <!-- <mat-list-item  *ngFor="let menu of listaMenus" [routerLink]="menu.url">
+        <mat-icon class="custom-icon" matListItemIcon >{{menu.icono}}</mat-icon>
+        <div class="custom-mat-line" mat-line>{{menu.nombre}}</div>
+      </mat-list-item> -->
+
+
+        <!-- funcional -->
+<!-- 
+        <mat-list>
+          <ng-container *ngFor="let menu of listaMenus">
+            <ng-container *ngIf="menu.submenus && menu.submenus.length > 0">
+
+              <mat-list-item [matMenuTriggerFor]="subMenu" class="menu-item">
+                <div class="menu-item-content">
+                  <mat-icon [class]="getIconColorClass()">{{menu.icono}}</mat-icon>
+                  <div [class]="getTextColorClass()">{{menu.nombre}}</div>
+                </div>
+              </mat-list-item>
+              <mat-menu #subMenu="matMenu" class="mat-mdc-menu-content">
+                <div class="custom-submenu-container">
+                  <ng-container *ngFor="let submenu of menu.submenus">
+                    <button mat-menu-item [routerLink]="submenu.url" class="custom-button" style="margin-bottom: 5px;"
+                      [class]="getButtonColorClass()">
+                      <mat-icon [class]="getIconColorClass2()">{{submenu.icono}}</mat-icon>
+                      <div [class]="getTextColorClass2()">{{submenu.nombre}}</div>
+                    </button>
+                  </ng-container>
+                </div>
+              </mat-menu>
+
+            </ng-container>
+            <ng-container *ngIf="!menu.submenus || menu.submenus.length === 0">
+
+              <mat-list-item [routerLink]="menu.url" class="menu-item">
+                <div class="menu-item-content">
+                  <mat-icon [class]="getIconColorClass()">{{menu.icono}}</mat-icon>
+                  <div [class]="getTextColorClass()">{{menu.nombre}}</div>
+                </div>
+              </mat-list-item>
+
+            </ng-container>
+          </ng-container>
+
+        </mat-list> -->
+
+        <!-- funcional este le falta por pulir -->
+
+          <mat-nav-list>
+          <mat-accordion>
+            <ng-container *ngFor="let menu of listaMenus">
+              <ng-container *ngIf="menu.submenus && menu.submenus.length > 0">
+
+                <mat-expansion-panel [class]="getPanelColorClass()" style="box-shadow: none">
+                  <mat-expansion-panel-header   style="margin-left: -8px">
+                    <mat-panel-title>
+                      <div class="menu-item-content">
+                        <mat-icon [class]="getIconColorClass2()">{{menu.icono}}</mat-icon>&nbsp;
+                        <div [class]="getTextColorClass2()">{{menu.nombre}}</div>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <ng-container *ngFor="let submenu of menu.submenus" >
+                    <a
+                      mat-list-item
+                      [routerLink]="submenu.url"
+                    
+                      [routerLinkActive]="['active']"
+                      (click)="handleClickEvent($event)"
+                    >
+                      <div class="menu-item-content">
+                        <mat-icon [class]="getIconColorClass2()">{{submenu.icono}}</mat-icon>
+                        <div [class]="getTextColorClass2()" style="padding-top: 11px;">{{submenu.nombre}}</div>
+                      </div>
+                    </a>
+                  </ng-container>
+                </mat-expansion-panel>
+              </ng-container>
+              <ng-container *ngIf="!menu.submenus || menu.submenus.length === 0">
+
+                <a
+                  mat-list-item
+                  [routerLink]="menu.url"
+                
+                  [routerLinkActive]="['active']"
+                  (click)="handleClickEvent($event)"
+                >
+                  <div class="menu-item-content">
+                    <mat-icon [class]="getIconColorClass2()">{{menu.icono}}</mat-icon>
+                    <div [class]="getTextColorClass2()">{{menu.nombre}}</div>
+                  </div>
+                </a>
+              </ng-container>
+            </ng-container>
+          </mat-accordion>
+        </mat-nav-list>
+
+
+
+
+
+
+
+
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- <div style="height: 90vh;">
+      <router-outlet></router-outlet>
+    </div> -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

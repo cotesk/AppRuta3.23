@@ -1,0 +1,45 @@
+
+<h2 mat-dialog-title style="text-align: center;">
+  {{tituloAccion}} Disponibilidad
+</h2>
+
+<form [formGroup]="formularioPasadorDia">
+  <div mat-dialog-content class="content">
+
+    <!-- Día de la semana con iconos -->
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Día de la semana</mat-label>
+      <mat-select formControlName="diaSemana">
+        <mat-option *ngFor="let dia of diasSemana" [value]="dia.nombre">
+          <mat-icon style="color:#4384e6; vertical-align: middle; margin-right: 8px;">{{ dia.icono }}</mat-icon>
+          {{ dia.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-icon style="color:#4384e6;" matSuffix>event</mat-icon>
+      <mat-error *ngIf="formularioPasadorDia.get('diaSemana')?.hasError('required')">
+        El día de la semana es obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Trabaja -->
+    <div class="row mt-2">
+      <mat-slide-toggle formControlName="trabaja">
+        <mat-icon style="color:#4caf50;">work</mat-icon>
+        <span style="margin-left:8px;">Trabaja este día</span>
+      </mat-slide-toggle>
+    </div>
+
+  </div>
+
+  <mat-dialog-actions class="dialog-actions">
+    <span class="spacer"></span>
+    <button mat-raised-button class="agregar" [disabled]="formularioPasadorDia.invalid"
+      (click)="guardarEditar_PaseadorDia()">
+      <mat-icon>save</mat-icon> {{botonAccion}}
+    </button>
+
+    <button mat-raised-button mat-dialog-close color="warn">
+      <mat-icon>close</mat-icon> Volver
+    </button>
+  </mat-dialog-actions>
+</form>

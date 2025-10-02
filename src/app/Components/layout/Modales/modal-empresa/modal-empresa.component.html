@@ -1,0 +1,204 @@
+<h2 mat-dialog-title style="text-align: center;">{{tituloAccion}} Empresa </h2>
+
+
+
+
+<mat-dialog-content>
+  <!-- [formGroup]="formularioEmpresa"  -->
+
+  <form [formGroup]="formularioEmpresa">
+
+
+    <div class="flex-container">
+
+
+      <mat-form-field appearance="outline" *ngIf="false">
+        <!-- <mat-label>Imagen</mat-label> -->
+        <!-- Reemplaza el código del input original con este código -->
+        <div class="custom-upload-container" >
+          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Imagen"
+            (change)="selectFile($event)" accept=".png, .jpg, .jpeg">
+        </div>
+
+        <input matInput formControlName="Urlimagen" readonly
+          [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+        <button mat-icon-button matSuffix color="warn" *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+
+
+
+
+
+
+      <div class="preview-img" *ngIf="previsualizacion">
+        <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen"
+          style="max-width: 300px; max-height: 200px;">
+
+      </div>
+
+
+
+
+    </div>
+
+
+    <mat-grid-list cols="1" rowHeight="100px">
+
+
+
+
+
+
+
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Nombre de la Empresa</mat-label>
+          <input matInput autocomplete="off" formControlName="nombreEmpresa">
+          <mat-icon matSuffix class="icon-blue">business</mat-icon>
+          <mat-error *ngIf="formularioEmpresa.get('nombreEmpresa')?.hasError('letrasSinNumerosValidator')">
+            No se permiten números en el nombre.
+          </mat-error>
+           <mat-error *ngIf="formularioEmpresa.get('nombreEmpresa')?.hasError('maxlength')">
+            El nombre no puede exceder los 20 caracteres..
+          </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Nit</mat-label>
+          <input matInput autocomplete="off" formControlName="rut">
+          <mat-icon matSuffix class="fas fa-id-card mat-primary"></mat-icon>
+
+        </mat-form-field>
+      </mat-grid-tile>
+
+
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Direccion</mat-label>
+          <input matInput autocomplete="off" formControlName="direccion">
+          <mat-icon matSuffix class="icon-green">location_on</mat-icon>
+
+        </mat-form-field>
+      </mat-grid-tile>
+
+
+
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Telefono</mat-label>
+          <input matInput autocomplete="off" formControlName="telefono">
+          <mat-icon matSuffix class="icon-orange">phone</mat-icon>
+
+        </mat-form-field>
+        <ng-container *ngIf="formularioEmpresa">
+          <mat-error *ngIf="formularioEmpresa.get('telefono')?.hasError('pattern')">
+            Solo se permiten números.
+          </mat-error>
+          <mat-error *ngIf="formularioEmpresa.get('telefono')?.hasError('maxlength')">
+            La longitud debe ser de 10 dígitos.
+          </mat-error>
+          <mat-error *ngIf="formularioEmpresa.get('telefono')?.hasError('longitudTelefono')">
+            La longitud debe ser de 10 dígitos.
+          </mat-error>
+        </ng-container>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Correo</mat-label>
+          <input matInput autocomplete="off" formControlName="correo">
+          <mat-icon matSuffix class="icon-red">mail</mat-icon>
+          <mat-error *ngIf="formularioEmpresa.get('correo')">
+            Digita un correo valido
+          </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Propietario</mat-label>
+          <input matInput autocomplete="off" formControlName="propietario">
+          <mat-icon matSuffix class="icon-purple">account_circle</mat-icon>
+          <mat-error *ngIf="formularioEmpresa.get('propietario')?.hasError('letrasSinNumerosValidator')">
+            No se permiten números en el nombre.
+          </mat-error>
+           <mat-error *ngIf="formularioEmpresa.get('propietario')?.hasError('maxlength')">
+            El nombre no puede exceder los 20 caracteres..
+          </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Facebook</mat-label>
+          <input matInput autocomplete="off" formControlName="facebook" pattern="^(https?:\/\/)?(www\.)?facebook.com\/.+">
+          <mat-icon matSuffix class="fab fa-facebook mat-primary"></mat-icon>
+          <mat-error>Ingresa un enlace válido de Facebook.</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>Instagram</mat-label>
+          <input
+            matInput
+            autocomplete="off"
+            formControlName="instagram"
+            pattern="^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?.*$">
+          <mat-icon matSuffix class="fab fa-instagram fa-2x" style="color: #bc2a8d;"></mat-icon>
+          <mat-error>Ingresa un enlace válido de Instagram.</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+
+
+      <mat-grid-tile>
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-label>TikTok</mat-label>
+          <input
+            matInput
+            autocomplete="off"
+            formControlName="tiktok"
+            pattern="^(https?:\/\/)?(www\.)?tiktok\.com\/(@[a-zA-Z0-9_]+)(\/?.*)?$">
+          <mat-icon matSuffix class="fab fa-tiktok tiktok-icon"></mat-icon>
+          <mat-error>Ingresa un enlace válido de TikTok.</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+
+
+
+
+    </mat-grid-list>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <span class="spacer"></span> <!-- Este elemento ocupa el espacio izquierdo -->
+
+  <button mat-raised-button class="agregar" [disabled]="formularioEmpresa.invalid"
+  (click)="guardarEditar_Empresa()">
+   <mat-icon>save</mat-icon> {{botonAccion}}
+ </button>
+  <button mat-raised-button mat-dialog-close color="warn">
+    <mat-icon>close</mat-icon> Volver
+  </button>
+
+</mat-dialog-actions>
+

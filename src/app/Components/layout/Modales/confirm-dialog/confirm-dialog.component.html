@@ -1,0 +1,9 @@
+<!-- confirm-dialog.component.html -->
+<h1 mat-dialog-title style="text-align: center;">Confirmar</h1>
+<div mat-dialog-content style="text-align: center;">
+  <p>{{ data.message }}</p>
+</div>
+<div mat-dialog-actions style="display: flex; justify-content: center;">
+  <button mat-raised-button color="primary" (click)="onNoClick()" style="background-color: #183e96; color: #fff;" onmouseover="this.style.backgroundColor='#4f6071'" onmouseout="this.style.backgroundColor='#183e96'">Cancelar</button>
+  <button mat-raised-button color="warn" (click)="onYesClick()" style="background-color: #e74c3c; color: #fff;" onmouseover="this.style.backgroundColor='#4f6071'" onmouseout="this.style.backgroundColor='#e74c3c'">Eliminar</button>
+</div>

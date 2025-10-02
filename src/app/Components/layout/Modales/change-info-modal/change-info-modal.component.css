@@ -1,0 +1,101 @@
+/* change-info-modal.component.css */
+.modal-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  width: 100%;
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+mat-form-field {
+  width: 100%;
+  text-align: left;
+}
+
+mat-error {
+  color: #e74c3c;
+  font-size: 0.9em;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+button {
+  width: 45%;
+}
+
+/* Opcional: Ajustar estilos de los botones de Angular Material */
+/* button.mat-raised-button {
+  background-color: #181f24;
+  color: #fff;
+}
+
+button.mat-button {
+  color: #082234;
+} */
+.button.agregar {
+  background-color: #3351aa !important;
+  color: #fff !important;
+}
+
+.button.agregar:hover {
+  background-color: rgb(79, 96, 113) !important;
+}
+
+.button.agregar[disabled] {
+  background-color: #ccc !important;
+  color: #666 !important;
+}
+
+.button.agregar[disabled]:hover {
+  background-color: #ccc !important;
+}
+button[color="warn"]:hover {
+  background-color: #9e3434;
+}
+
+
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog-actions button:first-child {
+  margin-right: auto; /* Mueve el botón "Guardar" al centro */
+}
+@media (max-width: 768px) {
+
+  .guardar-btn,
+  .cancelar-btn {
+    font-size: 0.75rem; /* Tamaño de fuente más pequeño */
+    padding: 6px 12px;  /* Padding más pequeño */
+  }
+
+}

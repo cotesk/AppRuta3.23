@@ -1,0 +1,603 @@
+
+
+.custom-toolbar {
+  background-color: #7e3f88; /* Color de fondo personalizado (azul en este caso) */
+  color: white; /* Color del texto */
+}
+.custom-sidenav-container {
+  background-color: #fafafa; /* Color de fondo personalizado (gris claro en este caso) */
+}
+/* .custom-sidenav {
+  background-color: #522b41;
+
+} */
+
+/* .custom-mat-line {
+  color: white !important;
+}
+
+.custom-icon {
+  color: white !important;
+
+} */
+.custom-menu {
+  width: 3em; /* Ancho relativo del botón */
+  height: 3em; /* Altura relativa del botón */
+
+}
+
+.custom-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta la imagen para cubrir todo el espacio del botón */
+  border-radius: 50%;
+}
+
+/* .mat-mdc-menu-content {
+  min-width: 500px !important;
+  min-height: 350px !important;
+  font-size: 56px !important;
+} */
+/* Estilo para el contenedor del submenú */
+.custom-submenu-container {
+  display: inline-block; /* Hace que el contenedor se ajuste al contenido */
+  padding: 12px; /* Ajusta el relleno del contenedor */
+  margin-right: 8px; /* Ajusta el margen a la derecha */
+
+}
+
+
+/* .custom-button {
+  background-color: #142558 !important;
+  color: white !important;
+} */
+/* .custom-button {
+  background-color: #142558 !important;
+  color: white !important;
+} */
+/* Color azul más oscuro al pasar el mouse */
+.custom-button:hover {
+  background-color: #616161 !important;
+
+}
+
+
+.hide-content {
+  display: none;
+}
+
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+
+/* Para el mat-toolbar */
+.custom-toolbar {
+  color: white; /* Color del texto */
+}
+.toolbar-morado {
+  background-color: #7e3f88; /* Fondo morado */
+}
+
+.toolbar-morado .custom-mat-line,
+.toolbar-morado .custom-icon {
+  color: white !important; /* Color de texto black */
+}
+.toolbar-black {
+  background-color: #000000; /* Fondo morado */
+}
+.toolbar-azul {
+  background-color: #174093; /* Fondo morado */
+}
+
+.toolbar-azul .custom-mat-line,
+.toolbar-azul .custom-icon {
+  color: white !important; /* Color de texto black */
+}
+.toolbar-black {
+  background-color: #000000; /* Fondo morado */
+}
+
+.toolbar-black .custom-mat-line,
+.toolbar-black .custom-icon {
+  color: white !important; /* Color de texto black */
+}
+/* Estilos para el fondo y el color de texto cuando el fondo es blanco */
+.toolbar-white {
+  background-color: #ffffff; /* Fondo blanco */
+}
+
+.toolbar-white .custom-mat-line,
+.toolbar-white .custom-icon {
+  color: black !important; /* Color de texto black */
+}
+
+/* Estilos para el fondo y el color de texto cuando el fondo es rojo */
+.toolbar-red {
+  background-color: #940c0c; /* Fondo rojo */
+}
+
+.toolbar-red .custom-mat-line,
+.toolbar-red .custom-icon {
+  color: white !important; /* Color de texto blanco */
+}
+
+/* Estilos para el fondo y el color de texto cuando el fondo es verde */
+.toolbar-green {
+  background-color: #064006; /* Fondo verde oscuro */
+}
+
+.toolbar-green .custom-mat-line,
+.toolbar-green .custom-icon {
+  color: white !important; /* Color de texto blanco */
+}
+.sidenav-morado {
+  background-color: #ffffff; /* Fondo blanco */
+  color: black; /* Texto black */
+}
+.sidenav-white {
+  background-color: #ffffff; /* Fondo blanco */
+  color: black; /* Texto black */
+}
+.sidenav-black {
+  background-color: #ffffff; /* Fondo blanco */
+  color: black;
+}
+.sidenav-azul {
+  background-color: #ffffff;
+  color: black;
+}
+.sidenav-red {
+  background-color: #ffffff; /* Fondo rojo claro */
+  color: black; /* Texto black */
+}
+
+.sidenav-green {
+  background-color: #ffffff; /* Fondo verde más claro */
+  color: black; /* Texto black */
+}
+
+.ng-container-white {
+  background-color: #ffffff; /* Fondo blanco */
+  color: black !important;
+}
+
+.ng-container-red {
+  background-color: #c72c2c; /* Fondo rojo */
+  color: black !important;
+}
+.ng-container-morado {
+  background-color: #522b41; /* Fondo verde */
+  color: white !important;
+}
+.ng-container-azul {
+  background-color: #365594; /* Fondo verde */
+  color: white !important;
+}
+.ng-container-green {
+  background-color: #126b12; /* Fondo verde */
+  color: black !important;
+}
+.ng-container-black {
+  background-color: #242222;
+  color: white !important;
+}
+.panel-white {
+  background-color: #ffffff;
+}
+
+.panel-red {
+  background-color: #c72c2c;
+}
+
+.panel-green {
+  background-color: #126b12;
+}
+
+.panel-morado {
+  background-color: #522b41;
+}
+
+.panel-black {
+  background-color: #242222;
+}
+
+.panel-azul {
+  background-color: #365594;
+}
+
+.icon-black {
+  color: #000000!important;
+}
+
+.icon-white {
+  color: #ffffff !important;
+}
+
+.text-black {
+  color: #000000;
+}
+
+.text-white {
+  color: #ffffff;
+}
+::ng-deep .panel-red .mat-expansion-indicator::after {
+  color: #ffffff !important; /* Rojo */
+}
+
+::ng-deep .panel-black .mat-expansion-indicator::after {
+  color: #ffffff !important; /* Azul */
+}
+::ng-deep .panel-morado .mat-expansion-indicator::after {
+  color: #ffffff !important; /* Azul */
+}
+::ng-deep .panel-azul .mat-expansion-indicator::after {
+  color: #ffffff !important; /* Azul */
+}
+::ng-deep .panel-green .mat-expansion-indicator::after {
+  color: #ffffff !important; /* Azul */
+}
+::ng-deep .panel-white .mat-expansion-indicator::after {
+  color: #000000 !important; /* Azul */
+}
+
+
+.icon-black {
+  color: black !important;
+}
+
+.icon-white {
+  color: white !important;
+}
+
+
+
+.menu-item {
+  display: flex;
+  align-items: center; /* Centra verticalmente los elementos */
+}
+
+.menu-item mat-icon {
+  margin-right: 8px; /* Espacio entre el icono y el texto */
+}
+
+
+.custom-button .icon-white {
+  color: white !important; /* Color del texto del icono en blanco */
+}
+
+.custom-button .icon-red {
+  color: red !important; /* Color del texto del icono en rojo */
+}
+
+.custom-button .icon-green {
+  color: green !important; /* Color del texto del icono en verde */
+}
+
+
+
+
+.custom-button {
+  color: white !important; /* Color del texto blanco por defecto */
+}
+
+.custom-button-rojo {
+  background-color: #b33434 !important; /* Rojo */
+  color: white !important; /* Texto blanco */
+}
+
+.custom-button-verde {
+  background-color: #417a41 !important; /* Verde */
+  color: white !important; /* Texto blanco */
+}
+
+.custom-button-morado {
+  background-color: #54375a !important; /* Morado */
+  color: white !important; /* Texto blanco */
+}
+.custom-button-azul {
+  background-color: #385897 !important; /* Morado */
+  color: white !important; /* Texto blanco */
+}
+.custom-button-black {
+  background-color: #242222 !important; /* Morado */
+  color: white !important; /* Texto blanco */
+}
+
+
+.custom-button-defecto {
+  background-color: #142558 !important; /* Color por defecto */
+  color: white !important; /* Texto blanco */
+}
+
+
+
+/* Texto blanco */
+
+/* En tu archivo de estilos global o en el componente donde se utiliza el selector de colores */
+.mat-form-field {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-select {
+  font-size: 16px; /* Ajusta el tamaño de fuente según tu preferencia */
+}
+
+.mat-option {
+  font-size: 14px; /* Ajusta el tamaño de fuente según tu preferencia */
+}
+
+.mat-form-field.mat-focused .mat-form-field-outline-thick {
+  color: #6200ee; /* Cambia el color del borde cuando el campo está enfocado */
+}
+.color-selector mat-select {
+  font-size: 14px; /* Ajusta el tamaño de la fuente según tu preferencia */
+}
+
+.color-selector mat-form-field {
+  width: 130px; /* Ajusta el ancho del campo según tu preferencia */
+}
+
+.color-selector {
+  margin-bottom: -20px; /* Ajusta el margen inferior para distanciar el selector de colores */
+  position: relative; /* Establece la posición relativa para poder utilizar left */
+  left: -80px; /* Ajusta el desplazamiento a la izquierda */
+}
+
+.notifications-button {
+  margin-top: 10px; /* Ajusta el margen superior para distanciar el botón de notificaciones */
+  position: relative; /* Establece la posición relativa para poder utilizar left */
+  left: -10px; /* Ajusta el desplazamiento a la izquierda */
+}
+.content {
+  /* height: calc(100svh - 98px);
+  border-radius: 10px;
+  padding: 16px;
+  max-width: 1520px;
+  margin: 0 auto;
+  font-size: 16px; */
+  padding: 16px; /* Ajusta el padding según el diseño que prefieras */
+  box-sizing: border-box;
+    /* background-image: url('/assets/Images/fondo.jpeg');  */
+  background-size: cover;         /* para que cubra todo el div */
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 20px;                  /* espacio interno para no pegarse al borde */
+  border-radius: 12px;            /* opcional: esquinas redondeadas */
+}
+mat-sidenav-container {
+  /* height: calc(100svh - 65px); */
+  height: 100vh; /* Asegura que ocupe toda la altura de la vista */
+   /* Evita el desplazamiento horizontal */
+   /* width: 100vw;  */
+  overflow-x: hidden; /* Evita desplazamiento horizontal innecesario */
+}
+mat-sidenav-content {
+  height: 100%; /* Asegura que el contenido ocupe todo el espacio disponible */
+  overflow-y: auto; /* Permite el desplazamiento vertical */
+  box-sizing: border-box;
+  padding: 0;
+}
+/* mat-sidenav {
+  width: 235px;
+  border-right: none;
+  padding: 16px 0;
+} */
+/* .menu-item {
+  cursor: pointer;
+} */
+
+.menu-item-content {
+  display: flex;
+  align-items: center;
+}
+
+.menu-item-content mat-icon {
+  margin-right: 30px;
+}
+
+.menu-item:hover {
+  background-color: rgb(82, 82, 82);
+
+}
+.color-selector mat-select:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Cambia el color de fondo al pasar el mouse sobre el select */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse sobre el select */
+}
+.hover-option {
+  transition: background-color 0.3s; /* Transición suave para el cambio de color de fondo */
+}
+
+.hover-option:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Cambia el color de fondo al pasar el mouse sobre las opciones */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse sobre las opciones */
+}
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.minimal-menu .mat-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.minimal-menu .mat-icon {
+  margin-right: 8px;
+}
+
+.icon-view {
+  color: rgb(68, 68, 228) !important; /* Cambia el color según tu preferencia */
+}
+
+.text-view {
+  color: black; /* Cambia el color según tu preferencia */
+}
+
+.icon-edit {
+  color: green !important /* Cambia el color según tu preferencia */
+}
+
+.text-edit {
+  color: black; /* Cambia el color según tu preferencia */
+}
+
+.icon-change {
+  color: red !important /* Cambia el color según tu preferencia */
+}
+
+.text-change {
+  color: black; /* Cambia el color según tu preferencia */
+}
+
+.minimal-modal {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
+}
+.badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+/* styles.css o tu archivo de estilos globales */
+
+.swal-cart-popup {
+  width: 80%; /* Ajusta el tamaño según sea necesario */
+  max-width: 600px; /* Tamaño máximo del modal */
+  height: 80vh; /* Ajusta la altura según sea necesario */
+}
+
+.swal-cart-container {
+  max-height: 60vh; /* Ajusta la altura del contenedor interno */
+  overflow-y: auto; /* Permite el desplazamiento vertical */
+}
+
+.content {
+  height: 90vh;
+}
+
+
+
+/* Mantener color en paneles siempre */
+.panel-white .mat-expansion-panel-header {
+  background-color: #fff !important;
+  color: #333 !important;
+}
+
+.panel-red .mat-expansion-panel-header {
+  background-color: #c72c2c !important;
+  color: #fff !important;
+}
+
+.panel-green .mat-expansion-panel-header {
+  background-color: #126b12 !important;
+  color: #fff !important;
+}
+
+.panel-morado .mat-expansion-panel-header {
+  background-color: #522b41 !important;
+  color: #fff !important;
+}
+
+.panel-black .mat-expansion-panel-header {
+  background-color: #242222 !important;
+  color: #fff !important;
+}
+
+.panel-azul .mat-expansion-panel-header {
+  background-color: #365594 !important;
+  color: #fff !important;
+}
+
+
+
+@media (max-width: 768px) {
+  /* .content {
+    height: 10vh;
+  } */
+
+  .custom-menu {
+    width: 2em;
+    height: 2em;
+  }
+  .swal-cart-popup {
+    width: 100%;
+    max-width: 400px;
+  }
+  .badge {
+    top: -3px;
+    right: -3px;
+    font-size: 10px;
+  }
+  .hide-on-mobile {
+    display: none;
+  }
+  .user-info-label {
+    /* Limita la longitud del nombre de usuario y rol en móviles */
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px; /* Ajusta según sea necesario */
+    white-space: nowrap;
+  }
+
+
+
+}
+
+
+
+
+.user-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+
+.user-info-label {
+  font-size: 14px;
+  margin: 20px;
+}
+
+
+
+/* mat-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+mat-toolbar-row {
+  width: 100%;
+  justify-content: space-between;
+} */

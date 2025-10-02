@@ -1,0 +1,80 @@
+<!-- change-info-modal.component.html -->
+<div class="modal-container">
+  <h2 style="text-align: center;">Cambiar Información</h2>
+  <form [formGroup]="formularioUsuario" style="width: 250px; margin: auto; text-align: center;">
+    <mat-form-field class="form-group">
+      <label for="nombre">Nombre Usuario:</label>
+      <input matInput type="text" id="nombre" formControlName="nombreCompleto" [attr.disabled]="!edicionHabilitada"
+        maxlength="25">
+      <mat-error *ngIf="formularioUsuario.get('nombreCompleto')?.hasError('required')">Campo obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-group">
+      <label for="correo">Correo:</label>
+      <input matInput type="email" id="correo" formControlName="correo" [attr.disabled]="!edicionHabilitada"
+        maxlength="36">
+      <mat-error *ngIf="formularioUsuario?.get('correo')?.hasError('required')">Campo obligatorio</mat-error>
+      <mat-error *ngIf="formularioUsuario?.get('correo')?.hasError('email')">Formato de correo no válido</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+      <mat-label>Nueva Contraseña</mat-label>
+      <input matInput [type]="ocultarPassword ? 'password' : 'text'" formControlName="clave"
+        [attr.disabled]="!edicionHabilitada" maxlength="16">
+      <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+        <mat-icon matSuffix>{{ocultarPassword ? 'visibility_off' :'visibility'}}</mat-icon>
+
+      </button>
+    </mat-form-field>
+
+    <!-- Vista previa de la imagen almacenada en el localStorage y funcional -->
+    <!-- <div class="preview-img" *ngIf="previsualizacion">
+      <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen"style="max-width: 200px; max-height: 100px;">
+    </div> -->
+    <!-- <mat-form-field class="form-group">
+      <label for="imagenData">Nueva Imagen:</label>
+      <input type="file" id="imagenData" (change)="handleImageUpload2($event)" accept=".png, .jpg, .jpeg">
+    </mat-form-field>
+ -->
+
+
+    <!-- <div class="custom-file-input-container">
+      <label for="fileInput" class="mat-form-field-label custom-file-label" style="color: rgb(34, 29, 26);">Click para cambiar la imagen</label>
+      <input type="file" id="fileInput" (change)="handleImageUpload($event)" accept=".png, .jpg, .jpeg" class="mat-input-element custom-file-input" style="display: none;">
+      <label for="fileInput" class="mat-raised-button mat-primary custom-file-button"></label>
+      <span class="file-info">Nombre del Archivo: {{ fileName }}</span>
+
+      <div class="preview-img" *ngIf="previsualizacion">
+        <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen"
+          style="max-width: 300px; max-height: 200px;">
+
+      </div>
+
+    </div> -->
+
+    <!-- <div class="form-group">
+      <label for="imagen">Imagen:</label>
+      <input type="file" id="imagen" (change)="handleImageUpload($event)" accept=".png, .jpg, .jpeg">
+    </div> -->
+
+    <div style="margin-top: 20px; display: flex; flex-direction: column;">
+      <button mat-raised-button class="guardar-btn" color="primary" (click)="guardarCambios()"
+        [disabled]="!formularioUsuario.valid || !edicionHabilitada">
+        <mat-icon>save</mat-icon> Guardar Cambios
+      </button>
+    </div>
+    <div style="margin-top: 20px; display: flex; flex-direction: column;">
+
+
+      <button mat-raised-button class="cancelar-btn" color="warn" type="button" (click)="cerrarModal()">
+        <mat-icon>cancel</mat-icon> Cancelar
+      </button>
+    </div>
+
+    <br>
+  </form>
+</div>

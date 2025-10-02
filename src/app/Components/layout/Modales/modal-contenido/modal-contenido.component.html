@@ -1,0 +1,153 @@
+<h2 mat-dialog-title style="text-align: center;">{{tituloAccion}} Contenido </h2>
+
+
+
+
+<mat-dialog-content>
+  <!-- [formGroup]="formularioProducto"  -->
+
+  <form [formGroup]="formularioProducto">
+
+
+    <div class="flex-container">
+
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Tipo Contenido</mat-label>
+        <mat-select formControlName="tipoContenido" (selectionChange)="onChangeTipoBusqueda2($event)">
+          <!-- Opción para Texto -->
+          <mat-option value="Texto">
+            <mat-icon class="icon-green">text_fields</mat-icon> Texto
+          </mat-option>
+          <!-- Opción para Imagen (solo visible cuando no estás en modo de edición) -->
+          <mat-option *ngIf="!modoEdicion" value="Imagen">
+            <mat-icon class="icon-blue">image</mat-icon> Imagen
+          </mat-option>
+
+          <mat-option *ngIf="!modoEdicion" value="Promociones">
+            <mat-icon class="icon-blue">local_offer</mat-icon> Promociones
+          </mat-option>
+
+        </mat-select>
+        <mat-icon matSuffix class="icon-orange">description</mat-icon>
+      </mat-form-field>
+
+
+
+
+      <mat-form-field class="full-width" appearance="outline"
+        *ngIf="formularioProducto.get('tipoContenido')?.value === 'Imagen' ">
+        <!-- <mat-label>Imagen</mat-label> -->
+        <!-- Reemplaza el código del input original con este código -->
+        <div class="custom-upload-container">
+          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Imagen"
+            (change)="selectFile($event)" accept=".png, .jpg, .jpeg">
+        </div>
+
+        <input matInput formControlName="Urlimagen" readonly
+          [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+        <button mat-icon-button matSuffix color="warn" *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline"
+        *ngIf="formularioProducto.get('tipoContenido')?.value === 'Promociones' ">
+        <!-- <mat-label>Imagen</mat-label> -->
+        <!-- Reemplaza el código del input original con este código -->
+        <div class="custom-upload-container">
+          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Promociones"
+            (change)="selectFile($event)" accept=".png, .jpg, .jpeg">
+        </div>
+
+        <input matInput formControlName="Urlimagen" readonly [value]="obtenerUrlSeguraDeImagen() ?
+           'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+        <button mat-icon-button matSuffix color="warn" *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+
+
+
+
+
+      <ng-container
+        *ngIf="previsualizacion && (formularioProducto.get('tipoContenido')?.value === 'Imagen' || formularioProducto.get('tipoContenido')?.value === 'Promociones')">
+        <div class="image-preview-card" (click)="verImagen()">
+          <img [src]="previsualizacion" alt="Previsualización" />
+          <button mat-icon-button class="remove-button" color="warn"
+            (click)="limpiarImagen(); $event.stopPropagation();">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+
+
+
+      <div class="preview-img"
+        *ngIf="previsualizacion && formularioProducto.get('tipoContenido')?.value === 'Promociones'">
+        <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen" (click)="verImagen()">
+
+      </div>
+
+      <mat-form-field class="full-width" appearance="fill"
+        *ngIf="formularioProducto.get('tipoContenido')?.value === 'Texto'">
+        <mat-label>Tipo Comentarios</mat-label>
+        <mat-select asp-for="tipoComentarios" formControlName="tipoComentarios">
+          <mat-option value="Texto Login">
+            <mat-icon class="icon-purple">account_circle</mat-icon> Texto Login
+          </mat-option>
+          <mat-option value="Texto Banner">
+            <mat-icon class="icon-yellow">picture_in_picture_alt</mat-icon> Texto Banner
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix class="icon-orange">description</mat-icon>
+      </mat-form-field>
+
+
+
+      <!-- Otros campos del formulario -->
+      <mat-grid-list class="comentarios" cols="1" rowHeight="250px"
+        *ngIf="formularioProducto.get('tipoContenido')?.value === 'Texto'">
+        <mat-grid-tile>
+          <mat-form-field class="comentarios" appearance="fill">
+            <mat-label>Comentario</mat-label>
+            <textarea matInput formControlName="comentarios" rows="6" maxlength="269">
+            </textarea>
+            <mat-icon matSuffix class="icon-blue">fit_screen</mat-icon>
+            <mat-hint align="end">{{formularioProducto.get('comentarios')?.value?.length || 0}}/269</mat-hint>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+
+    </div>
+
+
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <span class="spacer"></span> <!-- Este elemento ocupa el espacio izquierdo -->
+
+
+  <button mat-raised-button class="agregar" [disabled]="formularioProducto.invalid" (click)="guardarEditar_Contenido()">
+    <mat-icon>save</mat-icon> {{botonAccion}}
+  </button>
+
+  <button mat-raised-button mat-dialog-close color="warn">
+    <mat-icon>close</mat-icon> Volver
+  </button>
+
+</mat-dialog-actions>

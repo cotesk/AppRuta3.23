@@ -1,0 +1,293 @@
+.minimalist-Aplicar {
+  position: absolute;
+  top: 110px;
+  left: 560px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+
+.minimalist-select {
+  position: absolute;
+  top: 120px;
+  left: 420px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 15px;
+  border-radius: 5px;
+  /* flex-basis: 10%;
+  max-width: 170px; */
+}
+
+.minimalist-footer {
+  position: absolute;
+  top: 550px;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  padding: 10px;
+  margin: 20px -15px 110px;
+  width: 98%;
+}
+
+
+
+.circle-option {
+  display: inline-block;
+  width: 24px;
+  /* Tamaño del círculo */
+  height: 24px;
+  /* Tamaño del círculo */
+  border-radius: 50%;
+  /* Hace que el borde sea redondeado, creando un círculo */
+  margin-right: 8px;
+  /* Espacio entre cada opción */
+}
+
+
+.custom-toolbar {
+  color: white;
+  /* Color del texto */
+}
+
+.toolbar-morado {
+  background-color: #7e3f88;
+  /* Fondo morado */
+}
+
+.toolbar-morado .custom-mat-line,
+.toolbar-morado .custom-icon {
+  color: white !important;
+  /* Color de texto black */
+}
+
+.toolbar-black {
+  background-color: #af2727;
+}
+
+.toolbar-black .custom-mat-line,
+.toolbar-black .custom-icon {
+  color: white !important;
+  /* Color de texto blanco */
+}
+
+
+/* Estilos para el fondo y el color de texto cuando el fondo es blanco */
+.toolbar-white {
+  background-color: #ffffff;
+  /* Fondo blanco */
+}
+
+.toolbar-white .custom-mat-line,
+.toolbar-white .custom-icon {
+  color: black !important;
+  /* Color de texto black */
+}
+
+/* Estilos para el fondo y el color de texto cuando el fondo es rojo */
+.toolbar-red {
+  background-color: #940c0c;
+  /* Fondo rojo */
+}
+
+.toolbar-red .custom-mat-line,
+.toolbar-red .custom-icon {
+  color: white !important;
+  /* Color de texto blanco */
+}
+
+/* Estilos para el fondo y el color de texto cuando el fondo es verde */
+.toolbar-green {
+  background-color: #064006;
+  /* Fondo verde oscuro */
+}
+
+.toolbar-green .custom-mat-line,
+.toolbar-green .custom-icon {
+  color: white !important;
+  /* Color de texto blanco */
+}
+
+.sidenav-morado {
+  background-color: #ffffff;
+  /* Fondo blanco */
+  color: black;
+  /* Texto black */
+}
+
+.sidenav-white {
+  background-color: #ffffff;
+  /* Fondo blanco */
+  color: black;
+  /* Texto black */
+}
+
+.sidenav-black {
+  background-color: #b92e2e;
+  color: black;
+  /* Texto black */
+}
+
+
+.sidenav-red {
+  background-color: #ffffff;
+  /* Fondo rojo claro */
+  color: black;
+  /* Texto black */
+}
+
+.sidenav-green {
+  background-color: #ffffff;
+  color: black;
+}
+
+.ng-container-white {
+  background-color: #f4eeee;
+  color: black !important;
+}
+
+.ng-container-red {
+  background-color: #c72c2c;
+  color: black !important;
+}
+
+.ng-container-morado {
+  background-color: #522b41;
+  color: white !important;
+}
+
+.ng-container-green {
+  background-color: #126b12;
+  color: black !important;
+}
+
+.ng-container-black {
+  background-color: #242222;
+  color: white !important;
+}
+
+
+.text-black {
+  color: black;
+}
+
+.text-white {
+  color: white;
+}
+
+.icon-black {
+  color: black !important;
+}
+
+.icon-white {
+  color: white !important;
+}
+
+
+button[color="primary"]:hover {
+  background-color: rgb(79, 96, 113);
+  /* Cambia el color al pasar el ratón sobre el botón */
+}
+
+
+
+/* .custom-mat-select {
+  background-color: #cccccc;
+  color: black;
+} */
+
+.footer {
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  margin: 20px -15px 110px;
+  width: 100%;
+}
+
+.texto {
+  position: absolute;
+  top: 40px;
+  left: 453px;
+}
+
+@media (max-width: 768px) {
+
+
+  .texto {
+    position: absolute;
+    top: 20px;
+    left: 103px;
+  }
+
+  .minimalist-Aplicar {
+    position: absolute;
+    top: 80px;
+    left: 103px;
+
+  }
+
+
+  .minimalist-select {
+    position: absolute;
+    top: 140px;
+    left: 90px;
+
+  }
+
+  .mat-dialog-container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    /* Permite que el diálogo se ajuste al contenido */
+  }
+
+  mat-dialog-content {
+    flex-grow: 1;
+    /* Permite que el contenido crezca y tome el espacio disponible */
+    overflow-y: auto;
+    /* Añade scroll vertical si es necesario */
+  }
+
+  .footer {
+
+    font-size: 10px;
+    position: relative;
+    left: -5px;
+    /* Salir del contenedor principal */
+    width: calc(97% + 31px);
+    /* Hacerlo más largo que el mat-card */
+    background-color: #2c3e50;
+    /* Cambiar color si es necesario */
+  }
+
+
+  .minimalist-footer {
+    position: relative;
+    top: 550px;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    background-color: #2c3e50;
+    padding: 10px;
+
+    left: -5px;
+    width: calc(97% + 31px);
+  }
+
+
+  .h2 {
+    text-align: center;
+  }
+
+  .minimalist-Aplicar {
+    width: 50%;
+  }
+
+
+}

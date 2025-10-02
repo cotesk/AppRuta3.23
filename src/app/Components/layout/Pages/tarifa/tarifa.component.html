@@ -1,0 +1,94 @@
+<h1 style="margin:20px 0px 15px; text-align: center;">Lista de Tarifas</h1>
+
+<mat-card>
+    <mat-card-title>
+        <mat-form-field appearance="fill" style="width: 200px;">
+            <mat-label>Opciones</mat-label>
+            <mat-select>
+                <mat-option (click)="nuevoTarifa()">
+                    <mat-icon color="primary">add</mat-icon>
+                    Nueva Tarifa
+                </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>more_vert</mat-icon>
+        </mat-form-field>
+    </mat-card-title>
+
+    <mat-card-content>
+        <mat-form-field appearance="fill" class="futuristic-search-field">
+            <input matInput (keyup)="aplicarFiltroTabla($event)" #input placeholder="Buscar tarifa">
+            <button mat-icon-button matSuffix>
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div class="table-container">
+            <table mat-table [dataSource]="dataListaTarifas" class="custom-mat-table">
+
+                <!-- Nombre -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white; text-align: center;">Nombre</th>
+                    <td mat-cell *matCellDef="let tarifa"  style=" text-align: center;">
+                        {{ tarifa.nombre }}</td>
+                </ng-container>
+
+                <!-- Precio -->
+                <ng-container matColumnDef="precioPorHora">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white; text-align: center;">Precio/Hora</th>
+                    <td mat-cell *matCellDef="let tarifa"  style=" text-align: center;">
+                        {{ this.formatearNumero(tarifa.precioPorHoraTexto)  }}</td>
+                </ng-container>
+
+                <!-- Duración -->
+                <ng-container matColumnDef="duracionHoras">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align: center;">Duración</th>
+                    <td mat-cell *matCellDef="let tarifa" style=" text-align: center;">
+                        {{ tarifa.duracionHoras }} h</td>
+                </ng-container>
+
+                <!-- Estado -->
+                <ng-container matColumnDef="activo">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align: center;" [style.color]="'white'">Estado</th>
+                    <td mat-cell *matCellDef="let tarifa"  style=" text-align: center;">
+                        <button mat-raised-button class="estado" [style.color]="'white'" [ngStyle]="{'background-color': tarifa.activo ? '#4caf50' : '#f44336'}">
+                            {{ tarifa.activo ? 'Activo' : 'Inactivo' }}
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align: center;">Acciones</th>
+                    <td mat-cell *matCellDef="let tarifa"  style=" text-align: center;">
+                        <button mat-icon-button class="ver" (click)="editarTarifa(tarifa)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button class="eliminar" (click)="eliminarTarifa(tarifa)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Filas -->
+                <tr mat-header-row *matHeaderRowDef="columnasTarifa"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasTarifa;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="5">No hay tarifas registradas</td>
+                </tr>
+            </table>
+
+
+
+            <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons>
+
+            </mat-paginator>
+
+
+
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<footer class="footer">
+    <p>Copyright © 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>

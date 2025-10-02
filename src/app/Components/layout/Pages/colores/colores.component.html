@@ -1,0 +1,24 @@
+<h2 mat-dialog-title class="texto">Cambiar Colores</h2>
+
+  <!-- <button mat-raised-button class="minimalist-Aplicar"  color="primary" (click)="aplicarCambios()" style="margin-top: 20px;">
+    <mat-icon>save</mat-icon>
+    Aplicar Cambios</button>  -->
+
+
+  <mat-form-field appearance="outline" class="minimalist-select" style="margin-bottom: 20px;margin-top: 20px;">
+    <mat-label [ngStyle]="{ 'color': selectedColor === 'blanco' ? 'black' : 'black' }">Selecciona un color</mat-label>
+    <mat-select [(value)]="selectedColor" (selectionChange)="aplicarCambios()"  [ngClass]="selectedColor === 'blanco' ? 'text-black' : 'text-black'">
+      <mat-option  class="custom-mat-select" *ngFor="let color of colors" [value]="color.value">
+        <span class="circle-option" [style.background-color]="colorCircles[color.value]"></span>
+        <span class="circle-option" [style.background-color]="colorCircles2[color.value]"></span>
+        {{ color.viewValue}}
+
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
+  <footer class="minimalist-footer">
+  <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+  </footer>

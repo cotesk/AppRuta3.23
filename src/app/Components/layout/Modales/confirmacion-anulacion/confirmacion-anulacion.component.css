@@ -1,0 +1,49 @@
+/* confirmacion-anulacion.component.css */
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  color: #333; /* Color de texto principal */
+}
+
+p {
+  margin: 0;
+  font-size: 1.1em;
+  color: #666; /* Color de texto secundario */
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente los elementos */
+  align-items: center; /* Centrar verticalmente los elementos */
+  margin-top: 20px;
+}
+
+button {
+  margin-left: 10px;
+  min-width: 100px;
+  padding: 8px 16px;
+  font-size: 1em;
+}
+
+button.cancelar {
+  background-color: #3351aa; /* Fondo del botón Cancelar */
+  color: #fff; /* Color del texto del botón Cancelar */
+}
+
+button.anular {
+  background-color: #ff0000f1; /* Fondo del botón Anular */
+  color: #fff; /* Color del texto del botón Anular */
+}
+button.anular:hover {
+  background-color:  #9e3434; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+button.cancelar:hover {
+  background-color:  rgb(79, 96, 113); /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+
+/* Puedes agregar estilos adicionales según tus preferencias */
+
+/* Estilos adicionales según sea necesario */

@@ -1,0 +1,198 @@
+.licencia-container {
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.licencia-container::before {
+  content: "🔑 LICENCIA";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 80px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.05); /* marca de agua */
+  pointer-events: none;
+  user-select: none;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-card {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #666;
+}
+
+input[type="date"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #2196f3 !important;
+  color: white !important;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1976d2;
+}
+
+
+button.agregar {
+  background-color: #2196f3;
+  /* Fondo del botón Cancelar */
+  color: #fff;
+  /* Color del texto del botón Cancelar */
+}
+
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+button.agregar[disabled] {
+  background-color: #ccc;
+  /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666;
+  /* Color del texto en gris cuando está deshabilitado */
+}
+
+.btn-secondary {
+  background: #f44336;
+  color: white !important;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #c62828;
+  color: white;
+}
+
+.table-wrapper {
+  border-radius: 6px;
+  overflow-x: auto;
+  /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch;
+  /* Mejora el desplazamiento en dispositivos táctiles */
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.styled-table thead {
+  background: #f0f0f0;
+}
+
+.styled-table th,
+.styled-table td {
+  text-align: left;
+  padding: 10px;
+}
+
+.styled-table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+span.activa {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+span.inactiva {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #2196f3;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: 500;
+}
+
+/* --- RESPONSIVE (pantallas pequeñas) --- */
+@media (max-width: 768px) {
+  .form-card {
+     align-items: center;
+    flex-direction: column; /* apila el formulario */
+    gap: 1rem;
+  }
+
+
+  .licencia-container::before {
+  content: "🔑 LICENCIA";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 40px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.05); /* marca de agua */
+  pointer-events: none;
+  user-select: none;
+}
+
+}

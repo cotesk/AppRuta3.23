@@ -1,0 +1,139 @@
+.dialog-title {
+  text-align: center;
+  font-size: 22px;
+  color: #333;
+}
+
+.dialog-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.input-field {
+  width: 90%;
+  max-width: 400px;
+  margin-top: 10px;
+}
+
+.separator {
+  border: none;
+  border-top: 1px solid #fe0101;
+  margin: 5px 0;
+}
+
+.icon-verde {
+  color: #4caf50; /* Verde para dinero */
+  margin-right: 5px;
+}
+
+.icon-azul {
+  color: #64b5f6; /* Morado para alcancía */
+  margin-right: 5px;
+}
+
+
+.search-button {
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.search-button:hover {
+  color: #333;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.user-text {
+  color: #555;
+}
+
+.highlight {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.image-preview {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.preview-image {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 10px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.close-button {
+  background-color: #d32f2f;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #e57373;
+}
+
+.save-button {
+  background-color: #3351aa;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: rgb(79, 96, 113);
+}
+
+.save-button[disabled] {
+  background-color: #ccc;
+  /* Fondo del botón en gris cuando está deshabilitado */
+  color: #666;
+  /* Color del texto en gris cuando está deshabilitado */
+}
+/* @media (max-width: 768px) {
+  .dialog-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .form-container {
+    width: 80%;
+  }
+
+  .user-info,
+  .image-preview {
+    width: 35%;
+  }
+
+  .dialog-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+} */

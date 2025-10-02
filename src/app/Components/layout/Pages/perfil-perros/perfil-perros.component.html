@@ -1,0 +1,54 @@
+<h1 style="margin:20px 0px 40px; text-align: center;">Mis Perros</h1>
+
+<div class="perros-grid">
+    <mat-card *ngFor="let perro of dataListaPerros.data" class="perro-card">
+
+        <!-- Imagen -->
+        <div class="perro-img-container">
+            <img [src]="perro.imagenUrl?.[0]" alt="Imagen del perro" (click)="verImagen(perro)">
+            <span *ngIf="perro.imagenUrl!.length > 1" class="img-count">
+                +{{ perro.imagenUrl?.length }}
+            </span>
+
+        </div>
+
+        <!-- Info perro -->
+        <mat-card-title>{{ perro.nombre }}</mat-card-title>
+        <mat-card-subtitle>{{ perro.raza }} • {{ perro.edad }} años</mat-card-subtitle>
+
+        <mat-card-content>
+            <p><strong>Tamaño:</strong> {{ perro.tamano }}</p>
+            <p><strong>Dueño:</strong> {{ perro.nombreDueno }}</p>
+            <p>
+                <span class="estado" [ngStyle]="{'background-color': perro.esterilizado ? '#4caf50' : '#f44336'}">
+                    {{ perro.esterilizado ? 'Esterilizado' : 'No Esterilizado' }}
+                </span>
+            </p>
+        </mat-card-content>
+
+        <!-- Acciones -->
+        <mat-card-actions align="end">
+            <button mat-icon-button class="ver" (click)="cambiarImagen(perro)">
+                <mat-icon>image</mat-icon>
+            </button>
+            <button mat-icon-button class="agregar" (click)="editarPerro(perro)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="eliminar" (click)="eliminarPerro(perro)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    <mat-card class="perro-card add-card" (click)="nuevoPerro()">
+        <div class="add-content">
+            <mat-icon>add_circle</mat-icon>
+            <p>Agregar Perro</p>
+        </div>
+    </mat-card>
+
+</div>
+<br>
+
+<!-- <footer class="footer">
+  <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer> -->

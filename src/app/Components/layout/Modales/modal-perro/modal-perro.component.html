@@ -1,0 +1,247 @@
+<h2 mat-dialog-title style="text-align: center;">{{tituloAccion}} Perro </h2>
+
+<!-- <div mat-dialog-title style="text-align: center;">
+  <h1>Employee Form</h1>
+</div> -->
+<form [formGroup]="formularioPerro">
+    <div mat-dialog-content class="content">
+
+
+
+        <!-- <mat-form-field appearance="outline">
+        <mat-label>Imagen</mat-label>
+        <input *ngIf="!modoEdicion" type="file" class="form-control" name="Imagen" (change)="selectFile($event)"
+          #inputFileRef accept=".png, .jpg, .jpeg">
+        <mat-icon matPrefix *ngIf="!modoEdicion" (click)="inputFileRef?.nativeElement.click()">attach_file</mat-icon>
+
+
+
+        <input matInput formControlName="Urlimagen" readonly
+          [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+        <button mat-icon-button matSuffix color="warn" *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field> -->
+
+        <div class="row2">
+            <mat-form-field appearance="outline" *ngIf="!modoEdicion">
+                <!-- <mat-label>Imagen</mat-label> -->
+                <!-- Reemplaza el código del input original con este código -->
+                <div class="custom-upload-container">
+                    <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()">
+                        <mat-icon>attach_file</mat-icon>
+                    </button>
+                    <input multiple *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Imagen"
+                        (change)="selectFile($event)" accept=".png, .jpg, .jpeg">
+                </div>
+
+                <input matInput formControlName="Urlimagen" readonly
+                    [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
+                <button mat-icon-button matSuffix color="warn" *ngIf="obtenerUrlSeguraDeImagen()"
+                    (click)="limpiarImagen()">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </mat-form-field>
+
+
+
+        </div>
+
+
+        <div class="row2">
+            <div class="row mt-3" *ngIf="imagenesSeleccionadas.length > 0">
+                <div class="col-6 col-md-4 mb-3" *ngFor="let img of imagenesSeleccionadas; let i = index">
+                    <div class="position-relative imagen-card">
+
+                        <!-- Botón X en rojo, redondo, fondo rojo en hover -->
+                        <button type="button" class="btn btn-close-custom position-absolute top-0 end-0 m-1 z-1"
+                            (click)="eliminarImagen(i)" aria-label="Eliminar imagen">
+                            &times;
+                        </button>
+
+                        <!-- Imagen -->
+                        <img [src]="img.base64" style="max-height: 50px; object-fit: cover; cursor: pointer;"
+                            (click)="verImagen(img.base64)" />
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+                <mat-label>Nombre</mat-label>
+                <input matInput autocomplete="off" formControlName="nombre">
+                <mat-icon matSuffix class="fas fa-box"></mat-icon>
+                <!-- <mat-error *ngIf="formularioPerro.get('nombre')?.hasError('letrasSinNumerosValidator')">
+          No se permiten números en el nombre.
+        </mat-error> -->
+                <mat-error *ngIf="formularioPerro.get('nombre')?.hasError('maxlength')">
+                    El nombre no puede exceder los 300 caracteres..
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- Otros campos del formulario -->
+
+        <div class="row">
+
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Raza</mat-label>
+                <input matInput formControlName="raza" />
+                <mat-error *ngIf="formularioPerro.get('raza')?.hasError('letrasSinNumerosValidator')">
+                    No se permiten números en la raza.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Edad</mat-label>
+                <input matInput type="number" formControlName="edad" />
+            </mat-form-field>
+
+        </div>
+
+
+
+
+        <div class="row">
+            <mat-form-field appearance="fill">
+                <mat-label>Sexo</mat-label>
+                <mat-select formControlName="sexo">
+                    <mat-option value="Macho">
+                        <mat-icon style="color: #2196f3;">male</mat-icon>
+                        <span style="margin-left:8px; color:#2196f3;">Macho</span>
+                    </mat-option>
+                    <mat-option value="Hembra">
+                        <mat-icon style="color: #e91e63;">female</mat-icon>
+                        <span style="margin-left:8px; color:#e91e63;">Hembra</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Tamaño</mat-label>
+                <mat-select formControlName="tamano">
+                    <mat-option value="Pequeño">
+                        <mat-icon style="color:#4caf50;">pets</mat-icon>
+                        <span style="margin-left:8px; color:#4caf50;">Pequeño</span>
+                    </mat-option>
+                    <mat-option value="Mediano">
+                        <mat-icon style="color:#2196f3;">pets</mat-icon>
+                        <span style="margin-left:8px; color:#2196f3;">Mediano</span>
+                    </mat-option>
+                    <mat-option value="Grande">
+                        <mat-icon style="color:#ff9800;">pets</mat-icon>
+                        <span style="margin-left:8px; color:#ff9800;">Grande</span>
+                    </mat-option>
+                    <mat-option value="Gigante">
+                        <mat-icon style="color:#f44336;">pets</mat-icon>
+                        <span style="margin-left:8px; color:#f44336;">Gigante</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Peso (kg)</mat-label>
+                <input matInput type="number" formControlName="peso" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Temperamento</mat-label>
+                <mat-select formControlName="temperamento">
+                    <mat-option value="Tranquilo">
+                        <mat-icon style="color:#4caf50;">self_improvement</mat-icon>
+                        <span style="margin-left:8px; color:#4caf50;">Tranquilo</span>
+                    </mat-option>
+                    <mat-option value="Juguetón">
+                        <mat-icon style="color:#ffeb3b;">sports_esports</mat-icon>
+                        <span style="margin-left:8px; color:#ffeb3b;">Juguetón</span>
+                    </mat-option>
+                    <mat-option value="Nervioso">
+                        <mat-icon style="color:#ff9800;">psychology</mat-icon>
+                        <span style="margin-left:8px; color:#ff9800;">Nervioso</span>
+                    </mat-option>
+                    <mat-option value="Agresivo">
+                        <mat-icon style="color:#f44336;">warning</mat-icon>
+                        <span style="margin-left:8px; color:#f44336;">Agresivo</span>
+                    </mat-option>
+                    <mat-option value="Tímido">
+                        <mat-icon style="color:#9c27b0;">sentiment_dissatisfied</mat-icon>
+                        <span style="margin-left:8px; color:#9c27b0;">Tímido</span>
+                    </mat-option>
+                    <mat-option value="Desconocido">
+                        <mat-icon style="color:#9e9e9e;">help_outline</mat-icon>
+                        <span style="margin-left:8px; color:#9e9e9e;">Desconocido</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+        </div>
+
+        <!-- ✅ Bools -->
+        <div class="perro-toggles">
+            <mat-slide-toggle formControlName="esTranquilo">Es tranquilo</mat-slide-toggle>
+            <mat-slide-toggle formControlName="sociablePerros">Sociable con perros</mat-slide-toggle>
+            <mat-slide-toggle formControlName="sociablePersonas">Sociable con personas</mat-slide-toggle>
+            <mat-slide-toggle formControlName="entrenadoCorrea">Entrenado con correa</mat-slide-toggle>
+            <mat-slide-toggle formControlName="entrenadoBasicos">Entrenado en básicos</mat-slide-toggle>
+            <mat-slide-toggle formControlName="vacunasAlDia">Vacunas al día</mat-slide-toggle>
+            <mat-slide-toggle formControlName="esterilizado">Esterilizado</mat-slide-toggle>
+        </div>
+
+
+
+        <div class="row">
+
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Alergias</mat-label>
+                <textarea matInput rows="2" formControlName="alergias"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Medicación</mat-label>
+                <textarea matInput rows="2" formControlName="medicacion"></textarea>
+            </mat-form-field>
+
+
+        </div>
+
+
+        <div class="row">
+
+
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Observaciones</mat-label>
+                <textarea matInput rows="3" formControlName="observaciones"></textarea>
+            </mat-form-field>
+
+
+
+        </div>
+
+
+
+    </div>
+
+    <mat-dialog-actions class="dialog-actions">
+        <span class="spacer"></span> <!-- Este elemento ocupa el espacio izquierdo -->
+
+
+        <button mat-raised-button class="agregar" [disabled]="formularioPerro.invalid"
+            (click)="guardarEditar_Producto()">
+            <mat-icon>save</mat-icon> {{botonAccion}}
+        </button>
+
+        <button mat-raised-button mat-dialog-close color="warn">
+            <mat-icon>close</mat-icon> Volver
+        </button>
+
+    </mat-dialog-actions>
+
+</form>

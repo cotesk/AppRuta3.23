@@ -1,0 +1,146 @@
+/* Asegura que el modal ocupe toda la pantalla en dispositivos pequeños */
+.dialog-content {
+  max-width: 100%;
+  max-height: 100vh;
+  padding: 10px;
+
+  box-sizing: border-box;
+}
+
+/* Ajusta el tamaño del formulario */
+.cambiar-imagen-container {
+  width: 100%;
+  /* Ocupa todo el ancho disponible */
+  max-width: 350px;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+}
+
+.selected-image {
+  border: 2px solid #1337E8;
+  background-color: #e0f0ff;
+  box-shadow: 0 0 5px #1337E8;
+  transition: 0.3s ease;
+}
+
+/* Asegura que la imagen previsualizada se ajuste al contenedor */
+.preview-img img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+/* Estilos de botones */
+button[color="warn"]:hover {
+  background-color: #9e3434;
+}
+
+button.agregar {
+  background-color: #3351aa;
+  color: #fff;
+}
+
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+}
+
+button.agregar[disabled] {
+  background-color: #ccc;
+  color: #666;
+}
+
+button.agregar[disabled]:hover {
+  background-color: #ccc;
+}
+
+.clear-image {
+  color: #f44336;
+}
+
+.clear-image:hover {
+  background-color: #ccc;
+  color: #9e3434 !important;
+}
+
+
+.icon-green {
+  color: #4caf50;
+  /* Verde para "Agregar" */
+}
+
+.icon-blue {
+  color: #2196f3;
+  /* Azul para "Cambiar" */
+}
+
+.icon-red {
+  color: #f44336;
+  /* Rojo para "Eliminar" */
+}
+
+
+
+.file-upload-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.file-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #2c3e50;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.file-upload-label mat-icon {
+  font-size: 20px;
+}
+
+.file-upload-label:hover {
+  background-color: #7b7d80;
+  color: #ffffff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+
+/* Media Query para dispositivos pequeños */
+@media (max-width: 768px) {
+
+
+  .dialog-content {
+    max-width: 100%;
+    max-height: 100vh;
+    padding: 10px;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+
+  .cambiar-imagen-container {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .preview-img img {
+    max-width: 100%;
+    max-height: 150px;
+  }
+
+  button.agregar,
+  button[color="warn"] {
+    width: 90%;
+    /* Botones más grandes en dispositivos móviles */
+  }
+}

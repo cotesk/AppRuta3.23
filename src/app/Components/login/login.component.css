@@ -1,0 +1,308 @@
+/* Estilos generales */
+.body {
+  position: relative; /* Necesario para posicionar la capa opaca */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 12em;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  flex-direction: row;
+  gap: 2em;
+  min-height: 100vh;
+}
+
+.body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/Images/fondo2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2; /* Ajusta este valor para cambiar la opacidad */
+  z-index: -1; /* Asegura que esté detrás del contenido */
+}
+
+
+.generar-botones mat-icon {
+  font-size: 80px !important;
+  height: 80px !important;
+  width: 80px !important;
+  color: #403d3c;
+}
+.generar-botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loginCard {
+  max-width: 300px;
+  margin: 0 auto;
+  border-radius: 35px;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+
+.mat-card-content {
+  padding-bottom: 15px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1em;
+  border: none;
+  background: none;
+}
+
+mat-form-field .mat-form-field-wrapper {
+  border: none;
+}
+
+mat-form-field .mat-input-element {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+mat-form-field .mat-input-element::after {
+  border-bottom: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+}
+
+mat-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-background {
+  animation: backgroundAnimation 10s infinite;
+  background-size: 200% 200%;
+  background-image: linear-gradient(to right, #f5f5f5, #feb47b, #ff7e5f);
+}
+
+.animated-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: -1;
+  animation: waveAnimation 10s infinite;
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.vertical-carousel {
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-inner {
+  height: 100%;
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.carousel-slide {
+  width: 100%;
+  text-align: center;
+  display: none;
+  transition: opacity 0.6s ease;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+.carousel-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.carousel-image:not(.lazy-load) {
+  opacity: 1;
+}
+.contenido {
+  text-align: justify;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+button.agregar {
+  background-color: #3351aa;
+  color: #fff;
+}
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+}
+button.agregar[disabled] {
+  background-color: #ccc;
+  color: #666;
+}
+button.agregar[disabled]:hover {
+  background-color: #ccc;
+}
+.btn-google {
+  color: #545454;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px 1px #ddd;
+  border-radius: 5px;
+}
+.btn-google:hover {
+
+  background-color: #C23B33;
+  border-color: #C23B33;
+  color: #ffffff;
+}
+/* .footer2 {
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: rgb(74, 74, 145);
+  padding: 10px;
+  margin:20px -30px 110px;
+  width: 110%;
+
+} */
+.facebook-button {
+  position: absolute;
+  top: 95px; /* Ajusta según tu preferencia */
+  right: 10px; /* Ajusta según tu preferencia */
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.login-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5em;
+  font-weight: 500;
+  color: #222;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  display: block;
+  text-align: center;
+}
+
+.login-links {
+  margin-top: 1.5em;
+  text-align: center;
+}
+
+.login-links a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
+
+.links {
+  margin-top: 1em;
+  text-align: center;
+}
+
+.links a {
+  color: #f31c1c;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .body {
+    flex-direction: column; /* Cambio a alineación vertical en pantallas pequeñas */
+    padding: 1em; /* Ajusta el relleno para pantallas pequeñas */
+    height: auto; /* Ajusta la altura automática para pantallas pequeñas */
+  }
+
+  .loginCard {
+    max-width: 100%; /* Asegura que las tarjetas ocupen el ancho completo en pantallas pequeñas */
+    margin: 1em 0; /* Espaciado entre las tarjetas en pantallas pequeñas */
+  }
+}

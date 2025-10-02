@@ -1,0 +1,85 @@
+<h2 mat-dialog-title class="dialog-title">{{ tituloAccion }} Caja</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="formularioCaja" class="form-container">
+
+
+    <mat-form-field class="full-width" appearance="fill">
+
+      <mat-label>Tipo de caja</mat-label>
+
+      <mat-select formControlName="tipoCaja" (selectionChange)="onChangeTipoBusqueda17($event)">
+        <mat-option value="Chica">
+          <mat-icon class="icon-verde">attach_money</mat-icon> Chica
+        </mat-option>
+        <mat-option value="General">
+          <mat-icon class="icon-azul">savings</mat-icon> General
+        </mat-option>
+
+      </mat-select>
+
+    </mat-form-field>
+    
+
+    <!-- Campo Precio Inicial -->
+    <mat-form-field appearance="fill" class="input-field">
+      <mat-label>Precio Inicial</mat-label>
+      <input matInput autocomplete="off" maxlength="12" formControlName="saldoInicialTexto"
+        (input)="formatearNumero($event, 'saldoInicialTexto')">
+      <mat-icon matSuffix>attach_money</mat-icon>
+      <mat-error *ngIf="formularioCaja.get('saldoInicialTexto')?.hasError('maxlength')">
+        El precio no puede exceder los 10 dígitos.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="input-field" *ngIf="metodoBusqueda === 'General'">
+      <mat-label>Precio Transferencia</mat-label>
+      <input matInput autocomplete="off" maxlength="12" formControlName="Transferencia"
+        (input)="formatearNumero($event, 'Transferencia')">
+      <mat-icon matSuffix>send</mat-icon>
+      <mat-error *ngIf="formularioCaja.get('Transferencia')?.hasError('maxlength')">
+        El precio no puede exceder los 10 dígitos.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Usuario -->
+    <mat-form-field appearance="fill" class="input-field">
+      <mat-label>Buscar Usuario</mat-label>
+      <input matInput type="text" placeholder="Buscar Usuarios" [matAutocomplete]="autoCliente"
+        formControlName="usuario" (focus)="mostrarListaUsuario()" (input)="filtrarEntrada($event)">
+      <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete"
+        (optionSelected)="onUsuarioSeleccionado($event)" [displayWith]="mostrarUsuario">
+        <mat-option *ngFor="let option of listaUsuarioFiltrada" [value]="option">
+          {{ option.nombreCompleto }}
+          <hr class="separator">
+        </mat-option>
+      </mat-autocomplete>
+      <button mat-icon-button matSuffix class="search-button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Información de Usuario Seleccionado -->
+    <div class="user-info">
+      <p class="user-text">Usuario: <span class="highlight">{{ nombreUsuario || 'N/A' }}</span></p>
+      <p class="user-text">Rol: <span class="highlight">{{ rolUsuario || 'N/A' }}</span></p>
+    </div>
+
+    <!-- Imagen de Usuario Seleccionado -->
+    <div class="image-preview" *ngIf="imagenSeleccionada">
+      <img [src]="imagenSeleccionada" alt="Imagen del producto" class="preview-image"
+        (click)="verImagen(imagenSeleccionada)">
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <button mat-raised-button color="primary" [disabled]="formularioCaja.invalid" class="save-button"
+    (click)="guardarEditar_Caja()">
+    <mat-icon>save</mat-icon> {{botonAccion}}
+  </button>
+
+  <button mat-button mat-dialog-close color="warn" class="close-button">
+    <mat-icon>close</mat-icon> Volver
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,35 @@
+<mat-card class="restablecimiento-card">
+  <mat-card-header>
+    <mat-card-title>
+      🔑 Restablecer Contraseña
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="solicitudForm" (ngSubmit)="solicitarRestablecimiento()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput formControlName="correo" type="email" required autocomplete="off">
+        <mat-icon matSuffix>mail</mat-icon>
+
+        <mat-error *ngIf="solicitudForm.get('correo')!.hasError('required')">
+          El correo electrónico es obligatorio
+        </mat-error>
+        <mat-error *ngIf="solicitudForm.get('correo')!.hasError('email')">
+          Ingresa un correo electrónico válido
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-enviar"
+              type="submit" [disabled]="solicitudForm.invalid">
+        <mat-icon>send</mat-icon>
+        Enviar Solicitud
+      </button>
+    </form>
+
+    <div *ngIf="mensaje" class="mensaje">
+      <mat-icon [ngStyle]="{'color': mensajeColor}">info</mat-icon>
+      <span>{{ mensaje }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

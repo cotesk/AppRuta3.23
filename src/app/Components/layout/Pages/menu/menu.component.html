@@ -1,0 +1,129 @@
+<div class="container">
+
+  <h1 style="margin:10px 0px 10px ; text-align: center;">Permisos del aplicativo</h1>
+  <div style="display: flex; align-items: center; gap: 5px;">
+
+
+
+    <!-- Selección de Operación -->
+    <div class="minimalist-Rol" style="display: flex; flex-direction: column; gap: 15px;">
+      <label for="operacionSelect">
+        <mat-icon>settings</mat-icon> <!-- Icono de Angular Material -->
+        Operación:
+      </label>
+      <select id="operacionSelect" [(ngModel)]="selectedOperation" (change)="onOperationChange()">
+        <option value="agregar">Agregar</option>
+        <option value="eliminar">Eliminar</option>
+      </select>
+    </div>
+
+
+    <!-- Selección de Rol -->
+    <div class="minimalist-Rol" style="display: flex; flex-direction: column; gap: 15px;">
+      <label for="rolesSelect">
+        <mat-icon>assignment_ind</mat-icon> <!-- Icono de Angular Material -->
+        Seleccionar:
+      </label>
+      <select id="rolesSelect" [(ngModel)]="selectedRoleId" (change)="onChangeRol()">
+        <option value="" disabled selected>Seleccionar</option> <!-- Opción inicial deshabilitada y seleccionada -->
+        <option *ngFor="let rol of roles" [value]="rol.idRol">{{ rol.nombre }}</option>
+      </select>
+    </div>
+    <!-- Primera tabla -->
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th style="background-color: #3f4448; color: white;text-align: center;">Menú</th>
+            <th style="background-color: #3f4448; color: white;text-align: center;">Permiso Actual</th>
+            <th style="background-color: #3f4448; color: white;text-align: center;">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let menu of allMenus.slice(0, allMenus.length / 2)">
+            <!-- <td>{{ menu.nombre }}</td> -->
+            <td [ngStyle]="{'color': menu.esPadre ? 'blue' : 'black'}">{{ menu.nombre }}</td>
+            <td>
+              <input type="checkbox" [checked]="estaMenuSeleccionado2(menu.idMenu)" disabled />
+            </td>
+
+            <td>
+              <!-- <input type="checkbox" [checked]="estaMenuSeleccionado(menu.idMenu)"
+               [disabled]="menu.esPadre ||selectedOperation === 'eliminar' && !estaMenuSeleccionado(menu.idMenu)"
+               (change)="toggleMenu(menu.idMenu)"> -->
+              <input type="checkbox" [checked]="estaMenuSeleccionado(menu.idMenu)" [disabled]="menu.esPadre "
+                (change)="toggleMenu(menu.idMenu)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <!-- Segunda tabla -->
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th style="background-color: #3f4448; color: white;text-align: center;">Menú</th>
+            <th style="background-color: #3f4448; color: white;text-align: center;">Permiso Actual</th>
+            <th style="background-color: #3f4448; color: white;text-align: center;">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let menu of allMenus.slice(allMenus.length / 2)">
+            <!-- <td>{{ menu.nombre }}</td> -->
+            <td [ngStyle]="{'color': menu.esPadre ? 'blue' : 'black'}">{{ menu.nombre }}</td>
+
+            <td>
+              <input type="checkbox" [checked]="estaMenuSeleccionado2(menu.idMenu)" disabled />
+            </td>
+
+
+            <td>
+              <!-- <input type="checkbox" [checked]="estaMenuSeleccionado(menu.idMenu)"
+               [disabled]="menu.esPadre ||selectedOperation === 'eliminar' && !estaMenuSeleccionado(menu.idMenu)"
+               (change)="toggleMenu(menu.idMenu)"> -->
+              <input type="checkbox" [checked]="estaMenuSeleccionado(menu.idMenu)" [disabled]="menu.esPadre "
+                (change)="toggleMenu(menu.idMenu)">
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+      <!-- Botón para deseleccionar todos los checks en la primera tabla -->
+      <!-- <button mat-button color="primary" (click)="deseleccionarTodos(1)">Deseleccionar Todos</button> -->
+    </div>
+
+    <!-- Botones de Acción -->
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+      <!-- Agregar Permiso Button -->
+      <button mat-raised-button class="agregar" [disabled]="selectedOperation === 'eliminar'"
+        (click)="agregarPermiso()">
+        <mat-icon>add</mat-icon> <!-- Icono de "Agregar" -->
+        Agregar Permiso
+      </button>
+
+      <!-- Quitar Permiso Button -->
+      <button mat-raised-button color="warn" [disabled]="selectedOperation === 'agregar'" (click)="eliminarPermiso()">
+        <mat-icon>clear</mat-icon> <!-- Icono de "Eliminar" -->
+        Quitar Permiso
+      </button>
+
+      <button mat-button class="ver" (click)="deseleccionarTodos(0)">
+        <span class="icon-composite">
+          <mat-icon>select_all</mat-icon>
+          <mat-icon class="overlay">clear</mat-icon>
+          Deseleccionar Todos
+        </span>
+
+      </button>
+
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

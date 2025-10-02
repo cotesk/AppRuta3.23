@@ -1,0 +1,74 @@
+<mat-dialog-content class="dialog-content">
+  <form class="cambiar-imagen-container" style="width: 350px; margin: auto; text-align: center;">
+
+    <h1>Gestión de Imágenes</h1>
+
+    <!-- Acción: Agregar / Cambiar / Eliminar -->
+    <mat-form-field appearance="fill" style="width: 100%; margin-bottom: 1em;">
+      <mat-label>Acción</mat-label>
+      <mat-select [(value)]="accionSeleccionada">
+        <mat-option value="Agregar">
+          <mat-icon class="icon-green">add_photo_alternate</mat-icon> Agregar
+        </mat-option>
+        <mat-option value="Cambiar">
+          <mat-icon class="icon-blue">cached</mat-icon> Cambiar
+        </mat-option>
+        <mat-option value="Eliminar">
+          <mat-icon class="icon-red">delete</mat-icon> Eliminar
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <!-- Mostrar imágenes actuales -->
+    <h3>Imágenes actuales:</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+      <div *ngFor="let img of imagenesProducto" (click)="seleccionarImagenParaReemplazar(img)"
+        [ngClass]="{'selected-image': imagenSeleccionada === img}"
+        style="border: 2px solid transparent; cursor: pointer; padding: 4px; border-radius: 6px;">
+        <img [src]="img" alt="Imagen del producto" style="width: 100px; height: auto; border-radius: 5px;">
+      </div>
+    </div>
+
+    <br>
+
+    <!-- Cargar nueva imagen SOLO si es Agregar o Cambiar -->
+    <ng-container *ngIf="accionSeleccionada === 'Agregar' || accionSeleccionada === 'Cambiar'">
+      <div class="file-upload-wrapper" *ngIf="accionSeleccionada === 'Agregar' || accionSeleccionada === 'Cambiar'">
+        <label for="fileInput" class="file-upload-label mat-elevation-z2">
+          <mat-icon>upload_file</mat-icon>
+          <span>Seleccionar imagen</span>
+        </label>
+        <input type="file" id="fileInput" (change)="handleImageUpload($event)" accept=".png, .jpg, .jpeg" />
+      </div>
+
+
+      <!-- Vista previa -->
+      <div class="preview-img" *ngIf="previsualizacion" style="position: relative;">
+        <button mat-icon-button class="clear-image" (click)="limpiarImagen()"
+          style="position: absolute; top: 0; right: 0;">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <img [src]="previsualizacion" alt="Previsualización"
+          style="max-width: 300px; max-height: 200px; margin-top: 10px;">
+      </div>
+    </ng-container>
+
+    <br>
+
+    <!-- Botón Guardar -->
+    <div style="margin-top: 20px;">
+      <button mat-raised-button class="agregar" (click)="ejecutarAccion()">
+        <mat-icon>save</mat-icon> Guardar
+      </button>
+    </div>
+
+    <!-- Botón Cancelar -->
+    <div style="margin-top: 10px;">
+      <button mat-raised-button color="warn" (click)="cancelar()">
+        <mat-icon>close</mat-icon> Cancelar
+      </button>
+    </div>
+
+  </form>
+</mat-dialog-content>

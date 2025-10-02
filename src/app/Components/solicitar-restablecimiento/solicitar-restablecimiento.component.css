@@ -1,0 +1,69 @@
+.restablecimiento-card {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  background: #ffffff;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+mat-card-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+mat-card-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+.btn-enviar {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3351aa, #1e2d6b);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.btn-enviar:hover {
+  background: linear-gradient(135deg, #3f5fb8, #273975);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.btn-enviar[disabled] {
+  background: #ccc;
+  color: #666;
+  box-shadow: none;
+  transform: none;
+}
+
+.mensaje {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #00796b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,37 @@
+
+
+<mat-dialog-content class="dialog-content">
+  <form class="cambiar-imagen-container" style="width: 350px; margin: auto; text-align: center;">
+    <h1>Cambiar Imagen </h1>
+    <br>
+    <div class="custom-file-input-container">
+      <label for="fileInput" class="mat-form-field-label custom-file-label" style="color: rgb(34, 29, 26);">Click para cambiar la imagen</label>
+      <input type="file" id="fileInput" (change)="handleImageUpload($event)" accept=".png, .jpg, .jpeg" class="mat-input-element custom-file-input" style="display: none;">
+      <label for="fileInput" class="mat-raised-button mat-primary custom-file-button"></label>
+      <span class="file-info">Nombre del Archivo: {{ fileName }}</span>
+
+      <div class="preview-img" *ngIf="previsualizacion">
+        <button mat-icon-button matSuffix class="clear-image" (click)="limpiarImagen()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen" style="max-width: 300px; max-height: 200px;">
+      </div>
+    </div>
+    <br>
+
+    <div style="margin-top: 20px; display: flex; flex-direction: column;">
+      <button mat-raised-button class="agregar" (click)="guardarNuevaImagen()">
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </div>
+    <div style="margin-top: 20px; display: flex; flex-direction: column;">
+      <button mat-raised-button color="warn" (click)="cancelar()">
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>
+
+

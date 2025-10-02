@@ -1,0 +1,31 @@
+/* styles.scss o styles.css */
+.dialog-title, .dialog-content, .dialog-actions {
+  padding: 16px;
+}
+
+.dialog-title {
+  font-size: 18px;
+}
+
+.dialog-content {
+  font-size: 16px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.cancel-button {
+  color: #fff; /* Color del texto */
+  background-color: #183e96; /* Color de fondo */
+  margin: 0 8px;
+}
+
+.delete-button {
+  color: #fff; /* Color del texto */
+  background-color: #e74c3c; /* Color de fondo */
+  margin: 0 8px;
+}
+

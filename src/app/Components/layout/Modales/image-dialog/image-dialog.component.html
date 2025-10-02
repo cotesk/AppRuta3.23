@@ -1,0 +1,35 @@
+<div
+  class="image-container"
+  (mousedown)="startPan($event)"
+  (mouseup)="endPan()"
+  (mouseleave)="endPan()"
+  (mousemove)="panImage($event)"
+  (touchstart)="startPan($event)"
+  (touchend)="endPan()"
+  (touchmove)="panImage($event)"
+>
+ <!-- <img
+    [src]="data.imagenUrl"
+    alt="Imagen del producto"
+    [style.transform]="'scale(' + zoomLevel + ') translate(' + offsetX + 'px, ' + offsetY + 'px)'"
+    style="position: absolute; top: 0; left: 0;"
+  /> -->
+  <img
+    [src]="imagenUrl"
+    alt="Imagen del producto"
+    [style.transform]="'scale(' + zoomLevel + ') translate(' + offsetX + 'px, ' + offsetY + 'px)'"
+    style="width: 100%; height: 100%; object-fit: cover; border-radius: 0px;"
+  />
+</div>
+
+<div class="button-container">
+  <button mat-icon-button color="primary" (click)="zoomIn()">
+    <mat-icon>zoom_in</mat-icon>
+  </button>
+  <button mat-icon-button color="warn" (click)="zoomOut()">
+    <mat-icon>zoom_out</mat-icon>
+  </button>
+  <button mat-icon-button color="accent" (click)="resetZoom()">
+    <mat-icon>zoom_out_map</mat-icon>
+  </button>
+</div>

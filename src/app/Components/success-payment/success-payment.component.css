@@ -1,0 +1,108 @@
+/* Contenedor principal */
+.payment-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1em;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-image: url('/assets/Images/fondo.jpeg');
+  background-size: cover; /* Ajusta la imagen para que cubra todo el fondo */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  min-height: 100vh; /* Asegura que cubra toda la pantalla */
+}
+
+/* Card */
+mat-card {
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  border-radius: 8px;
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 1.5em;
+  text-align: center;
+}
+
+/* Icono de éxito */
+.icon-success {
+  font-size: 3em;
+  color: #4caf50; /* Verde para éxito */
+  margin-bottom: 0.5em;
+}
+
+/* Título */
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333333; /* Gris oscuro */
+  margin-bottom: 0.5em;
+}
+
+/* Mensaje */
+.message {
+  font-size: 1em;
+  color: #555555; /* Gris intermedio */
+  margin-bottom: 1.5em;
+  line-height: 1.4;
+}
+
+/* Botón */
+.btn-primary {
+  background-color: #4caf50; /* Verde para continuidad */
+  color: #ffffff;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #43a047; /* Verde más oscuro al pasar el ratón */
+}
+
+.payment-success2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajusta la altura según sea necesario */
+  padding: 0 12em; /* Ajusta el relleno horizontal alrededor del contenedor principal */
+  font-family: Arial, sans-serif;
+  text-align: center;
+  /* background-color: #522b41; */
+  flex-direction: row; /* Alineación horizontal por defecto */
+  gap: 2em; /* Espacio entre las tarjetas */
+  background-image: url('/assets/Images/fondo.jpeg');
+  background-size: cover; /* Ajusta la imagen para que cubra todo el fondo */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  min-height: 100vh; /* Asegura que cubra toda la pantalla */
+}
+
+
+button.agregar {
+  background-color: #4caf50; /* Fondo del botón Cancelar */
+  color: #fff; /* Color del texto del botón Cancelar */
+}
+button.agregar:hover {
+  background-color:  #43a047; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  mat-card {
+    padding: 1em;
+  }
+  .title {
+    font-size: 1.3em;
+  }
+  .message {
+    font-size: 0.9em;
+  }
+  .btn-primary {
+    font-size: 0.9em;
+    padding: 0.6em 1.2em;
+  }
+}

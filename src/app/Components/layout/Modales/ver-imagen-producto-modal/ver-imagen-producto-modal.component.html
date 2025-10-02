@@ -1,0 +1,33 @@
+<div class="modal-content">
+
+  <!-- Imagen con pan y zoom -->
+  <div class="image-container" (mousedown)="startPan($event)" (mouseup)="endPan()" (mouseleave)="endPan()"
+    (mousemove)="panImage($event)" (touchstart)="startPan($event)" (touchend)="endPan()" (touchmove)="panImage($event)">
+    <img [src]="imagenes[indiceActual]" alt="Imagen del producto"
+      [style.transform]="'scale(' + zoomLevel + ') translate(' + offsetX + 'px, ' + offsetY + 'px)'"
+      style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; display: block; margin: auto;" />
+  </div>
+
+  <!-- Botones debajo -->
+  <div class="button-container">
+    <button mat-icon-button color="primary" (click)="zoomIn()" matTooltip="Acercar imagen">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+
+    <button mat-icon-button color="warn" (click)="zoomOut()" matTooltip="Alejar imagen">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+
+    <button mat-icon-button color="accent" (click)="resetZoom()" matTooltip="Restablecer zoom">
+      <mat-icon>zoom_out_map</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="anteriorImagen()" [disabled]="indiceActual === 0" matTooltip="Imagen anterior">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="siguienteImagen()" [disabled]="indiceActual === imagenes.length - 1"
+      matTooltip="Siguiente imagen">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>

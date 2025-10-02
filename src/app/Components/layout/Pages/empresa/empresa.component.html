@@ -1,0 +1,75 @@
+<div class="page-container">
+  <br>
+
+  <div class="empresa-container" *ngIf="hayEmpresas; else noEmpresas">
+    <div *ngFor="let empresa of empresas" class="empresa-card">
+      <div class="empresa-header">
+        <h2>Datos de la empresa</h2>
+      </div>
+      <div class="empresa-body">
+        <div class="logo-container">
+          <img [src]="empresa.imagenUrl" alt="Logo de la empresa" class="empresa-logo" (click)="verImagen(empresa)">
+        </div>
+  
+        <div class="info-container">
+          <br>
+          <br>
+          <p><strong>Nombre:</strong> {{ empresa.nombreEmpresa }}</p>
+          <p><strong>Nit:</strong> {{ empresa.rut }}</p>
+          <p><strong>Dirección:</strong> {{ empresa.direccion }}</p>
+          <p><strong>Teléfono:</strong> {{ empresa.telefono }}</p>
+          <p><strong>Correo:</strong> {{ empresa.correo }}</p>
+          <p><strong>Propietario:</strong> {{ empresa.propietario }}</p>
+          <br>
+          <div class="redes-sociales">
+            <a  matTooltip="Ver Facebook" ><mat-icon (click)="verificarRedesSociales('facebook', empresa.facebook)"  style="color: #3f51b5;">facebook</mat-icon></a>
+            <a matTooltip="Ver Instagram"> <mat-icon (click)="verificarRedesSociales('instagram', empresa.instagram)" matSuffix class="fab fa-instagram " style="color: #bc2a8d;"></mat-icon></a>
+            <a  matTooltip="Ver TikTok">
+              <div class="tiktok-icon-container">
+                <mat-icon matSuffix class="fab fa-tiktok  tiktok-icon" (click)="verificarRedesSociales('tiktok', empresa.tiktok)"></mat-icon>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+      <div class="empresa-footer">
+        <button mat-icon-button class="agregar" (click)="cambiarImagen(empresa)" matTooltip="Cambiar imagen">
+          <mat-icon>image</mat-icon>&nbsp;
+        </button>
+        <button mat-icon-button color="primary" (click)="editarEmpresa(empresa)"
+          matTooltip="Editar informacion de la empresa">
+          <mat-icon>edit</mat-icon>&nbsp;
+        </button>
+        <button mat-icon-button color="warn" (click)="eliminarEmpresa(empresa.idEmpresa)" matTooltip="Eliminar empresa">
+          <mat-icon>delete</mat-icon>&nbsp;
+        </button>
+        <!-- <div>
+          <iframe id="pdfPreview" style="width:100%; height:500px; display:none;"></iframe>
+        </div> -->
+        <button mat-icon-button (click)="generarPDF()" color="warn"  matTooltip="Probar Factura" >
+          <mat-icon class="icon-red fas fa-file-pdf fa-1x"></mat-icon>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noEmpresas class="no-empresas-template">
+    <div class="mensaje-container" style=" text-align: center;">
+      <!-- Contenido cuando no hay empresas -->
+      <p>No hay una empresa registrada</p>
+
+      <button mat-raised-button class="agregar2" (click)="crearEmpresa()" [disabled]="!cargaCompleta">
+        Registrar Empresa
+        <mat-icon>save</mat-icon>
+      </button>
+
+    </div>
+  </ng-template>
+
+</div>
+<br>
+<footer class="footer">
+<p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>

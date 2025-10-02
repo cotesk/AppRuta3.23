@@ -1,0 +1,16 @@
+<div class="payment-success">
+  <mat-card>
+    <mat-dialog-content class="dialog-content error-content">
+      <i class="fas fa-times-circle icon-success"></i> <!-- Ícono de error -->
+
+      <h2 class="title">Error en el Pago</h2>
+      <p class="message">Hubo un problema al procesar tu pago. Por favor, intenta de nuevo.</p>
+      <div class="button-container">
+        <button mat-button class="agregar" (click)="closeDialog()">
+          <i class="fas fa-arrow-left"></i> Volver a intentarlo
+        </button>
+      </div>
+    </mat-dialog-content>
+    <br>
+  </mat-card>
+</div>

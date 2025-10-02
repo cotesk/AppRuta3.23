@@ -1,0 +1,19 @@
+<div class="payment-success">
+  <mat-card>
+    <mat-dialog-content class="dialog-content">
+      <i class="fas fa-hourglass-half icon-success"></i> <!-- Ícono de reloj de arena -->
+
+      <h2 class="title">Pago Pendiente</h2>
+      <p class="message">
+        Tu pago aún no ha sido procesado. Te enviaremos un email una vez que se complete.<br>
+        Gracias por tu paciencia.
+      </p>
+      <div class="button-container">
+        <button mat-button class="agregar" (click)="closeDialog()">
+          <i class="fas fa-arrow-left"></i> Ir a login
+        </button>
+      </div>
+    </mat-dialog-content>
+    <br>
+  </mat-card>
+</div>

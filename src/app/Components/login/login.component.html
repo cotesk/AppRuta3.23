@@ -1,0 +1,207 @@
+<!-- <div class="body animated-background"> -->
+<div class="body">
+  <mat-card class="loginCard" style="max-width: 550px; margin: 2em auto;">
+
+    <div class="header"
+      style="text-align: center; margin-bottom: 1em; background-color: rgb(22, 22, 26); padding: 1em;">
+      <h2 style="color: white;">Bienvenido de nuevo</h2>
+    </div>
+
+    <mat-card-content style="padding-bottom: 15px;">
+
+
+
+      <!-- <p style=" text-align: justify;">Nos complace invitarte a unirte a nuestra plataforma para acceder
+          a ofertas exclusivas en nuestros productos. Regístrate hoy para explorar nuestras promociones
+          y descubrir una amplia gama de productos de alta calidad.
+        </p> -->
+
+
+      <div *ngIf="comentarioTextoLogin ">
+        <p style=" text-align: justify;">{{ comentarioTextoLogin.comentarios }}</p>
+      </div>
+
+
+      <!-- <div class="vertical-carousel">
+        <div class="carousel-inner">
+          <div class="vertical-carousel">
+            <img [src]="images[currentIndex]" alt="Slide Image" class="carousel-image">
+          </div>
+        </div>
+      </div> -->
+
+      <!-- funcional -->
+      <div class="vertical-carousel">
+        <div class="carousel-inner">
+          <div *ngFor="let imageUrl of images; let i = index" class="carousel-slide"
+            [class.active]="i === currentIndex">
+            <img [src]="imageUrl" alt="Slide Image" class="carousel-image" (click)="verImagen(imageUrl)">
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="footer">
+
+        <p style="text-align: center;">
+          Conoce nuestros productos aquí
+          <span style="cursor: pointer; color: red;" (click)="navigateToRoute()">👉AQUI👈</span>
+        </p>
+        <p style="text-align: center;">
+          © 2025 Todos los derechos reservados
+        </p>
+      </div>
+
+
+
+
+
+    </mat-card-content>
+
+    <mat-card-footer>
+      <mat-progress-bar mode="indeterminate" *ngIf="mostrarLoading"></mat-progress-bar>
+    </mat-card-footer>
+
+  </mat-card>
+
+  <mat-card class="loginCard" style="max-width: 350px; margin: 2em auto;">
+
+    <div class="header"
+      style="text-align: center; margin-bottom: 1em; background-color: rgb(22, 22, 26); padding: 1em;">
+      <h2 style="color: white;">Login</h2>
+    </div>
+
+    <mat-card-content style="padding-bottom: 15px;">
+
+      <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion($event)">
+
+        <!-- <img src="assets/Images/Login.jpg"
+          style="width: 80px; height: 80px; border-radius: 50%; display: block; margin: 0 auto;"> -->
+        <!-- Tamaño personalizado con CSS -->
+        <div class="generar-botones">
+          <mat-icon matSuffix>person</mat-icon>
+
+        </div>
+
+
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <!-- <mat-icon matSuffix class="icon-red">mail</mat-icon> -->
+          <mat-icon matPrefix>mail</mat-icon>
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput autocomplete="off" style="border: none; outline: none;"
+            maxlength="36">
+
+          <div matPrefix></div>
+          <div matSuffix></div>
+          <mat-error
+            *ngIf="formularioLogin.get('email')?.hasError('email') && !formularioLogin.get('email')?.hasError('required')"
+            style="color: red; font-size: 12px; margin-top: 4px;">
+            Ingresa un correo electrónico válido.
+          </mat-error>
+          <mat-error *ngIf="formularioLogin.get('email')?.hasError('maxlength')">
+            El número no puede exceder de 15 dígitos.
+          </mat-error>
+
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" style="width: 100%; margin-bottom: 1em;">
+          <mat-icon matPrefix>lock</mat-icon>
+
+          <mat-label>Contraseña</mat-label>
+          <input [type]="ocultarPassword ? 'password' : 'text'" formControlName="password" matInput
+            autocomplete="new-password" [attr.readonly]="ocultarPassword ? 'readonly' : null"
+            style="border: none; outline: none;" maxlength="16">
+          <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
+            <mat-icon matSuffix class="icon-blue">{{ocultarPassword ? 'visibility_off' :'visibility'}}</mat-icon>
+          </button>
+
+          <div matPrefix></div>
+          <div matSuffix></div>
+
+        </mat-form-field>
+
+
+
+
+        <mat-error *ngIf="errorMessage" style="color: red; font-size: 12px; margin-top: 4px;">
+          {{ errorMessage }}
+        </mat-error>
+
+        <!-- login.component.html -->
+        <!-- login.component.html -->
+        <div *ngIf="botonIngresarDesactivado && (tiempoRestante$ | async) as tiempoRestante">
+          <p>Intenta nuevamente después de {{ tiempoRestante }} segundos.</p>
+        </div>
+
+        <!-- 'gray' : 'rgb(111, 94, 135)' -->
+
+        <button class="agregar" mat-raised-button type="submit"
+          [disabled]="formularioLogin.invalid || mostrarLoading || botonIngresarDesactivado">
+          Ingresar
+          <mat-icon matSuffix>login</mat-icon>
+        </button>
+
+        <!-- <div class="text-center mt-3">
+          <a href="#" (click)="login()">
+            <img src="https://img.icons8.com/color/22/000000/google-logo.png" alt="Google"
+             class="mr-2">Iniciar sesión con Google
+          </a>
+        </div>
+
+        <button (click)="logout()">Logout</button> -->
+
+      </form>
+
+      <div class="links">
+        <p style="text-align: center; margin-top: 1em;">
+          ¿No tienes una cuenta? <a (click)="redirigirANuevosUsuarios()"
+            style="text-decoration: none; color: #f31c1c; cursor: pointer;">Crear cuenta</a>
+        </p>
+        <p style="text-align: center; margin-top: 1em;">
+          ¿Olvidaste tu contraseña? <a (click)="mostrarRecuperarSwal()"
+            style="text-decoration: none; color: #f31c1c; cursor: pointer;">Recuperar</a>
+        </p>
+        <p style="text-align: center; margin-top: 1em;">
+          ¿Cambiar Contraseña? <a (click)="cambiarContra()"
+            style="text-decoration: none; color: #f31c1c; cursor: pointer;">Cambiar</a>
+        </p>
+
+      </div>
+
+      <div class="facebook-button">
+        <a href="https://www.facebook.com/profile.php?id=100076950199044" target="_blank">
+          <button mat-icon-button matTooltip="Ver perfil del creador">
+            <mat-icon>facebook</mat-icon>
+          </button>
+        </a>
+        <!-- <button  class="btn btn-lg btn-google btn-block text-uppercase btn-outline"
+         style="text-align: center;" (click)="login()">
+          <img src="https://img.icons8.com/color/22/000000/google-logo.png"> Sing in Google
+      </button> -->
+      </div>
+
+      <!-- <button mat-raised-button class="agregar" (click)="nuevoProducto()">
+        <mat-icon mat-list-icon>add</mat-icon>Nuevo Producto
+      </button> -->
+
+
+      <div class="footer">
+        <p style="text-align: center;">© 2025 Todos los derechos reservados</p>
+      </div>
+
+      <!-- <mat-card-footer>
+        <mat-progress-bar mode="indeterminate" *ngIf="mostrarLoading"></mat-progress-bar>
+      </mat-card-footer> -->
+      <!-- <footer class="footer">
+        <p>© 2025 Todos los derechos reservados</p>
+      </footer> -->
+
+    </mat-card-content>
+
+
+
+  </mat-card>
+</div>
