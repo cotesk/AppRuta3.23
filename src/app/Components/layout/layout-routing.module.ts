@@ -36,6 +36,7 @@ import { AsignarDiaPaseadorComponent } from './Pages/asignar-dia-paseador/asigna
 import { AsignarPaseosComponent } from './Pages/asignar-paseos/asignar-paseos.component';
 import { HistorialPagosComponent } from './Pages/historial-pagos/historial-pagos.component';
 import { HistorialPaseoComponent } from './Pages/historial-paseo/historial-paseo.component';
+import { MisPaseosComponent } from './Pages/mis-paseos/mis-paseos.component';
 
 
 const routes: Routes = [{
@@ -58,10 +59,11 @@ const routes: Routes = [{
     { path: 'perros', component: PerroComponent },
     { path: 'Perfil_perros', component: PerfilPerrosComponent },
     { path: 'tarifas', component: TarifaComponent },
-    { path: 'estado_paseos', component: AsignarDiaPaseadorComponent },
+    { path: 'Asignar_dias', component: AsignarDiaPaseadorComponent },
     { path: 'paseos', component: AsignarPaseosComponent },
     { path: 'Historial_paseos', component: HistorialPaseoComponent },
     { path: 'historial_pagos', component: HistorialPagosComponent },
+    { path: 'estado_paseos', component: MisPaseosComponent },
 
   ]
 

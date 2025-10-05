@@ -47,6 +47,9 @@ import { PerroComponent } from './Pages/perro/perro.component';
 import { PerfilPerrosComponent } from './Pages/perfil-perros/perfil-perros.component';
 import { HistorialPaseoComponent } from './Pages/historial-paseo/historial-paseo.component';
 import { HistorialPagosComponent } from './Pages/historial-pagos/historial-pagos.component';
+import { CalendarioModalComponent } from './Modales/calendario-modal/calendario-modal.component';
+import { ModalEditarPaseosComponent } from './Modales/modal-editar-paseos/modal-editar-paseos.component';
+import { MisPaseosComponent } from './Pages/mis-paseos/mis-paseos.component';
 
 
 @NgModule({
@@ -90,7 +93,10 @@ import { HistorialPagosComponent } from './Pages/historial-pagos/historial-pagos
     PerroComponent,
     PerfilPerrosComponent,
     HistorialPaseoComponent,
-    HistorialPagosComponent
+    HistorialPagosComponent,
+    CalendarioModalComponent,
+    ModalEditarPaseosComponent,
+    MisPaseosComponent
   ],
   imports: [
     CommonModule,

@@ -40,6 +40,11 @@ export class LicenciaService {
     return this.http.get<any>(`${this.urlApi}consultar/${serial}`);
   }
 
+  consultar(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}consultar`);
+  }
+
+
   // Validar (pagar) licencia
   validarLicencia(serial: string): Observable<any> {
     return this.http.put<any>(`${this.urlApi}validar/${serial}`, {});

@@ -46,17 +46,16 @@ export const MY_DATE_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY'
   },
 };
-
-
 @Component({
-  selector: 'app-asignar-paseos',
-  templateUrl: './asignar-paseos.component.html',
-  styleUrl: './asignar-paseos.component.css',
+  selector: 'app-modal-editar-paseos',
+  templateUrl: './modal-editar-paseos.component.html',
+  styleUrl: './modal-editar-paseos.component.css',
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
   ]
 })
-export class AsignarPaseosComponent {
+
+export class ModalEditarPaseosComponent {
   formularioPaseo: FormGroup;
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
   listaPaseador: Usuario[] = [];
@@ -78,8 +77,8 @@ export class AsignarPaseosComponent {
     private _usuarioServicio: UsuariosService,
     private _tarifaServicio: TarifaService,
     private _PerroServicio: PerroService,
-    // public dialogRef: MatDialogRef<AsignarPaseosComponent>,
-    //   @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ModalEditarPaseosComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.formularioPaseo = this.fb.group({
       idUsuarioPasador: ['', Validators.required],
@@ -379,7 +378,6 @@ export class AsignarPaseosComponent {
     }
   }
 
-
   onPerrosChange(event: any) {
     const idsSeleccionados = event.value; // array de IDs seleccionados
     this.perrosSeleccionados = this.listaPerros.filter(
@@ -423,24 +421,38 @@ export class AsignarPaseosComponent {
 
   ngOnInit(): void {
 
-    // if (this.data?.paseo) {
-    //   // console.log(this.data.paseo);
-    //   this.modoEdicion = true;
-    //   // Cargar datos en el formulario
-    //   this.formularioPaseo.patchValue({
-    //     idUsuarioPasador: this.data.paseo.idUsuarioPasador,
-    //     idTarifa: this.data.paseo.idTarifa,
-    //     fecha: new Date(this.data.paseo.fecha),
-    //     turno: this.data.paseo.turno,
-    //     todaSemana: false, // depende de tu lógica
-    //     idsPerros: this.data.paseo.idsPerros || [] // si guardas perros
-    //   });
 
-    //   // Si quieres mostrar los perros seleccionados
-    //   this.perrosSeleccionados = this.listaPerros.filter(p => 
-    //     this.data.paseo.idsPerros.includes(p.idPerro)
-    //   );
-    // }
+    const paseo = this.data?.paseo;
+    console.log(paseo);
+    if (paseo) {
+      // 🔹 Cargar datos iniciales en el formulario
+      this.formularioPaseo.patchValue({
+        idUsuarioPasador: paseo.idUsuarioPasador,
+        idUsuarioCliente: paseo.idUsuarioCliente,
+        idTarifa: paseo.idTarifa,
+        fecha: new Date(paseo.fecha),
+        turno: paseo.turno,
+        idsPerros: paseo.perros?.map((p: any) => p.idPerro) || [],
+        todaSemana: false
+      });
+
+      // 🔹 Cargar perros seleccionados con sus imágenes
+      this.perrosSeleccionados = paseo.perros || [];
+
+      // 🔹 Cargar la vista previa del paseador
+      this.paseadorSeleccionado = {
+        idUsuario: paseo.idUsuarioPasador,
+        nombreCompleto: paseo.nombrePasador,
+        imagenUrl: paseo.imagenUrlPasador || 'assets/default-user.png'
+      };
+      // 🔹 Esperar a que se carguen los paseadores antes de ejecutar el cambio
+      this.cargarListas().then(() => {
+        if (paseo?.idUsuarioPasador) {
+          this.onPasadorChange({ value: paseo.idUsuarioPasador });
+        }
+      });
+
+    }
 
     this.obtenerDiaPaseador();
     this.obtenerTarifas();
@@ -449,6 +461,30 @@ export class AsignarPaseosComponent {
       this.perrosSeleccionados = this.listaPerros.filter(p => ids.includes(p.idPerro!));
     });
   }
+
+  cargarListas(): Promise<void> {
+    return new Promise((resolve) => {
+      this._usuarioServicio.lista().subscribe({
+        next: (resp) => {
+          if (resp.status) {
+            this.listaPaseador = resp.value
+              .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() === 'paseador')
+              .sort((a: Usuario, b: Usuario) => a.nombreCompleto!.localeCompare(b.nombreCompleto!));
+
+          } else {
+            this.listaPaseador = [];
+          }
+          resolve();
+        },
+        error: () => {
+          this.listaPaseador = [];
+          resolve();
+        }
+      });
+    });
+  }
+
+
 
   formatearNumero(numero: string): string {
     // Convierte la cadena a número
@@ -513,7 +549,7 @@ export class AsignarPaseosComponent {
   }
 
 
-  asignarPaseo() {
+  EditarPaseo() {
     if (this.formularioPaseo.invalid) {
       Swal.fire('Advertencia', 'Por favor completa todos los campos requeridos', 'warning');
       return;
@@ -541,16 +577,16 @@ export class AsignarPaseosComponent {
 
     // Construcción manual del objeto Paseo
     const _paseo: Paseo = {
-      idPaseo: 0,
+      idPaseo: this.data?.paseo.idPaseo,
       idUsuarioPasador: this.formularioPaseo.value.idUsuarioPasador,
       idUsuarioCliente: idUsuario,
       idTarifa: this.formularioPaseo.value.idTarifa,
       turno: this.formularioPaseo.value.turno,
       fecha: this.formularioPaseo.value.fecha ?? new Date(),
-
+      estado:this.data?.paseo.estado,
 
     };
-    // console.log(_paseo);
+     console.log(_paseo);
     // Llamamos al servicio para guardar
     let todaSemana = this.formularioPaseo.value.todaSemana;
     // console.log(todaSemana);
@@ -574,10 +610,11 @@ export class AsignarPaseosComponent {
         }
       });
     } else {
-      this.paseoService.guardar(_paseo, idsPerros).subscribe({
+      this.paseoService.editar(_paseo, idsPerros).subscribe({
         next: (resp) => {
+          console.log(resp);
           if (resp.status) {
-            Swal.fire('Éxito', 'Paseo asignado correctamente', 'success');
+            Swal.fire('Éxito', 'Paseo editado correctamente', 'success');
             this.formularioPaseo.reset();
             this.perrosSeleccionados = [];
             this.listaDiasPasador = [];
@@ -594,60 +631,5 @@ export class AsignarPaseosComponent {
     }
 
   }
-
-onFechaSeleccionada(event: any) {
-  const fecha = event.value;
-  const idPasador = this.formularioPaseo.get('idUsuarioPasador')?.value;
-  const turno = this.formularioPaseo.get('turno')?.value;
-
-  // Validar que ya se haya seleccionado paseador y turno
-  if (!idPasador || !turno) {
-    Swal.fire({
-      icon: 'info',
-      title: 'Selecciona primero',
-      text: 'Debes elegir el paseador y el turno antes de seleccionar la fecha.',
-      confirmButtonColor: '#3085d6'
-    });
-    this.formularioPaseo.get('fecha')?.setValue(null);
-    return;
-  }
-
-  // Llamar al backend para obtener los cupos disponibles
-  this.paseoService.obtenerCuposDisponibles(idPasador, fecha, turno).subscribe({
-    next: (data) => {
-      if (data.status) {
-        const cupos = data.value.cuposDisponibles;
-
-        Swal.fire({
-          icon: cupos > 0 ? 'success' : 'warning',
-          title: 'Cupos disponibles',
-          text: cupos > 0
-            ? `El paseador tiene ${cupos} cupo(s) disponible(s) para el turno ${turno}.`
-            : `No hay cupos disponibles para el turno ${turno}.`,
-          confirmButtonColor: '#3085d6'
-        });
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: data.msg || 'No fue posible obtener los cupos disponibles.',
-          confirmButtonColor: '#d33'
-        });
-      }
-    },
-    error: (error) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error de conexión',
-        text: 'Ocurrió un error al consultar los cupos disponibles.',
-        confirmButtonColor: '#d33'
-      });
-      console.error(error);
-    }
-  });
-}
-
-
-
 
 }

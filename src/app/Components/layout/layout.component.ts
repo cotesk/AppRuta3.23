@@ -30,6 +30,7 @@ import * as CryptoJS from 'crypto-js';
 import { VerImagenProductoModalComponent } from './Modales/ver-imagen-producto-modal/ver-imagen-producto-modal.component';
 import { ColoresService } from '../../Services/coloresService.service';
 import { SignalRService } from '../../Services/signalr.service';
+import { LicenciaService } from '../../Services/licencia.service';
 
 @Component({
   selector: 'app-layout',
@@ -63,6 +64,7 @@ export class LayoutComponent implements OnInit {
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
   claveSecreta: string | null = null;
   error: string | null = null;
+  serialGuardado: string | null = null;
 
   // carritoProductos: Producto[] = [];
   public innerWidth: any;
@@ -83,7 +85,8 @@ export class LayoutComponent implements OnInit {
     private _usuarioServicio: UsuariosService,
     // private cartService: CartService,
     private colorService: ColoresService,
-    private signalRService: SignalRService
+    private signalRService: SignalRService,
+    private licenciaService: LicenciaService
   ) {
 
 
@@ -249,7 +252,35 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.licencias5diasAntes();
 
+    // if (this.serialGuardado) {
+    //   this.verificarLicencia(this.serialGuardado);
+    // } else {
+    //   const usuario = this._utilidadServicio.obtenerSesionUsuario();
+    //   console.log('Usuario:', usuario);
+
+    //   if (usuario.rolDescripcion == "Administrador") {
+    //     this.pedirLicencia();
+    //   } else {
+    //     Swal.fire({
+    //       title: '⚠️ En Mantenimiento',
+    //       html: `
+    //     <p style="font-size:16px;">
+    //       La aplicación está en <b>mantenimiento</b>.<br>
+    //       Por favor inténtalo más tarde.
+    //     </p>
+    //   `,
+    //       icon: 'info',
+    //       allowOutsideClick: false,   // ❌ No se puede cerrar clickeando fuera
+    //       allowEscapeKey: false,      // ❌ No se puede cerrar con ESC
+    //       showConfirmButton: false,   // ❌ No hay botón de cerrar
+    //       showCloseButton: false,     // ❌ No hay X de cierre
+    //       background: '#f9f9f9',
+    //       width: 400
+    //     });
+    //   }
+    // }
 
 
     this.innerWidth = window.innerWidth;//esto para ocualtar cosa en vista movil
@@ -344,7 +375,7 @@ export class LayoutComponent implements OnInit {
 
 
     const usuario = this._utilidadServicio.obtenerSesionUsuario();
-    console.log('Usuario:', usuario);
+    // console.log('Usuario:', usuario);
 
 
     // Suscribirse al evento de actualización de la empresa
@@ -424,6 +455,56 @@ export class LayoutComponent implements OnInit {
 
   }
 
+
+
+  licencias5diasAntes() {
+    this.licenciaService.consultar().subscribe({
+      next: (res) => {
+        // console.log("✅ Respuesta del backend:", res);
+
+        if (res.licencia.estadoPago && res.licencia.activa) {
+          if (res.diasRestantes !== undefined) {
+            const usuario = this._utilidadServicio.obtenerSesionUsuario();
+            // console.log('Usuario:', usuario);
+            if (usuario.rolDescripcion == "Administrador") {
+              if (res.diasRestantes > 0 && res.diasRestantes <= 5) {
+                Swal.fire({
+                  title: '⚠️ Licencia por vencer',
+                  text: `Tu licencia expira en ${res.diasRestantes} día(s). Por favor contacta al dueño para renovarla.`,
+                  icon: 'warning',
+                  confirmButtonText: 'Entendido',
+                  confirmButtonColor: '#f39c12'
+                });
+              } else if (res.diasRestantes === 0) {
+                Swal.fire({
+                  title: '⛔ Licencia expira HOY',
+                  text: 'Tu licencia vence hoy mismo. Contacta al dueño urgentemente.',
+                  icon: 'error',
+                  confirmButtonText: 'Entendido',
+                  confirmButtonColor: '#e74c3c'
+                });
+              } else {
+                console.log("✅ Licencia válida y vigente");
+              }
+            }
+
+          }
+        } else {
+          // Swal.fire({
+          //   title: '❌ Licencia vencida o inválida',
+          //   text: 'El sistema se bloqueará hasta renovar la licencia.',
+          //   icon: 'error',
+          //   confirmButtonText: 'Salir',
+          //   confirmButtonColor: '#c0392b'
+          // });
+          // Aquí puedes hacer logout o bloquear acceso
+        }
+      },
+      error: (err) => {
+        console.error("❌ Error consultando licencia", err);
+      }
+    });
+  }
 
 
   lista() {
@@ -707,7 +788,7 @@ export class LayoutComponent implements OnInit {
   }
   abrirNotificaciones(): void {
 
-    
+
   }
 
 
@@ -986,7 +1067,7 @@ export class LayoutComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         console.log('El diálogo se cerró con el resultado:', result);
 
-        
+
         // Refrescar la página solo si el cambio provino del select
         // if (this.selectCambiado) {
         //   window.location.reload();
@@ -999,6 +1080,112 @@ export class LayoutComponent implements OnInit {
     }
   }
 
+
+
+
+  verificarLicencia(serial: string): void {
+    this.licenciaService.validarLicencia(serial).subscribe({
+      next: (res) => {
+        // console.log('📩 Respuesta del backend:', res);
+        if (res.mensaje === 'Pago confirmado') {
+          // ✅ Aquí podrías permitir login normal
+          // console.log('Pago confirmado');
+          if (res.activa == false) {
+            // console.log('Licencia inactiva');
+          }
+
+        } else {
+          //console.log('aquiiii', res);
+          this.mostrarAlertaLicencia(res.mensaje);
+        }
+      },
+      error: (err) => {
+        this.mostrarAlertaLicencia('Error validando licencia');
+      }
+    });
+  }
+
+  mostrarAlertaLicencia(mensaje: string): void {
+    Swal.fire({
+      title: 'Licencia Vencida o Licencia Desactivada',
+      confirmButtonColor: '#1337E8',
+      text: mensaje,
+      icon: 'error',
+      confirmButtonText: 'Ingresar nueva licencia'
+    }).then(() => {
+      this.pedirLicencia();
+    });
+  }
+
+  pedirLicencia(): void {
+    Swal.fire({
+      title: 'Ingrese su licencia',
+      text: '📞 Pongase en contacto con el dueño del aplicativo para gestionar su licencia: 3012091145',
+      input: 'text',
+      inputPlaceholder: 'Digite el serial de la licencia',
+      confirmButtonColor: '#1337E8',
+      cancelButtonColor: '#d33',
+      showCancelButton: false,
+      confirmButtonText: 'Validar',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      preConfirm: (serial) => {
+        if (!serial) {
+          Swal.showValidationMessage('Debe ingresar un serial válido');
+          // console.warn('⚠️ Validación fallida: serial vacío');
+          return false;
+        }
+
+        // ✅ Caso 1: licencia por defecto
+        if (serial === '1081828957') {
+          // console.info('✅ Licencia por defecto detectada, redirigiendo a /licencias');
+          this.router.navigate(['/licencias']);
+          return true;
+        }
+
+        //console.log('🔎 Validando serial ingresado:', serial);
+
+        // ✅ Caso 2: validar contra API
+        return this.licenciaService.validarLicencia(serial).toPromise()
+          .then((res) => {
+            //console.log('📩 Respuesta del backend:', res);
+
+            if (res.mensaje === 'Pago confirmado') {
+              localStorage.setItem('licencia', serial);
+              // console.info('✅ Licencia válida guardada en localStorage:', serial);
+              return true; // cierra el Swal
+            } else {
+              // console.warn('⚠️ Licencia inválida:', res.mensaje);
+              Swal.showValidationMessage(res.mensaje);
+              return false; // mantiene abierto
+            }
+          })
+          .catch((err) => {
+            // console.error('❌ Error en la validación de licencia:', err);
+
+            // Intentamos leer el mensaje que manda tu API
+            let mensajeError = 'Error validando licencia';
+            if (err?.error?.mensaje) {
+              mensajeError = err.error.mensaje;  // 👈 viene del backend (ej: "Licencia vencida")
+            } else if (err.message) {
+              // Solo mostramos algo corto
+              mensajeError = 'Esta licencia no es válida';
+            }
+
+            Swal.showValidationMessage(`Error validando licencia: ${mensajeError}`);
+            return false;
+          });
+
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // console.log('🎉 Swal confirmado: licencia válida');
+        Swal.fire('Éxito', 'Licencia válida, puede continuar', 'success');
+      } else {
+        //console.log('ℹ️ Swal cerrado sin confirmar');
+      }
+    });
+  }
 
 
 

@@ -24,7 +24,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.2; /* Ajusta este valor para cambiar la opacidad */
+  opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
   z-index: -1; /* Asegura que esté detrás del contenido */
 }
 

@@ -175,7 +175,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
     this._usuarioServicio.listaPaginada(this.page, this.pageSize, this.searchTerm).subscribe({
       next: (data) => {
         if (data && data.data && data.data.length > 0) {
-          const usuariosClientes = data.data.filter((usuario: Usuario) => usuario.rolDescripcion !== 'Clientes');
+          const usuariosClientes = data.data.filter((usuario: Usuario) => usuario.rolDescripcion !== 'Cliente');
 
           usuariosClientes.forEach((usuario: Usuario) => {
             if (usuario.imageData) {

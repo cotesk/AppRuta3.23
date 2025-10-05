@@ -13,32 +13,14 @@ import { MatCalendar, MatCalendarCellCssClasses } from '@angular/material/datepi
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { CalendarioModalComponent } from '../../Modales/calendario-modal/calendario-modal.component';
 import { VerImagenProductoModalComponent } from '../../Modales/ver-imagen-producto-modal/ver-imagen-producto-modal.component';
-import { ModalEditarPaseosComponent } from '../../Modales/modal-editar-paseos/modal-editar-paseos.component';
-
-
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
-  },
-};
 
 @Component({
-  selector: 'app-historial-paseo',
-  templateUrl: './historial-paseo.component.html',
-  styleUrl: './historial-paseo.component.css',
-  providers: [
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
-  ]
+  selector: 'app-mis-paseos',
+  templateUrl: './mis-paseos.component.html',
+  styleUrl: './mis-paseos.component.css'
 })
-export class HistorialPaseoComponent {
-
-  paseos: any[] = [];
+export class MisPaseosComponent {
+paseos: any[] = [];
   paseosCalendario: any[] = [];
 
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
@@ -100,41 +82,7 @@ export class HistorialPaseoComponent {
   ngOnInit(): void {
 
 
-    // let idUsuario: number = 0;
-    // // Obtener el idUsuario del localStorage
-    // const usuarioString = localStorage.getItem('usuario');
-    // const bytes = CryptoJS.AES.decrypt(usuarioString!, this.CLAVE_SECRETA);
-    // const datosDesencriptados = bytes.toString(CryptoJS.enc.Utf8);
-    // // console.log(datosDesencriptados);
-    // const usuario = JSON.parse(datosDesencriptados);
-    // idUsuario = usuario.idUsuario;
-
-    // this.paseoService.obtenerPorCliente(idUsuario, this.page, this.pageSize, this.searchTerm, this.estadoSeleccionado).subscribe(resp => {
-    //   console.log('Respuesta del backend:', resp);
-
-    //   if (resp && resp.data) {
-    //     this.paseos = resp.data;
-    //     this.totalUsuario = resp.total;
-    //     this.totalPages = resp.totalPages;
-    //   }
-    // });
-
-
-    // this.paseoService.obtenerPorClienteCalendario(idUsuario).subscribe(resp => {
-    //   console.log(resp.value);
-    //   if (resp.status) {
-    //     console.log(resp.value);
-    //     this.paseosCalendario = resp.value;
-    //     console.log(this.paseosCalendario);
-    //     // 🔄 refresca el calendario para que se vuelvan a aplicar las clases
-    //     if (this.calendar) {
-    //       this.calendar.updateTodaysDate();
-    //     }
-
-    //      this.cd.detectChanges();
-
-    //   }
-    // });
+ 
 
     this.cargarPaseos();
 
@@ -151,7 +99,7 @@ export class HistorialPaseoComponent {
     const usuario = JSON.parse(datosDesencriptados);
     idUsuario = usuario.idUsuario;
 
-    this.paseoService.obtenerPorCliente(idUsuario, this.page, this.pageSize, this.searchTerm, this.estadoSeleccionado)
+    this.paseoService.obtenerPorPaseador(idUsuario, this.page, this.pageSize, this.searchTerm, this.estadoSeleccionado)
       .subscribe(resp => {
         console.log('Respuesta del backend:', resp);
 
@@ -188,19 +136,18 @@ export class HistorialPaseoComponent {
 
   irPrimeraPagina() {
     this.page = 1;
-    this.cargarPaseos();
+     this.cargarPaseos();
   }
 
   irUltimaPagina() {
     this.page = this.totalPages;
-    this.cargarPaseos();
+     this.cargarPaseos();
   }
 
 
 
   editarPaseo(paseo: any) {
-    console.log(paseo);
-    this.dialog.open(ModalEditarPaseosComponent, {
+    this.dialog.open(AsignarPaseosComponent, {
       width: '900px',
       data: { paseo }  // <-- pasa el paseo al modal
     }).afterClosed().subscribe(() => {
@@ -245,120 +192,70 @@ export class HistorialPaseoComponent {
 
     // Validar si ya está en curso
     if (paseo.estado === "EnCurso") {
-      // Confirmar entrega
       Swal.fire({
-        title: '¿El cliente ya recibió el perro?',
-        text: `Confirma si el paseador te acaba de entregar tu perro luego del paseo.`,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, recibido',
-        cancelButtonText: 'No, cancelar',
-        confirmButtonColor: '#286aa7ff',
-        cancelButtonColor: '#d33'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          console.log('✅ Confirmación: el paseador recibió el perro');
-
-          this.paseoService.entregar(paseo.idPaseo).subscribe({
-            next: (resp) => {
-              console.log('✅ Respuesta del backend:', resp);
-
-              if (resp && resp.status) {
-                Swal.fire({
-                  title: '¡Perro Entregado!',
-                  text: 'El perro fue entregado a su cliente correctamente.',
-                  icon: 'success',
-                  confirmButtonColor: '#286aa7ff'
-                });
-
-                console.log('🎯 Paseo marcado como "en curso". Recargando lista de paseos...');
-                this.cargarPaseos();
-              } else {
-                Swal.fire({
-                  title: 'Error',
-                  text: resp?.msg || 'No se pudo marcar el paseo como "en Entregado".',
-                  icon: 'error',
-                  confirmButtonColor: '#d33'
-                });
-                console.warn('⚠️ El backend respondió pero no se pudo marcar en curso:', resp);
-              }
-            },
-            error: (err) => {
-              Swal.fire({
-                title: 'Error de servidor',
-                text: 'Ocurrió un error al intentar marcar el paseo en Entregado.',
-                icon: 'error',
-                confirmButtonColor: '#d33'
-              });
-              console.error('❌ Error al marcar paseo en curso:', err);
-            },
-            complete: () => {
-              console.log('🔚 Finalizó la petición Entregado()');
-            }
-          });
-        } else {
-          console.log('❌ Acción cancelada: el paseador aún no recibió el perro');
-        }
+        title: '¡Paseo ya entregado!',
+        text: 'El perro ya fue entregado al paseador correctamente.',
+        icon: 'warning',
+        confirmButtonColor: '#286aa7ff'
       });
-    } else {
-      // Confirmar entrega
-      Swal.fire({
-        title: '¿El paseador ya recibió el perro?',
-        text: `Confirma si el paseador ya tiene al perro asignado en este paseo (ID: ${paseo.idPaseo}).`,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, recibido',
-        cancelButtonText: 'No, cancelar',
-        confirmButtonColor: '#286aa7ff',
-        cancelButtonColor: '#d33'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          console.log('✅ Confirmación: el paseador recibió el perro');
-
-          this.paseoService.enCurso(paseo.idPaseo).subscribe({
-            next: (resp) => {
-              console.log('✅ Respuesta del backend:', resp);
-
-              if (resp && resp.status) {
-                Swal.fire({
-                  title: '¡Paseo iniciado!',
-                  text: 'El perro fue entregado al paseador correctamente.',
-                  icon: 'success',
-                  confirmButtonColor: '#286aa7ff'
-                });
-
-                console.log('🎯 Paseo marcado como "en curso". Recargando lista de paseos...');
-                this.cargarPaseos();
-              } else {
-                Swal.fire({
-                  title: 'Error',
-                  text: resp?.msg || 'No se pudo marcar el paseo como "en curso".',
-                  icon: 'error',
-                  confirmButtonColor: '#d33'
-                });
-                console.warn('⚠️ El backend respondió pero no se pudo marcar en curso:', resp);
-              }
-            },
-            error: (err) => {
-              Swal.fire({
-                title: 'Error de servidor',
-                text: 'Ocurrió un error al intentar marcar el paseo en curso.',
-                icon: 'error',
-                confirmButtonColor: '#d33'
-              });
-              console.error('❌ Error al marcar paseo en curso:', err);
-            },
-            complete: () => {
-              console.log('🔚 Finalizó la petición enCurso()');
-            }
-          });
-        } else {
-          console.log('❌ Acción cancelada: el paseador aún no recibió el perro');
-        }
-      });
+      return;
     }
 
+    // Confirmar entrega
+    Swal.fire({
+      title: '¿El paseador ya recibió el perro?',
+      text: `Confirma si el paseador ya tiene al perro asignado en este paseo (ID: ${paseo.idPaseo}).`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, recibido',
+      cancelButtonText: 'No, cancelar',
+      confirmButtonColor: '#286aa7ff',
+      cancelButtonColor: '#d33'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('✅ Confirmación: el paseador recibió el perro');
 
+        this.paseoService.enCurso(paseo.idPaseo).subscribe({
+          next: (resp) => {
+            console.log('✅ Respuesta del backend:', resp);
+
+            if (resp && resp.status) {
+              Swal.fire({
+                title: '¡Paseo iniciado!',
+                text: 'El perro fue entregado al paseador correctamente.',
+                icon: 'success',
+                confirmButtonColor: '#286aa7ff'
+              });
+
+              console.log('🎯 Paseo marcado como "en curso". Recargando lista de paseos...');
+              this.cargarPaseos();
+            } else {
+              Swal.fire({
+                title: 'Error',
+                text: resp?.msg || 'No se pudo marcar el paseo como "en curso".',
+                icon: 'error',
+                confirmButtonColor: '#d33'
+              });
+              console.warn('⚠️ El backend respondió pero no se pudo marcar en curso:', resp);
+            }
+          },
+          error: (err) => {
+            Swal.fire({
+              title: 'Error de servidor',
+              text: 'Ocurrió un error al intentar marcar el paseo en curso.',
+              icon: 'error',
+              confirmButtonColor: '#d33'
+            });
+            console.error('❌ Error al marcar paseo en curso:', err);
+          },
+          complete: () => {
+            console.log('🔚 Finalizó la petición enCurso()');
+          }
+        });
+      } else {
+        console.log('❌ Acción cancelada: el paseador aún no recibió el perro');
+      }
+    });
   }
 
 
@@ -472,3 +369,4 @@ export class HistorialPaseoComponent {
 
 
 }
+

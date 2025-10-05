@@ -1,0 +1,58 @@
+<div class="calendario-container-alt">
+
+
+    <!-- Selectores para cambiar de mes y año -->
+    <div class="calendario-header-alt">
+        <button class="boton-cambio-alt" (click)="mesAnterior()">&#8249;</button>
+
+
+        <!-- Imagen arriba de los selectores -->
+        <!-- <div class="imagen-cliente-container">
+            <img *ngIf="imagenClienteSeleccionada" [src]="imagenClienteSeleccionada" alt="Foto Cliente"
+                class="img-cliente" (click)="verImagen()" />
+        </div> -->
+
+
+        <div class="selectores-container">
+            <div class="selector">
+                <select [(ngModel)]="mesSeleccionado" (change)="cambiarMes()" class="custom-select">
+                    <option *ngFor="let mes of meses" [value]="mes.valor">
+                        {{ mes.nombre }}
+                    </option>
+                </select>
+            </div>
+            <button mat-mini-fab color="primary" (click)="mostrarSignificadoColores()" matTooltip="Informacion">
+                <mat-icon>help_outline</mat-icon>
+            </button>
+
+            <div class="selector">
+                <select [(ngModel)]="anioSeleccionado" (change)="cambiarAnio()" class="custom-select">
+                    <option *ngFor="let anio of anios" [value]="anio">
+                        {{ anio }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <button class="boton-cambio-alt" (click)="mesSiguiente()">&#8250;</button>
+    </div>
+
+    <!-- Días de la semana -->
+    <div class="dias-semana-alt">
+        <div *ngFor="let dia of diasSemana" class="dia-semana-alt">
+            {{ dia }}
+        </div>
+    </div>
+
+    <!-- Días del calendario -->
+    <div class="dias-mes-alt">
+        <div *ngFor="let dia of diasPrevios" class="dia-vacio-alt"></div>
+        <div *ngFor="let dia of diasDelMes" class="dia-mes-alt" (click)="onFechaClick(dia)"
+            [ngClass]="getEstadoClase(dia)">
+            {{ dia }}
+        </div>
+
+    </div>
+
+
+</div>

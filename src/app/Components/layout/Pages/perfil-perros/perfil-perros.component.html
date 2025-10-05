@@ -28,13 +28,13 @@
 
         <!-- Acciones -->
         <mat-card-actions align="end">
-            <button mat-icon-button class="ver" (click)="cambiarImagen(perro)">
+            <button mat-icon-button class="ver" matTooltip="Cambiar Imagen" (click)="cambiarImagen(perro)">
                 <mat-icon>image</mat-icon>
             </button>
-            <button mat-icon-button class="agregar" (click)="editarPerro(perro)">
+            <button mat-icon-button class="agregar" matTooltip="Editar Perro" (click)="editarPerro(perro)">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="eliminar" (click)="eliminarPerro(perro)">
+            <button mat-icon-button class="eliminar" matTooltip="Eliminar Perro" (click)="eliminarPerro(perro)">
                 <mat-icon>delete</mat-icon>
             </button>
         </mat-card-actions>

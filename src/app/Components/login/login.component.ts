@@ -29,6 +29,7 @@ import { SolicitarRestablecimientoComponent } from '../solicitar-restablecimient
 // import { AuthGoogleService } from '../../Services/auth-google.service';
 // import { CartService } from '../../Services/cart.service';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+import { LicenciaService } from '../../Services/licencia.service';
 // import { FirebaseApp } from '@angular/fire/app';
 // import { getApps } from '@angular/fire/app';
 // import { Auth } from 'firebase/auth';
@@ -111,7 +112,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     private servicioContenido: ContenidoService,
     // private authGoogleService: AuthGoogleService,
     // private cartService: CartService,
-    private oauthService: OAuthService
+    private oauthService: OAuthService,
+    private licenciaService: LicenciaService
     // private firebaseApp: FirebaseApp
 
   ) {
@@ -136,6 +138,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
+
+    // this.licencias5diasAntes();
     this.configureOAuth();
     //funciona para inabilitar la aplicacion visualmente dejandola en blanco es funcional
     // const dueDate = new Date('2025-11-15');    // Fecha de vencimiento
@@ -206,11 +210,58 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mostrarModalTemporizador();
     }
   }
+
+
+// licencias5diasAntes() {
+//   this.licenciaService.consultar().subscribe({
+//     next: (res) => {
+//       console.log("✅ Respuesta del backend:", res);
+
+//       if (res.licencia.estadoPago && res.licencia.activa) {
+//         if (res.diasRestantes !== undefined) {
+//           if (res.diasRestantes > 0 && res.diasRestantes <= 5) {
+//             Swal.fire({
+//               title: '⚠️ Licencia por vencer',
+//               text: `Tu licencia expira en ${res.diasRestantes} día(s). Por favor contacta al dueño para renovarla.`,
+//               icon: 'warning',
+//               confirmButtonText: 'Entendido',
+//               confirmButtonColor: '#f39c12'
+//             });
+//           } else if (res.diasRestantes === 0) {
+//             Swal.fire({
+//               title: '⛔ Licencia expira HOY',
+//               text: 'Tu licencia vence hoy mismo. Contacta al dueño urgentemente.',
+//               icon: 'error',
+//               confirmButtonText: 'Entendido',
+//               confirmButtonColor: '#e74c3c'
+//             });
+//           } else {
+//             console.log("✅ Licencia válida y vigente");
+//           }
+//         }
+//       } else {
+//         // Swal.fire({
+//         //   title: '❌ Licencia vencida o inválida',
+//         //   text: 'El sistema se bloqueará hasta renovar la licencia.',
+//         //   icon: 'error',
+//         //   confirmButtonText: 'Salir',
+//         //   confirmButtonColor: '#c0392b'
+//         // });
+//         // Aquí puedes hacer logout o bloquear acceso
+//       }
+//     },
+//     error: (err) => {
+//       console.error("❌ Error consultando licencia", err);
+//     }
+//   });
+// }
+
+
   login() {
     // const nombre = this.formularioLogin.value.email;
     // const correo = this.formularioLogin.value.password;
     // this.authGoogleService.login();
-     this._usuarioServicio.loginWithGoogle();
+    this._usuarioServicio.loginWithGoogle();
     // this.oauthService.initLoginFlow();
     // this.authService.login();
   }
@@ -460,9 +511,9 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
           if (data.value.rolDescripcion === 'Administrador' || data.value.rolDescripcion === 'Supervisor') {
             console.log('Redirigiendo a la página de administrador o supervisor');
-                   this.botonIngresarDesactivado = false;
-                    dialogRef.close();  // Cierra el modal después de 5 segundos
-                    this.router.navigate(["pages"]);
+            this.botonIngresarDesactivado = false;
+            dialogRef.close();  // Cierra el modal después de 5 segundos
+            this.router.navigate(["pages"]);
           } else {
             this.botonIngresarDesactivado = false;
             setTimeout(() => {

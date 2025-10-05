@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Usuario } from '../Interfaces/usuario';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Menu } from '../Interfaces/menu';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
@@ -12,6 +12,7 @@ import jwtDecode from 'jwt-decode';
 
 import { UsuariosService } from './usuarios.service';
 import { environment } from '../environments/environment';
+import { LicenciaService } from './licencia.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +35,7 @@ export class AuthService {
     private router: Router,
     private http: HttpClient,
     private _usuarioServicio: UsuariosService,
+    private licenciaService: LicenciaService
     // private toastr: ToastrService
 
   ) {
@@ -210,7 +212,7 @@ export class AuthService {
             this.resetInactivityTimer();
           }
         });
-      }, 20 * 60 * 1000 ); //10 * 1000 = 10 segundos , 2 * 60 * 1000 = 2 minutos
+      }, 20 * 60 * 1000); //10 * 1000 = 10 segundos , 2 * 60 * 1000 = 2 minutos
     }
   }
 
@@ -387,6 +389,109 @@ export class AuthService {
     );
   }
 
+
+  validarLicencia(): Observable<boolean> {
+    const url = `${this.apiUrl}Licencias/consultar`;
+    return this.http.get<any>(url).pipe(
+      map((res: any) => {
+        console.log('Licencia válida:', res);
+        if (res && res.licencia) {
+          const estadoPago = res.licencia.estadoPago;
+          const activa = res.licencia.activa;
+          return estadoPago === true && activa === true;
+        }
+        return false;
+      }),
+      catchError(err => {
+        console.error('Error validando licencia:', err);
+        return of(false);
+      })
+    );
+  }
+
+
+  mostrarAlertaLicencia(mensaje: string): void {
+    Swal.fire({
+      title: 'Licencia Vencida o Licencia Desactivada',
+      confirmButtonColor: '#1337E8',
+      text: mensaje,
+      icon: 'error',
+      confirmButtonText: 'Ingresar nueva licencia'
+    }).then(() => {
+      this.pedirLicencia();
+    });
+  }
+
+  pedirLicencia(): void {
+    Swal.fire({
+      title: 'Ingrese su licencia',
+      text: '📞 Pongase en contacto con el dueño del aplicativo para gestionar su licencia: 3012091145',
+      input: 'text',
+      inputPlaceholder: 'Digite el serial de la licencia',
+      confirmButtonColor: '#1337E8',
+      cancelButtonColor: '#d33',
+      showCancelButton: false,
+      confirmButtonText: 'Validar',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      preConfirm: (serial) => {
+        if (!serial) {
+          Swal.showValidationMessage('Debe ingresar un serial válido');
+          // console.warn('⚠️ Validación fallida: serial vacío');
+          return false;
+        }
+
+        // ✅ Caso 1: licencia por defecto
+        if (serial === '1081828957') {
+          // console.info('✅ Licencia por defecto detectada, redirigiendo a /licencias');
+          this.router.navigate(['/licencias']);
+          return true;
+        }
+
+        //console.log('🔎 Validando serial ingresado:', serial);
+
+        // ✅ Caso 2: validar contra API
+        return this.licenciaService.validarLicencia(serial).toPromise()
+          .then((res) => {
+            //console.log('📩 Respuesta del backend:', res);
+
+            if (res.mensaje === 'Pago confirmado') {
+              localStorage.setItem('licencia', serial);
+               this.router.navigate(['/pages']);
+              // console.info('✅ Licencia válida guardada en localStorage:', serial);
+              return true; // cierra el Swal
+            } else {
+              // console.warn('⚠️ Licencia inválida:', res.mensaje);
+              Swal.showValidationMessage(res.mensaje);
+              return false; // mantiene abierto
+            }
+          })
+          .catch((err) => {
+            // console.error('❌ Error en la validación de licencia:', err);
+
+            // Intentamos leer el mensaje que manda tu API
+            let mensajeError = 'Error validando licencia';
+            if (err?.error?.mensaje) {
+              mensajeError = err.error.mensaje;  // 👈 viene del backend (ej: "Licencia vencida")
+            } else if (err.message) {
+              // Solo mostramos algo corto
+              mensajeError = 'Esta licencia no es válida';
+            }
+
+            Swal.showValidationMessage(`Error validando licencia: ${mensajeError}`);
+            return false;
+          });
+
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // console.log('🎉 Swal confirmado: licencia válida');
+        Swal.fire('Éxito', 'Licencia válida, puede continuar', 'success');
+      } else {
+        //console.log('ℹ️ Swal cerrado sin confirmar');
+      }
+    });
+  }
 
 
 

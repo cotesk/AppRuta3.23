@@ -1,0 +1,284 @@
+.calendario-container-alt {
+  position: relative; /* Necesario para que el ::before se posicione correctamente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  border: 2px solid #ccc;
+  padding: 20px;
+  max-width: 460px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background: none; /* quitamos el fondo anterior */
+}
+
+.calendario-container-alt::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/Images/FondoGYM.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2; /* Opacidad solo de la imagen */
+  z-index: 0; /* detrás del contenido */
+  border-radius: 10px; /* Si quieres bordes redondeados */
+}
+
+.calendario-container-alt > * {
+  position: relative;
+  z-index: 1; /* Para que el contenido quede encima del fondo */
+}
+
+
+.calendario-header-alt {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.titulo-mes-alt {
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.boton-cambio-alt {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.boton-cambio-alt:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.dias-semana-alt {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.dia-semana-alt {
+  padding: 8px;
+}
+
+.dias-mes-alt {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.dia-mes-alt {
+  text-align: center;
+  padding: 14px;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.dia-mes-alt:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.dia-vacio-alt {
+  height: 48px;
+}
+
+.fecha-registrada-alt {
+  background-color: #e9f7ef;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.pago-realizado-alt {
+  background-color: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.pago-no-realizado-alt {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.selectores-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.selector {
+  position: relative;
+}
+
+.custom-select {
+  appearance: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1em;
+  background: linear-gradient(135deg, #f7f7f7, #ffffff);
+  color: #333;
+  cursor: pointer;
+  width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.custom-select:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.selector::after {
+  content: '\25BC';
+  font-size: 0.8em;
+  color: #888;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.imagen-cliente-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.img-cliente {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; /* redonda */
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+
+.estado-programado {
+  background-color: #9e9e9e; /* gris */
+  color: white;
+  /* border-radius: 50%; */
+  font-weight: bold;
+}
+
+.estado-cancelado {
+  background-color: #f44336; /* rojo */
+  color: white;
+  /* border-radius: 50%; */
+  font-weight: bold;
+}
+
+.estado-pagado {
+  background-color: #9c27b0; /* verde */
+  color: white;
+  /* border-radius: 50%; */
+  font-weight: bold;
+}
+
+.estado-encurso {
+  background-color: #2196f3; /* azul */
+  color: white;
+  font-weight: bold;
+}
+
+.estado-entregado {
+  background-color: #4caf50; /* naranja */
+  color: white;
+  font-weight: bold;
+}
+
+.estado-finalizado {
+  background-color: #ff9800; /* morado */
+  color: white;
+  font-weight: bold;
+}
+
+
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+
+.img-cliente {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* redonda */
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+  .calendario-container-alt {
+    padding: 12px;
+  }
+
+  .titulo-mes-alt {
+    font-size: 1em;
+  }
+
+  .boton-cambio-alt {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2em;
+  }
+
+  .dias-semana-alt {
+    font-size: 0.8em;
+  }
+
+  .dias-mes-alt {
+    gap: 2px;
+  }
+
+  .dia-mes-alt {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .selectores-container {
+    gap: 8px; /* Reduce el espacio entre selectores */
+    margin-bottom: 16px;
+  }
+
+  .custom-select {
+    width: 100%; /* Acomoda el selector al ancho del contenedor */
+    max-width: 200px; /* Establece un máximo para evitar desbordes */
+    padding: 8px 12px; /* Reduce el padding para que se vea más compacto */
+    font-size: 0.9em; /* Reduce el tamaño de la fuente */
+  }
+
+  .selector {
+    flex: 1 1 calc(50% - 8px); /* Permite que ocupen 50% del ancho y se ajusten */
+  }
+
+}
