@@ -35,6 +35,7 @@ export class CalendarioModalComponent {
     idPaseo: number,
     turno?: string,
     nombrePasador?: string,
+    nombreCliente?: string,
     nombreTarifa?: string,
     costoTotal?: number,
     perros?: {
@@ -85,6 +86,7 @@ export class CalendarioModalComponent {
         idPaseo: number,
         turno?: string,
         nombrePasador?: string,
+        nombreCliente?: string,
         nombreTarifa?: string,
         costoTotal?: number,
         perros?: {
@@ -93,7 +95,8 @@ export class CalendarioModalComponent {
           // raza: string,
           imagenUrl: string[]
         }[]
-      }[]
+      }[],
+      tipo?: string;
     },
     private cdr: ChangeDetectorRef
   ) {
@@ -113,6 +116,7 @@ export class CalendarioModalComponent {
         idPaseo: fechaData.idPaseo,
         turno: fechaData.turno,
         nombrePasador: fechaData.nombrePasador,
+        nombreCliente: fechaData.nombreCliente,
         nombreTarifa: fechaData.nombreTarifa,
         costoTotal: fechaData.costoTotal,
         perros: fechaData.perros || []
@@ -166,10 +170,10 @@ export class CalendarioModalComponent {
     this.generarCalendario();
   }
 
-mostrarSignificadoColores() {
-  Swal.fire({
-    title: 'Significado de los colores',
-    html: `
+  mostrarSignificadoColores() {
+    Swal.fire({
+      title: 'Significado de los colores',
+      html: `
       <div style="text-align: left; font-size: 16px;">
         <div style="display: flex; align-items: center; margin-bottom: 8px;">
           <span style="width: 20px; height: 20px; background-color: #607d8b; display: inline-block; margin-right: 10px; border-radius: 4px;"></span>
@@ -202,11 +206,11 @@ mostrarSignificadoColores() {
         </div>
       </div>
     `,
-    confirmButtonText: 'Entendido',
-    confirmButtonColor: '#2196f3',
-    width: 600,
-  });
-}
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#2196f3',
+      width: 600,
+    });
+  }
   // generarCalendario() {
   //   const inicioMes = this.mesActual.clone().startOf('month');
   //   const diasEnMes = this.mesActual.daysInMonth();
@@ -289,45 +293,62 @@ mostrarSignificadoColores() {
     }
   }
 
- mostrarInfoDia(paseosDelDia: any[]) {
-  let html = `<h3>📅 Paseos para ${paseosDelDia[0].fecha.format('DD/MM/YYYY')}</h3>`;
+  mostrarInfoDia(paseosDelDia: any[]) {
+    const esCliente = this.data.tipo === "Cliente"; // ✅ Saber si se abrió desde cliente o paseador
 
-  paseosDelDia.forEach((paseo, idx) => {
-    html += `
+    let html = `<h3>📅 Paseos para ${paseosDelDia[0].fecha.format('DD/MM/YYYY')}</h3>`;
+
+    paseosDelDia.forEach((paseo, idx) => {
+      // ✅ Según el tipo, usar el nombre correcto
+      const nombreMostrar = esCliente
+        ? paseo.nombreCliente ?? 'N/A'
+        : paseo.nombrePasador ?? 'N/A';
+      console.log(nombreMostrar);
+      html += `
       <div style="border:1px solid #ddd; padding:10px; margin:10px 0; border-radius:8px;">
-        <p><b>#${idx+1} - Estado:</b> ${paseo.estado}</p>
-        <p><b>Paseador:</b> ${paseo.nombrePasador ?? 'N/A'}</p>
+        <p><b>#${idx + 1} - Estado:</b> ${paseo.estado}</p>
+        <p><b>${esCliente ? 'Cliente' : 'Paseador'}:</b> ${nombreMostrar}</p>
         <p><b>Tarifa:</b> ${paseo.nombreTarifa ?? 'N/A'}</p>
-        <p><b>Costo:</b> ${paseo.costoTotal ?
-          new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(paseo.costoTotal)
-          : 'N/A'}</p>
+        <p><b>Costo:</b> ${paseo.costoTotal
+          ? new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0,
+          }).format(paseo.costoTotal)
+          : 'N/A'
+        }</p>
     `;
 
-    if (paseo.perros && paseo.perros.length > 0) {
-      html += `<h4>🐶 Perros:</h4>`;
-      paseo.perros.forEach((perro: any) => {
-        const foto = perro.imagenUrl?.length ? perro.imagenUrl[0] : null;
-        html += `
+      // 🐶 Mostrar perros si existen
+      if (paseo.perros && paseo.perros.length > 0) {
+        html += `<h4>🐶 Perros:</h4>`;
+        paseo.perros.forEach((perro: any) => {
+          const foto = perro.imagenUrl?.length ? perro.imagenUrl[0] : null;
+          html += `
           <div style="display:flex; align-items:center; gap:10px; margin: 8px 0;">
-            ${foto ? `<img src="${foto}" alt="${perro.nombre}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">` : ''}
+            ${foto
+              ? `<img src="${foto}" alt="${perro.nombre}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">`
+              : ''
+            }
             <b>${perro.nombre}</b>
           </div>
         `;
-      });
-    }
+        });
+      }
 
-    html += `</div>`;
-  });
+      html += `</div>`;
+    });
 
-  Swal.fire({
-    title: '📅 Detalles del Paseo',
-    html: html,
-    width: 600,
-    showCloseButton: true,
-    confirmButtonText: 'Cerrar',
-    confirmButtonColor: '#3085d6'
-  });
-}
+    Swal.fire({
+      title: `📅 Detalles del ${esCliente ? 'Cliente' : 'Paseo'}`,
+      html: html,
+      width: 600,
+      showCloseButton: true,
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#3085d6',
+    });
+  }
+
 
 
 

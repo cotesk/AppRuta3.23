@@ -13,6 +13,7 @@ import { MatCalendar, MatCalendarCellCssClasses } from '@angular/material/datepi
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { CalendarioModalComponent } from '../../Modales/calendario-modal/calendario-modal.component';
 import { VerImagenProductoModalComponent } from '../../Modales/ver-imagen-producto-modal/ver-imagen-producto-modal.component';
+import { ModalEditarPaseosComponent } from '../../Modales/modal-editar-paseos/modal-editar-paseos.component';
 
 @Component({
   selector: 'app-mis-paseos',
@@ -147,7 +148,7 @@ paseos: any[] = [];
 
 
   editarPaseo(paseo: any) {
-    this.dialog.open(AsignarPaseosComponent, {
+    this.dialog.open(ModalEditarPaseosComponent, {
       width: '900px',
       data: { paseo }  // <-- pasa el paseo al modal
     }).afterClosed().subscribe(() => {
@@ -271,7 +272,7 @@ paseos: any[] = [];
     const usuario = JSON.parse(datosDesencriptados);
     idUsuario = usuario.idUsuario;
 
-    this.paseoService.obtenerPorClienteCalendario(idUsuario).subscribe(
+    this.paseoService.obtenerPorPaseadorCalendario(idUsuario).subscribe(
       (response) => {
         if (response.status && response.value.length > 0) {
 
@@ -285,6 +286,7 @@ paseos: any[] = [];
               idPaseo: paseo.idPaseo,
               turno: paseo.turno,
               nombrePasador: paseo.nombrePasador,
+              nombreCliente: paseo.nombreCliente,
               nombreTarifa: paseo.nombreTarifa,
               costoTotal: paseo.costoTotal,
 
@@ -308,7 +310,8 @@ paseos: any[] = [];
           // Abrir el modal y pasar las fechas registradas con el estado de pago
           this.dialog.open(CalendarioModalComponent, {
             data: {
-              fechasRegistradas
+              fechasRegistradas,
+              tipo:"Cliente"
             }, // Enviar las fechas con su estado de pago
             width: '500px',
           }).afterClosed().subscribe(resultado => {

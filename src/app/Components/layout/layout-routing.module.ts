@@ -37,6 +37,7 @@ import { AsignarPaseosComponent } from './Pages/asignar-paseos/asignar-paseos.co
 import { HistorialPagosComponent } from './Pages/historial-pagos/historial-pagos.component';
 import { HistorialPaseoComponent } from './Pages/historial-paseo/historial-paseo.component';
 import { MisPaseosComponent } from './Pages/mis-paseos/mis-paseos.component';
+import { PagosComponent } from './Pages/pagos/pagos.component';
 
 
 const routes: Routes = [{
@@ -64,6 +65,9 @@ const routes: Routes = [{
     { path: 'Historial_paseos', component: HistorialPaseoComponent },
     { path: 'historial_pagos', component: HistorialPagosComponent },
     { path: 'estado_paseos', component: MisPaseosComponent },
+    { path: 'pagos', component: PagosComponent },
+
+
 
   ]
 

@@ -313,7 +313,7 @@ export class ModalPerroComponent implements OnInit {
     if (this.datosPerro == null) {
       // ✅ Si no hay imágenes seleccionadas, usar imagen por defecto
       if (this.imagenesSeleccionadas.length === 0) {
-        const rutaPorDefecto = 'assets/Images/PorDefecto.png';
+        const rutaPorDefecto = 'assets/Images/perroDefecto.png';
 
         try {
           const response = await fetch(rutaPorDefecto);

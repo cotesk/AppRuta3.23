@@ -265,7 +265,7 @@ export class ModalListaClientesComponent implements OnInit, AfterViewInit {
     this.dialog.open(VerImagenProductoModalComponent, {
       data: {
         // imageData: usuario.imageData
-        imagenUrl: usuario.imagenUrl
+        imagenes: [usuario.imagenUrl]
       }
     });
   }

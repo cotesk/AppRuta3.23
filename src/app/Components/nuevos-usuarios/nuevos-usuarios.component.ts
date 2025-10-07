@@ -44,7 +44,13 @@ export class NuevosUsuariosComponent {
   passwordErrors: string[] = [];
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
   @ViewChild(MatTooltip) tooltip!: MatTooltip;
-
+  @ViewChild('videoElement', { static: false }) videoElement!: ElementRef<HTMLVideoElement>;
+  camaraActiva: boolean = false;
+  accionSeleccionada: string = ''; // Para rastrear la opción seleccionada
+  stream: MediaStream | null = null;
+  rolSeleccionado: number = 0;
+  public imageData: string | null = null;
+  nombreImagen: string = '';
 
   constructor(
     public modalActual: MatDialogRef<NuevosUsuariosComponent>,
@@ -63,7 +69,7 @@ export class NuevosUsuariosComponent {
         Validators.required,
         this.primeraLetraMayusculaValidator(),
         this.contieneNumeroValidator(),
-        this.longitudExactaValidator(6,15),
+        this.longitudExactaValidator(6, 15),
         this.caracterEspecialValidator()
       ]],
       esActivo: [''],
@@ -97,7 +103,7 @@ export class NuevosUsuariosComponent {
     const email = control.value;
     if (email && email.indexOf('@') !== -1) {
       const domain = email.substring(email.lastIndexOf('@') + 1);
-      if (domain === 'gmail.com' || domain === 'hotmail.com' || domain === 'outlook.com'|| domain === 'unicesar.edu.co') {
+      if (domain === 'gmail.com' || domain === 'hotmail.com' || domain === 'outlook.com' || domain === 'unicesar.edu.co') {
         return null; // Válido
       }
       return { invalidDomain: true }; // Dominio no válido
@@ -131,16 +137,17 @@ export class NuevosUsuariosComponent {
   verImagen(): void {
     this.dialog.open(VerImagenProductoModalComponent, {
       data: {
-        imagenUrl: this.previsualizacion
+        imagenes: [this.previsualizacion]
       }
     });
   }
 
-  selectFile(event: any): void {
+ selectFile(event: any): void {
     if (!this.modoEdicion) { // Solo si no estás en modo de edición
       const archivo = event.target.files[0];
 
       if (archivo) {
+        this.nombreImagen = archivo.name;
         const lector = new FileReader();
         lector.onload = (e) => {
           this.imagenBase64 = e.target?.result as string;
@@ -151,7 +158,7 @@ export class NuevosUsuariosComponent {
           if (typeof e.target?.result === 'string') {
             // Crea una URL segura para la imagen
             this.previsualizacion = this.sanitizer.bypassSecurityTrustUrl(e.target?.result);
-            this.imagenUrl = this.imagenBase64;
+            this.imageData = this.imagenBase64;
             this.imagenSeleccionada = true;
             this.nuevoArchivo = archivo;
           } else {
@@ -168,13 +175,21 @@ export class NuevosUsuariosComponent {
   }
 
 
+
   limpiarImagen(): void {
     this.formularioUsuario.patchValue({
-      imagenUrl: '',
+      imageData: '',
     });
     this.previsualizacion = null;
     this.imagenBase64 = null;
     this.imagenSeleccionada = false;
+
+    if (this.accionSeleccionada === 'tomarFoto') {
+      this.activarCamara();
+    } else if (this.accionSeleccionada === 'elegirFoto') {
+      this.DesactivarCamara();
+      this.camaraActiva = false; // Desactiva la cámara si estaba activa
+    }
 
   }
 
@@ -222,27 +237,75 @@ export class NuevosUsuariosComponent {
     }
 
 
-    let archivoBlob: Blob | null = null;
-    let archivo = "assets/Images/defecto2.png";
-    const obtenerBlobDesdeArchivo = (rutaArchivo: string): Promise<Blob> => {
-      return fetch(rutaArchivo).then(response => {
-        return response.blob();
-      });
-    };
-    if (!this.nuevoArchivo) {
-      // Llamar a la función para obtener el Blob
+    // let archivoBlob: Blob | null = null;
+    // let archivo = "assets/Images/defecto2.png";
+    // const obtenerBlobDesdeArchivo = (rutaArchivo: string): Promise<Blob> => {
+    //   return fetch(rutaArchivo).then(response => {
+    //     return response.blob();
+    //   });
+    // };
+
+   let archivoBlob: Blob | null = null;
+
+    // Prioriza la foto tomada
+    if (this.imageData) {
+      const base64Data = this.imageData.split(',')[1];
+      const binaryData = atob(base64Data);
+      const arrayBuffer = new Uint8Array(binaryData.length);
+
+      for (let i = 0; i < binaryData.length; i++) {
+        arrayBuffer[i] = binaryData.charCodeAt(i);
+      }
+
+      archivoBlob = new Blob([arrayBuffer], { type: 'image/png' });
+      console.log('Usando imagen tomada');
+      // Genera un número aleatorio de 5 dígitos
+      const numerosAleatorios = Math.floor(10000 + Math.random() * 90000);
+
+      // Crea un nombre único para la imagen
+
+      this.nombreImagen = `PorFoto_${numerosAleatorios}.png`;
+    }
+    // Verifica si se seleccionó una foto
+    else if (this.nuevoArchivo) {
+      if (this.nuevoArchivo.size > 3000000) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Advertencia',
+          text: 'La imagen no debe superar los 3 MB de tamaño.',
+        });
+        return;
+      }
+
+      archivoBlob = this.nuevoArchivo;
+      console.log('Usando imagen seleccionada');
+    }
+    // Usa la imagen por defecto si no hay otra
+    else {
+      const archivo = "assets/Images/defecto2.png";
+      const obtenerBlobDesdeArchivo = (rutaArchivo: string): Promise<Blob> => {
+        return fetch(rutaArchivo).then(response => {
+          return response.blob();
+        });
+      };
       obtenerBlobDesdeArchivo(archivo).then(blob => {
         const lector = new FileReader();
         lector.onload = (e) => {
           if (typeof e.target?.result === 'string') {
-            // Crea una URL segura para la imagen
-            // this.previsualizacion = this.sanitizer.bypassSecurityTrustUrl(e.target?.result);
-            this.imagenUrl = e.target?.result as string;
-            this.imagenSeleccionada = true;
+            this.imageData = e.target?.result as string;
+
+            // Genera un número aleatorio de 5 dígitos
+            const numerosAleatorios = Math.floor(10000 + Math.random() * 90000);
+
+            // Crea un nombre único para la imagen
+
+            this.nombreImagen = `PorDefecto_${numerosAleatorios}.png`;
+
+            // this.imagenSeleccionada = true;
             // this.nuevoArchivo = archivo;
             archivoBlob = this.nuevoArchivo;
             this.procesarArchivo(archivoBlob!);
-            console.log('Imagen Base64:', this.imagenUrl);
+            console.log('Imagen Base64:', this.imageData);
             console.log('Previsualización:', this.previsualizacion);
           } else {
             console.error('El resultado no es una cadena.');
@@ -254,24 +317,96 @@ export class NuevosUsuariosComponent {
       }).catch(error => {
         console.error('Error al obtener el archivo como Blob:', error);
       });
-    } else {
-      // Si hay un nuevo archivo seleccionado, verificar su tamaño
-      if (this.nuevoArchivo.size > 3000000) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Advertencia',
-          text: 'La imagen no debe superar los 3 MB de tamaño.',
-        });
-        return;
-      }
+      return; // Detén aquí para evitar procesar en paralelo
+    }
 
-      archivoBlob = this.nuevoArchivo;
+    // // Procesar el archivo final
+    if (archivoBlob) {
       this.procesarArchivo(archivoBlob);
+
+      console.log('Imagen final procesada:', archivoBlob);
+    } else {
+      console.error('No se pudo procesar ninguna imagen');
     }
 
 
-
   }
+
+  onSeleccionAccion(event: any): void {
+    this.accionSeleccionada = event.value;
+    if (this.accionSeleccionada === 'tomarFoto') {
+      this.activarCamara();
+    } else if (this.accionSeleccionada === 'elegirFoto') {
+      this.DesactivarCamara();
+      this.camaraActiva = false; // Desactiva la cámara si estaba activa
+    }
+  }
+
+  DesactivarCamara() {
+    const video = this.videoElement.nativeElement;
+    const stream = video.srcObject as MediaStream;
+
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop()); // Detiene cada pista (audio/video)
+      video.srcObject = null;
+      video.style.display = 'none';
+    }
+
+    this.camaraActiva = false;
+  }
+  activarCamara() {
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        this.stream = stream;
+        this.videoElement.nativeElement.srcObject = stream;
+        this.videoElement.nativeElement.style.display = 'block';
+        this.camaraActiva = true;
+      })
+      .catch((error) => {
+        console.error('Error al activar la cámara:', error);
+        alert('No se pudo acceder a la cámara.');
+      });
+  }
+
+  tomarFoto() {
+    const video = this.videoElement.nativeElement;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      // Reflejar la imagen en el canvas
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Convertir el contenido del canvas a una imagen
+      // const imageData = canvas.toDataURL('image/png');
+      // console.log('Imagen capturada:', imageData);
+      // Puedes usar la imagen capturada como prefieras
+      this.previsualizacion = canvas.toDataURL('image/png');
+
+
+    }
+
+
+    this.imageData = canvas.toDataURL('image/png');
+
+    this.detenerCamara();
+  }
+
+
+  detenerCamara() {
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => track.stop());
+      this.stream = null;
+    }
+    this.camaraActiva = false;
+    this.videoElement.nativeElement.style.display = 'none';
+  }
+
   procesarArchivo(archivoBlob: Blob) {
 
 
@@ -283,10 +418,12 @@ export class NuevosUsuariosComponent {
       // rolDescripcion: "Clientes",
       clave: this.formularioUsuario.value.clave,
       // esActivo: 0,
+      imageData: this.imageData ? this.imageData.split(',')[1] : null,
+      nombreImagen: this.nombreImagen || null,
       imagenUrl: this.imagenUrl ? this.imagenUrl.split(',')[1] : null,
     }
 
-
+     console.log(_usuario);
     if (this.datosUsuario == null) {
 
       this._usuarioServicio.guardar2(_usuario).subscribe({
@@ -304,6 +441,7 @@ export class NuevosUsuariosComponent {
 
             this._usuarioServicio.activarCuenta(_usuario.correo!).subscribe(
               (response: any) => {
+                console.log(response);
                 if (response.status) {
                   Swal.fire('Éxito', 'Se ha enviado  a tu correo electrónico un link de activacion.', 'success');
                 } else {
@@ -430,7 +568,7 @@ export class NuevosUsuariosComponent {
     }
   }
 
-  reenviar(){
+  reenviar() {
     Swal.fire({
       title: 'Ingrese su correo electrónico',
       input: 'email',
@@ -457,26 +595,26 @@ export class NuevosUsuariosComponent {
           (response: any) => {
 
 
-              if(response.nombre =="Administrador" && response.esActivo == false){
+            if (response.nombre == "Administrador" && response.esActivo == false) {
 
-                Swal.fire('Error', 'Esta cuenta no puede ser activada, necesita ser activada desde el equipo interno de su negocio.', 'error');
+              Swal.fire('Error', 'Esta cuenta no puede ser activada, necesita ser activada desde el equipo interno de su negocio.', 'error');
 
-              }else{
+            } else {
 
-                this._usuarioServicio.activarCuenta(correo).subscribe(
-                  (response: any) => {
-                    if (response.status) {
-                      Swal.fire('Éxito', 'Se ha enviado  a tu correo electrónico un link de activacion.', 'success');
-                    } else {
-                      Swal.fire('Error', response.msg, 'error');
-                    }
-                  },
-                  (error) => {
-                    Swal.fire('Error', 'Hubo un error al enviar el correo electrónico.', 'error');
+              this._usuarioServicio.activarCuenta(correo).subscribe(
+                (response: any) => {
+                  if (response.status) {
+                    Swal.fire('Éxito', 'Se ha enviado  a tu correo electrónico un link de activacion.', 'success');
+                  } else {
+                    Swal.fire('Error', response.msg, 'error');
                   }
-                );
+                },
+                (error) => {
+                  Swal.fire('Error', 'Hubo un error al enviar el correo electrónico.', 'error');
+                }
+              );
 
-              }
+            }
 
 
 

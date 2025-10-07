@@ -52,7 +52,7 @@ import { PendientePaymentComponent } from './Components/pendiente-payment/pendie
 import { MatTabsModule } from '@angular/material/tabs';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class SpanishPaginatorIntl extends MatPaginatorIntl {
@@ -147,7 +147,8 @@ const MY_DATE_FORMATS = {
     { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl },
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     { provide: LOCALE_ID, useValue: 'es-ES' },//para que la fechas me la de en español
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

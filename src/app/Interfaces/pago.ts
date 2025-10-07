@@ -5,4 +5,7 @@ export interface Pago {
   montoTexto?: string;
   tipoPago?: string;
   tipoTranferencia?: string;
+  precioPagadoTexto?: string,
+  precioEfectivoTexto?: string,
+  precioTransferenciaTexto?: string,
 }

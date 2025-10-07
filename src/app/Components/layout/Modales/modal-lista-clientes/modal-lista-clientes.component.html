@@ -29,7 +29,8 @@
             Imagen</th>
           <td mat-cell *matCellDef="let element" style="text-align: center;">
             <!-- Usa la etiqueta <img> para mostrar la imagen -->
-            <img [src]="element.imagenUrl" alt="Imagen del Usuario" class="circular-image" (click)="verImagen(element)">
+            <img [src]="element.imagenUrl" alt="Imagen del Usuario" class="circular-image" 
+            (click)="verImagen(element)">
           </td>
         </ng-container>
         <!-- <ng-container matColumnDef="idUsuario">

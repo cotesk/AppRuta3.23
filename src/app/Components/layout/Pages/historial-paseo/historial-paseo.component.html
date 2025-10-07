@@ -91,9 +91,9 @@
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-mini-fab color="warn" [disabled]="paseo.estado == 'Cancelado'|| paseo.estado == 'EnCurso' || paseo.estado == 'Entregado'
-        || paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'" matTooltip="Eliminar Paseo"
+        || paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'" matTooltip="Cancelar Paseo"
           (click)="eliminarPaseo(paseo)">
-          <mat-icon>delete</mat-icon>
+          <mat-icon>cancel</mat-icon>
         </button>
       </mat-card-actions>
 

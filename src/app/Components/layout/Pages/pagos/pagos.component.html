@@ -1,1 +1,182 @@
-<p>pagos works!</p>
+<h1 style="margin:0px 0px 10px ; text-align: center;">Registrar Pagos</h1>
+
+
+<div *ngIf="usuarioSeleccionado" appearance="fill" class="minimalist-precio" (click)="deseleccionarCliente()">
+    Cliente seleccionado: {{ usuarioSeleccionado.nombreCompleto }}
+</div>
+
+<form [formGroup]="formularioProductoVenta" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+
+    <!-- Cliente -->
+    <mat-form-field class="small-input4">
+        <input matInput type="text" placeholder="Buscar Clientes" [matAutocomplete]="autoCliente" formControlName="cliente"
+            (focus)="mostrarListaCliente()" (input)="filtrarEntradaCliente($event)" [value]="clienteFiltrado">
+        <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete" (optionSelected)="mesaParaVenta($event)"
+            [displayWith]="mostrarMesas">
+            <mat-option *ngFor="let option of listaClienteFiltrada" [value]="option">
+                {{ option.nombreCompleto }}
+                <hr *ngIf="!lastItem(option, listaClienteFiltrada)" class="separator">
+            </mat-option>
+        </mat-autocomplete>
+        <div matSuffix class="suffix-container">
+            <button mat-icon-button matTooltip="Crear nueva cliente" (click)="nuevaMesa($event)">
+                <mat-icon class="icon-green">add_circle</mat-icon>
+            </button>
+            <mat-icon matSuffix>search</mat-icon>
+        </div>
+    </mat-form-field>
+
+
+    <!-- Tipo Factura -->
+    <mat-form-field class="small-input3">
+        <mat-label>Tipo de Factura</mat-label>
+        <mat-select [(value)]="tipodeFacturaPorDefecto">
+            <mat-option value="Ticket">
+                <mat-icon class="icon-green">receipt</mat-icon> Ticket
+            </mat-option>
+            <mat-option value="Factura">
+                <mat-icon class="icon-blue">description</mat-icon> Factura
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Recibido -->
+    <mat-form-field class="small-input2" *ngIf="metodoBusquedaPago === 'Pagado'">
+        <mat-label>Recibido</mat-label>
+        <input matInput type="text" formControlName="precioPagadoTexto"
+            (input)="formatearNumero4($event, 'precioPagadoTexto')">
+        <mat-icon matSuffix class="icon-green">attach_money</mat-icon>
+    </mat-form-field>
+
+    <!-- Tipo de Pago -->
+    <mat-form-field class="small-input2">
+        <mat-label>Tipo de pago</mat-label>
+        <mat-select [(value)]="tipodePagoPorDefecto" (selectionChange)="onChangeTipoBusqueda19($event)">
+            <mat-option value="Efectivo">
+                <mat-icon class="icon-green">payments</mat-icon> Efectivo
+            </mat-option>
+            <mat-option value="Transferencia">
+                <mat-icon class="icon-blue">account_balance</mat-icon> Transferencia
+            </mat-option>
+            <!-- <mat-option value="Fiado">
+                <mat-icon class="icon-orange">credit_card_off</mat-icon> Crédito
+            </mat-option> -->
+            <mat-option value="Combinado">
+                <mat-icon class="icon-purple">sync_alt</mat-icon> Combinado
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Medios de Pago -->
+    <mat-form-field class="small-input5"
+        *ngIf="tipodePagoPorDefecto === 'Transferencia' || tipodePagoPorDefecto === 'Combinado'">
+        <mat-label>Medios de pagos</mat-label>
+        <mat-select [(value)]="tipodePago">
+            <mat-option value="Nequi">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv733vhzl4XlJCl13S1VvTQ6gfwbpw_eZV_g&s"
+                    width="24" height="24" style="margin-right: 8px; vertical-align: middle;" />
+                Nequi
+            </mat-option>
+            <mat-option value="Bancolombia">
+                <img src="https://images.seeklogo.com/logo-png/42/1/bancolombia-logo-png_seeklogo-428092.png" width="24"
+                    height="24" style="margin-right: 8px; vertical-align: middle;" />
+                Bancolombia
+            </mat-option>
+            <mat-option value="Daviplata">
+                <img src="https://conectesunegocio.daviplata.com/sites/default/files/styles/original/public/2023-11/af2be4165905879.Y3JvcCwxNDAwLDEwOTUsMCwxNTI.png?itok=Fn_Y_HIf"
+                    width="24" height="24" style="margin-right: 8px; vertical-align: middle;" />
+                Daviplata
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Método de pago -->
+    <mat-form-field class="small-input2">
+        <mat-label>Método de pago</mat-label>
+        <mat-select formControlName="metodoBusqueda" (selectionChange)="onChangeTipoBusqueda17($event)">
+            <mat-option value="Pagado">
+                <mat-icon class="icon-green">money</mat-icon> Contado
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+<div *ngIf="paseos.length > 0" style="text-align: center; margin-top: 15px;">
+  <button mat-raised-button color="primary" class="boton-pagar-todos"
+          (click)="pagarTodosLosPaseos()">
+    <mat-icon>paid</mat-icon>
+    Pagar todos los paseos
+  </button>
+</div>
+
+
+<div *ngIf="paseos.length > 0">
+  <h3 style="margin-top: 20px;">Paseos del cliente {{ usuarioSeleccionado?.nombreCompleto }}</h3>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z1" style="width: 100%; margin-top: 10px;">
+
+      <!-- ID -->
+      <ng-container matColumnDef="idPaseo">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;"># Paseo</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">{{ paseo.idPaseo }}</td>
+      </ng-container>
+
+      <!-- Fecha -->
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Fecha</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">{{ paseo.fecha | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <!-- Turno -->
+      <ng-container matColumnDef="turno">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Turno</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">{{ paseo.turno }}</td>
+      </ng-container>
+
+      <!-- Paseador -->
+      <ng-container matColumnDef="nombrePasador">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Paseador</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">{{ paseo.nombrePasador }}</td>
+      </ng-container>
+
+      <!-- Costo -->
+      <ng-container matColumnDef="costoTotal">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Costo</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">{{ formatearNumero2(paseo.costoTotal) }}</td>
+      </ng-container>
+
+      <!-- Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Estado</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">{{ paseo.estado }}</td>
+      </ng-container>
+
+      <!-- Botones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Acciones</th>
+        <td mat-cell *matCellDef="let paseo" style="text-align:center;">
+          <button mat-icon-button class="icon-green" matTooltip="Registrar pago" (click)="pagarPaseo(paseo)">
+            <mat-icon>attach_money</mat-icon>
+          </button>
+          <!-- <button mat-icon-button color="primary" matTooltip="Ver detalle" (click)="verDetallePaseo(paseo)">
+            <mat-icon>visibility</mat-icon>
+          </button> -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnasTabla;"></tr>
+    </table>
+
+    <div style="text-align:center; margin-top:15px;">
+      <mat-paginator [length]="totalItems" [pageSize]="tamanioPagina" [pageSizeOptions]="[5, 10]"
+                     (page)="onPageChange($event)" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+<footer class="footer">
+    <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>

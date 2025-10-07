@@ -411,7 +411,8 @@ export class HistorialPaseoComponent {
           // Abrir el modal y pasar las fechas registradas con el estado de pago
           this.dialog.open(CalendarioModalComponent, {
             data: {
-              fechasRegistradas
+              fechasRegistradas,
+              tipo:"Paseador"
             }, // Enviar las fechas con su estado de pago
             width: '500px',
           }).afterClosed().subscribe(resultado => {

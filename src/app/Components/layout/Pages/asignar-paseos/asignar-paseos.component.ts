@@ -4,7 +4,7 @@ import { Paseo } from '../../../../Interfaces/paseo';
 import { PaseoService } from '../../../../Services/paseo.service';
 import { UtilidadService } from '../../../../Reutilizable/utilidad.service';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
 import { map } from 'rxjs/operators';
@@ -595,57 +595,57 @@ export class AsignarPaseosComponent {
 
   }
 
-onFechaSeleccionada(event: any) {
-  const fecha = event.value;
-  const idPasador = this.formularioPaseo.get('idUsuarioPasador')?.value;
-  const turno = this.formularioPaseo.get('turno')?.value;
+  onFechaSeleccionada(event: any) {
+    const fecha = event.value;
+    const idPasador = this.formularioPaseo.get('idUsuarioPasador')?.value;
+    const turno = this.formularioPaseo.get('turno')?.value;
 
-  // Validar que ya se haya seleccionado paseador y turno
-  if (!idPasador || !turno) {
-    Swal.fire({
-      icon: 'info',
-      title: 'Selecciona primero',
-      text: 'Debes elegir el paseador y el turno antes de seleccionar la fecha.',
-      confirmButtonColor: '#3085d6'
-    });
-    this.formularioPaseo.get('fecha')?.setValue(null);
-    return;
-  }
+    // Validar que ya se haya seleccionado paseador y turno
+    if (!idPasador || !turno) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Selecciona primero',
+        text: 'Debes elegir el paseador y el turno antes de seleccionar la fecha.',
+        confirmButtonColor: '#3085d6'
+      });
+      this.formularioPaseo.get('fecha')?.setValue(null);
+      return;
+    }
 
-  // Llamar al backend para obtener los cupos disponibles
-  this.paseoService.obtenerCuposDisponibles(idPasador, fecha, turno).subscribe({
-    next: (data) => {
-      if (data.status) {
-        const cupos = data.value.cuposDisponibles;
+    // Llamar al backend para obtener los cupos disponibles
+    this.paseoService.obtenerCuposDisponibles(idPasador, fecha, turno).subscribe({
+      next: (data) => {
+        if (data.status) {
+          const cupos = data.value.cuposDisponibles;
 
-        Swal.fire({
-          icon: cupos > 0 ? 'success' : 'warning',
-          title: 'Cupos disponibles',
-          text: cupos > 0
-            ? `El paseador tiene ${cupos} cupo(s) disponible(s) para el turno ${turno}.`
-            : `No hay cupos disponibles para el turno ${turno}.`,
-          confirmButtonColor: '#3085d6'
-        });
-      } else {
+          Swal.fire({
+            icon: cupos > 0 ? 'success' : 'warning',
+            title: 'Cupos disponibles',
+            text: cupos > 0
+              ? `El paseador tiene ${cupos} cupo(s) disponible(s) para el turno ${turno}.`
+              : `No hay cupos disponibles para el turno ${turno}.`,
+            confirmButtonColor: '#3085d6'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.msg || 'No fue posible obtener los cupos disponibles.',
+            confirmButtonColor: '#d33'
+          });
+        }
+      },
+      error: (error) => {
         Swal.fire({
           icon: 'error',
-          title: 'Error',
-          text: data.msg || 'No fue posible obtener los cupos disponibles.',
+          title: 'Error de conexión',
+          text: 'Ocurrió un error al consultar los cupos disponibles.',
           confirmButtonColor: '#d33'
         });
+        console.error(error);
       }
-    },
-    error: (error) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error de conexión',
-        text: 'Ocurrió un error al consultar los cupos disponibles.',
-        confirmButtonColor: '#d33'
-      });
-      console.error(error);
-    }
-  });
-}
+    });
+  }
 
 
 

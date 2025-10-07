@@ -9,15 +9,15 @@
 
 
 <form [formGroup]="formularioUsuario">
-    <div mat-dialog-content class="content">
+  <div mat-dialog-content class="content">
 
-  <!-- <div mat-dialog-content class="content"> -->
+    <!-- <div mat-dialog-content class="content"> -->
     <!-- <mat-form-field appearance="outline" class="full-width"> -->
 
     <div class="row">
-      <mat-form-field appearance="fill"  style="width: 200px;">
+      <mat-form-field appearance="fill" style="width: 200px;">
         <mat-label>Opciones</mat-label>
-        <mat-select formControlName="metodoBusqueda" >
+        <mat-select formControlName="metodoBusqueda">
 
           <mat-option (click)="reenviar()">
             <mat-icon class="icon-verde">verified_user</mat-icon>
@@ -29,16 +29,43 @@
         </mat-select>
         <mat-icon matSuffix>more_vert</mat-icon>
       </mat-form-field>
+
+      <mat-form-field appearance="fill" >
+        <mat-label>Seleccionar acción</mat-label>
+        <mat-select (selectionChange)="onSeleccionAccion($event)">
+          <mat-option value="tomarFoto">
+            <mat-icon color="primary">photo_camera</mat-icon>
+            Tomar Foto
+          </mat-option>
+          <mat-option value="elegirFoto">
+            <mat-icon color="accent">photo_library</mat-icon>
+            Elegir Foto
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
     </div>
 
-      <div class="row">
 
-      <mat-form-field   appearance="outline" *ngIf="!modoEdicion">
-        <!-- <mat-label>Imagen</mat-label> -->
-        <!-- Reemplaza el código del input original con este código -->
+ <div class="row">
+
+      <!-- Sección para tomar foto -->
+      <div class="camera-section" *ngIf="accionSeleccionada === 'tomarFoto'">
+        <!-- <button mat-raised-button color="primary" (click)="activarCamara()">Activar Cámara</button> -->
+        <video #videoElement autoplay style="width: 100%; max-width: 600px; transform: scaleX(-1);"></video>
+        <br>
+        <div class="button-center">
+          <button mat-raised-button color="accent" (click)="tomarFoto()" *ngIf="camaraActiva"
+            [disabled]="!camaraActiva">
+            <mat-icon>photo_camera</mat-icon> Tomar Foto
+          </button>
+        </div>
+      </div>
+
+      <!-- Sección para elegir foto -->
+      <mat-form-field appearance="outline" *ngIf="accionSeleccionada === 'elegirFoto'">
         <div class="custom-upload-container">
-          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()"
-            matTooltip="Seleccionar Archivo">
+          <button mat-icon-button class="custom-upload-button" (click)="inputFileRef?.nativeElement.click()">
             <mat-icon>attach_file</mat-icon>
           </button>
           <input *ngIf="!modoEdicion" class="mat-input-file" #inputFileRef type="file" name="Imagen"
@@ -47,25 +74,26 @@
 
         <input matInput formControlName="Urlimagen" readonly
           [value]="obtenerUrlSeguraDeImagen() ? 'Imagen seleccionada' : ''" placeholder="Seleccionar archivo">
-        <button mat-icon-button matSuffix color="warn"  *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
+        <button mat-icon-button matSuffix class="eliminar" *ngIf="obtenerUrlSeguraDeImagen()" (click)="limpiarImagen()">
           <mat-icon>clear</mat-icon>
         </button>
       </mat-form-field>
 
-      <div  *ngIf="previsualizacion">
-        <!-- <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
+      <!-- Vista previa de la imagen -->
+      <div class="preview-img" *ngIf="previsualizacion">
+        <button mat-icon-button matSuffix color="warn" class="clear-image" (click)="limpiarImagen()">
           <mat-icon>clear</mat-icon>
-        </button> -->
+        </button>
         <img class="preview-image" [src]="previsualizacion" alt="Previsualización de la imagen"
           style="max-width: 300px; max-height: 200px;" (click)="verImagen()">
-
       </div>
 
-    </div >
+    </div>
+    <br>
     <!-- </div> -->
     <div class="row">
       <!-- Nombre Completo -->
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Nombre de Usuario</mat-label>
         <input matInput autocomplete="off" formControlName="nombreCompleto">
         <mat-icon matSuffix>person</mat-icon>
@@ -78,7 +106,7 @@
       </mat-form-field>
 
       <!-- Correo -->
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Correo</mat-label>
         <input matInput autocomplete="off" formControlName="correo">
         <mat-icon matSuffix>mail</mat-icon>
@@ -106,19 +134,13 @@
       </mat-form-field> -->
       <mat-form-field appearance="fill" class="contra">
         <mat-label>Contraseña</mat-label>
-        <mat-icon matPrefix *ngIf="passwordErrors.length > 0" style="color: #f44336; margin-right: 8px;">error_outline</mat-icon>
+        <mat-icon matPrefix *ngIf="passwordErrors.length > 0"
+          style="color: #f44336; margin-right: 8px;">error_outline</mat-icon>
 
-        <input matInput
-               [type]="ocultarPassword ? 'password' : 'text'"
-               maxlength="20"
-               formControlName="clave"
-               (input)="onPasswordChange()"
-               [matTooltip]="getPasswordErrorTooltip()"
-               matTooltipPosition="above"
-               matTooltipShowDelay="0"
-               matTooltipHideDelay="2000"
-               (click)="showTooltip()"
-               [matTooltipDisabled]="passwordErrors.length === 0">
+        <input matInput [type]="ocultarPassword ? 'password' : 'text'" maxlength="20" formControlName="clave"
+          (input)="onPasswordChange()" [matTooltip]="getPasswordErrorTooltip()" matTooltipPosition="above"
+          matTooltipShowDelay="0" matTooltipHideDelay="2000" (click)="showTooltip()"
+          [matTooltipDisabled]="passwordErrors.length === 0">
         <button mat-icon-button matSuffix (click)="ocultarPassword = !ocultarPassword" type="button">
           <mat-icon>{{ ocultarPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
@@ -160,5 +182,3 @@
 
 </form>
 <!-- </mat-dialog-content> -->
-
-

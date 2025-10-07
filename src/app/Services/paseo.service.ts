@@ -123,6 +123,13 @@ export class PaseoService {
     );
   }
 
+    obtenerPorPaseadorCalendario(idPaseador: number): Observable<ReponseApi> {
+    const headers = this.getHeaders();
+    return this.http.get<ReponseApi>(`${this.urlApi}UsuarioPaseador/${idPaseador}`, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
   obtenerCuposDisponibles(idPasador: number, fecha: Date, turno: string): Observable<ReponseApi> {
     const headers = this.getHeaders();
     const fechaISO = moment(fecha).format('YYYY-MM-DD');

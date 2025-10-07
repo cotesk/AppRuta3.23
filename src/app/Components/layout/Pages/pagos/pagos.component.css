@@ -1,0 +1,198 @@
+.small-input2,
+.small-input3,
+.small-input4,
+.small-input5 {
+  width: 200px;
+  min-width: 150px;
+}
+
+
+.table-container {
+  border-radius: 6px;
+  overflow-x: auto;
+  /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch;
+  /* Mejora el desplazamiento en dispositivos táctiles */
+}
+
+.suffix-container {
+  display: flex;
+  align-items: center;
+}
+
+.separator {
+  border: none;
+  border-top: 1px solid red;
+  /* Color rojo */
+  margin: 5px 0;
+  /* Espaciado opcional */
+}
+
+
+.suffix-container mat-icon {
+  margin-left: 0px;
+  /* Opcional: agregar un poco de espacio entre el botón y el icono */
+}
+
+.suffix-container {
+  display: flex;
+  align-items: center;
+}
+
+.suffix-container .mat-icon-button {
+  margin-right: 4px;
+  /* Ajusta este valor según sea necesario */
+}
+
+
+.icon-green {
+  color: green;
+}
+
+.icon-red {
+  color: red;
+}
+
+.icon-naraja {
+  color: rgb(217, 125, 33);
+}
+
+.icon-blue {
+  color: rgb(60, 60, 175);
+}
+
+.icon-orange {
+  color: #ff9800;
+  /* Naranja - Fiado */
+}
+
+.icon-purple {
+  color: #9c27b0;
+  /* Morado - Combinado */
+}
+
+.table-container {
+  border-radius: 6px;
+  overflow-x: auto;
+  /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch;
+  /* Mejora el desplazamiento en dispositivos táctiles */
+}
+
+
+mat-form-field {
+  background-color: white;
+  border-radius: 8px;
+}
+
+table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mat-form-field-infix {
+  padding: 4px 0;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
+
+.mat-header-cell {
+  font-weight: 600;
+}
+
+.footer {
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  margin: 20px -15px 140px;
+  width: 101%;
+}
+
+.minimalist-precio {
+  position: absolute;
+  top: 25px;
+  left: 145px;
+}
+
+
+@media (max-width: 768px) {
+
+  .minimalist-precio {
+    position: absolute;
+    top: -2px;
+    left: 20px;
+  }
+
+  .footer {
+      font-size: 10px;
+    position: relative;
+    left: -5px;
+    /* Salir del contenedor principal */
+    width: calc(97% + 31px);
+    /* Hacerlo más largo que el mat-card */
+    background-color: #2c3e50;
+    /* Cambiar color si es necesario */
+  }
+
+  form {
+    flex-direction: column !important;
+    align-items: stretch;
+  }
+
+  .small-input2,
+  .small-input3,
+  .small-input4,
+  .small-input5,
+  mat-form-field {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+
+  .suffix-container {
+    justify-content: space-between;
+  }
+
+  h1 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .table-container table {
+    min-width: 700px;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .mat-header-cell {
+    white-space: nowrap;
+  }
+
+  .minimalist-precio {
+    font-size: 14px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .table-container {
+    margin-bottom: 20px;
+  }
+
+  /* ::ng-deep .mat-mdc-paginator-range-actions {
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+  } */
+}

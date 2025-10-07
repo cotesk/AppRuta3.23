@@ -46,26 +46,24 @@
             </mat-form-field>
 
             <!-- Fecha -->
-            <mat-form-field appearance="fill" class="half-width">
+              <mat-form-field appearance="fill" class="half-width">
                 <mat-label>Fecha</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="fecha">
-
+                <input matInput [matDatepicker]="picker" formControlName="fecha"
+                    (dateChange)="onFechaSeleccionada($event)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
 
-                <!-- Errores -->
                 <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('required')">
                     La fecha es obligatoria
                 </mat-error>
-
                 <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('fechaAnterior')">
                     La fecha no puede ser anterior a hoy.
                 </mat-error>
-
                 <mat-error *ngIf="formularioPaseo.get('fecha')?.hasError('maxDate')">
                     La fecha no puede superar una semana desde hoy.
                 </mat-error>
             </mat-form-field>
+
 
             <!-- Paseo toda la semana -->
             <mat-form-field appearance="fill" class="half-width">
