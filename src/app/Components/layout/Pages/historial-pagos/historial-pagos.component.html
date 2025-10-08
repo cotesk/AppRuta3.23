@@ -1,1 +1,119 @@
-<p>historial-pagos works!</p>
+<h1 style="margin:20px 0px 40px; text-align: center;">Lista de Pagos</h1>
+
+<mat-card>
+
+    <mat-card-title class="mat-card-title">
+
+        <mat-form-field appearance="fill" class="minimalist-PDF" style="width: 200px;">
+            <mat-label>Opciones</mat-label>
+            <mat-select>
+                <!-- <mat-option (click)="nuevoPago()">
+          <mat-icon class="icon-naraja">add</mat-icon>
+          Nuevo Pago
+        </mat-option> -->
+                <mat-option (click)="generarPDF()">
+                    <mat-icon class="icon-red fas fa-file-pdf fa-1x"></mat-icon>
+                    <!-- <i class="fas fa-file-pdf fa-1x"></i> -->
+                    Generar PDF
+                </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>more_vert</mat-icon>
+        </mat-form-field>
+
+    </mat-card-title>
+
+    <mat-card-content class="dashboard-card-content">
+
+        <mat-form-field appearance="fill" class="futuristic-search-field">
+            <input matInput placeholder="Buscar pago o cliente" (keyup)="aplicarFiltroTabla($event)" #input>
+            <button mat-icon-button matSuffix aria-label="Buscar" class="futuristic-search-button">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div class="table-container">
+            <table mat-table class="custom-mat-table" [dataSource]="dataPagos">
+
+                <!-- IdPago -->
+                <ng-container matColumnDef="idPago">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">ID
+                    </th>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ pago.idPago }}</td>
+                </ng-container>
+
+                <!-- Nombre del Usuario -->
+                <ng-container matColumnDef="nombreUsuario">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
+                        Usuario</th>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ pago.nombreUsuario }}</td>
+                </ng-container>
+
+                <!-- Fecha -->
+                <ng-container matColumnDef="fechaPago">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
+                        Fecha</th>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ formatearFecha(pago.fechaPago) }}
+                    </td>
+                </ng-container>
+
+                <!-- Tipo Pago -->
+                <ng-container matColumnDef="tipoPago">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Tipo
+                    </th>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ pago.tipoPago }}</td>
+                </ng-container>
+
+                <!-- Monto -->
+                <ng-container matColumnDef="monto">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
+                        Monto</th>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ formatearNumero(pago.montoTexto)
+                        }}</td>
+                </ng-container>
+
+                <!-- Acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
+                        Acciones</th>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;">
+                        <button mat-icon-button color="primary" (click)="verDetallePago(pago)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <!-- <button mat-icon-button class="eliminar" (click)="eliminarPago(pago)">
+              <mat-icon>delete</mat-icon>
+            </button> -->
+                    </td>
+                </ng-container>
+
+                <!-- Filas -->
+                <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasTabla;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="6">No hay pagos que coincidan con "{{ input.value }}"</td>
+                </tr>
+            </table>
+
+            <!-- Controles de paginación -->
+            <div class="pagination-controls">
+                <button mat-icon-button (click)="firstPage()" [disabled]="page === 1">
+                    <mat-icon>first_page</mat-icon>
+                </button>
+                <button mat-icon-button (click)="previousPage()" [disabled]="page === 1">
+                    <mat-icon>navigate_before</mat-icon>
+                </button>
+                <span class="page-info">Página {{ page }} de {{ totalPages }}</span>
+                <button mat-icon-button (click)="nextPage()" [disabled]="page === totalPages">
+                    <mat-icon>navigate_next</mat-icon>
+                </button>
+                <button mat-icon-button (click)="lastPage()" [disabled]="page === totalPages">
+                    <mat-icon>last_page</mat-icon>
+                </button>
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+
+<footer class="footer">
+    <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>
