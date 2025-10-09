@@ -1,0 +1,34 @@
+<h2 mat-dialog-title style="text-align: center;">Opiniones del Paseador</h2>
+
+<mat-dialog-content>
+  <div *ngIf="comentarios.length === 0" class="text-center">
+    <p>No hay comentarios disponibles.</p>
+  </div>
+
+  <div *ngFor="let c of comentarios" class="comentario-card">
+    <div class="comentario-header">
+      <strong>{{ c.cliente }}</strong>
+      <span class="fecha">{{ c.fecha }}</span>
+    </div>
+
+    <div class="estrellas">
+      <ng-container *ngFor="let i of [1,2,3,4,5]">
+        <i class="fa-star" [ngClass]="{'fas': i <= c.estrellas, 'far': i > c.estrellas}"></i>
+      </ng-container>
+    </div>
+
+    <p class="comentario-texto">{{ c.comentario || 'Sin comentario.' }}</p>
+  </div>
+
+  <div class="paginacion" *ngIf="totalPaginas > 1">
+    <button mat-stroked-button class="agregar" (click)="cambiarPagina(1)" [disabled]="paginaActual === 1">Primera</button>
+    <button mat-stroked-button class="agregar" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">Anterior</button>
+    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button mat-stroked-button class="agregar" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+    <button mat-stroked-button class="agregar" (click)="cambiarPagina(totalPaginas)" [disabled]="paginaActual === totalPaginas">Última</button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn"  (click)="cerrar()">Cerrar</button>
+</mat-dialog-actions>

@@ -196,6 +196,40 @@ mat-chip {
   margin-bottom: 5px;
 }
 
+.info-paseador {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.estrellas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  color: #ffd700; /* Dorado */
+  margin: 5px 0;
+}
+
+.estrellas i {
+  margin: 0 3px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.estrellas i:hover {
+  transform: scale(1.2);
+}
+
+.promedio-texto {
+  margin-left: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.total-opiniones {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 
 /* Responsive: móviles */
 @media (max-width: 768px) {

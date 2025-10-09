@@ -1907,7 +1907,7 @@ export class PagosComponent implements OnInit, OnDestroy {
                       // Obtener el nombre completo del usuario si existe
                       const nombreUsuario = usuario ? usuario.nombreCompleto : 'Desconocido';
 
-                      const urlQR = `https://appsistemaventa2024.web.app/menu/consultar_Venta?venta=${numeroDocumento}`;
+                      const urlQR = `https://ruta-3-23.web.app/menu/consultar_Pagos?pagos=${this.usuarioSeleccionado!.correo}`;
                       const qrImageBase64 = await QRCode.toDataURL(urlQR);
 
                       // Obtener la fecha y hora actual para mostrarla en el ticket
@@ -2488,7 +2488,7 @@ export class PagosComponent implements OnInit, OnDestroy {
                       // Obtener el nombre completo del usuario si existe
                       const nombreUsuario = usuario ? usuario.nombreCompleto : 'Desconocido';
 
-                      const urlQR = `https://appsistemaventa2024.web.app/menu/consultar_Venta?venta=${numeroDocumento}`;
+                      const urlQR = `https://ruta-3-23.web.app/menu/consultar_Pagos?pagos=${this.usuarioSeleccionado!.correo}`;
                       const qrImageBase64 = await QRCode.toDataURL(urlQR);
 
                       // Obtener la fecha y hora actual para mostrarla en el ticket

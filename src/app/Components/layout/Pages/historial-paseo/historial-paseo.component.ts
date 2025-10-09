@@ -14,6 +14,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { CalendarioModalComponent } from '../../Modales/calendario-modal/calendario-modal.component';
 import { VerImagenProductoModalComponent } from '../../Modales/ver-imagen-producto-modal/ver-imagen-producto-modal.component';
 import { ModalEditarPaseosComponent } from '../../Modales/modal-editar-paseos/modal-editar-paseos.component';
+import { CalificarPaseadorModalComponent } from '../../Modales/calificar-paseador-modal/calificar-paseador-modal.component';
 
 
 export const MY_DATE_FORMATS = {
@@ -266,12 +267,23 @@ export class HistorialPaseoComponent {
               if (resp && resp.status) {
                 Swal.fire({
                   title: '¡Perro Entregado!',
-                  text: 'El perro fue entregado a su cliente correctamente.',
+                  text: 'El perro fue entregado correctamente.',
                   icon: 'success',
                   confirmButtonColor: '#286aa7ff'
+                }).then(() => {
+                  // 🟢 Abrir modal de calificación
+                  console.log(paseo);
+                  this.dialog.open(CalificarPaseadorModalComponent, {
+                    width: '450px',
+                    disableClose: true,
+                    data: {
+                      idPaseo: paseo.idPaseo,
+                      idUsuarioPasador: paseo.idUsuarioPasador,
+                      idUsuarioCliente: paseo.idUsuarioCliente
+                    }
+                  });
                 });
 
-                console.log('🎯 Paseo marcado como "en curso". Recargando lista de paseos...');
                 this.cargarPaseos();
               } else {
                 Swal.fire({
@@ -412,7 +424,7 @@ export class HistorialPaseoComponent {
           this.dialog.open(CalendarioModalComponent, {
             data: {
               fechasRegistradas,
-              tipo:"Paseador"
+              tipo: "Paseador"
             }, // Enviar las fechas con su estado de pago
             width: '500px',
           }).afterClosed().subscribe(resultado => {

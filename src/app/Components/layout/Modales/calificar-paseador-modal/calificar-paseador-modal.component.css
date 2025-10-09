@@ -1,0 +1,50 @@
+.titulo {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.estrellas {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 15px 0;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.estrellas mat-icon {
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.estrellas mat-icon.seleccionada {
+  color: #fbc02d;
+}
+
+.campo-comentario {
+  width: 100%;
+}
+
+
+button[color="warn"]:hover {
+  background-color: #9e3434;
+}
+
+button.agregar {
+  background-color: #3351aa;
+  color: #fff;
+}
+
+button.agregar:hover {
+  background-color: rgb(79, 96, 113);
+}
+
+button.agregar[disabled] {
+  background-color: #ccc;
+  color: #666;
+}
+
+button.agregar[disabled]:hover {
+  background-color: #ccc;
+}

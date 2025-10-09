@@ -26,25 +26,15 @@ export class DashBoardService {
     });
   }
 
-  resumen(): Observable<ReponseApi> {
+  resumenPaseos(): Observable<ReponseApi> {
      const headers = this.getHeaders();
-    return this.http.get<ReponseApi>(`${this.urlApi}Resumen`, { headers });
+    return this.http.get<ReponseApi>(`${this.urlApi}ResumenPaseo`, { headers });
   }
 
-  resumenCompra(): Observable<ReponseApi> {
-    const headers = this.getHeaders();
-    return this.http.get<ReponseApi>(`${this.urlApi}ResumenCompra`, { headers });
+  resumenPagos(): Observable<ReponseApi> {
+     const headers = this.getHeaders();
+    return this.http.get<ReponseApi>(`${this.urlApi}ResumenPagos`, { headers });
   }
-
-  // resumen():Observable<ReponseApi>{
-
-  //   return this.http.get<ReponseApi>(`${this.urlApi}Resumen`)
-  // }
-
-  // resumenCompra():Observable<ReponseApi>{
-
-  //   return this.http.get<ReponseApi>(`${this.urlApi}ResumenCompra`)
-  // }
 
 
 }

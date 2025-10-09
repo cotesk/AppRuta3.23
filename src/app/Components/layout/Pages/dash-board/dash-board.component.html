@@ -22,10 +22,10 @@
         <mat-card class="card-info">
           <mat-card-header>
             <div mat-card-avatar>
-              <mat-icon color="accent">payments</mat-icon>
+              <mat-icon color="primary2">people</mat-icon>
             </div>
-            <mat-card-title>Total de Ingresos</mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{ formatearNumero(totalIngresos) }} $</mat-card-subtitle>
+            <mat-card-title>Total de Paseadores</mat-card-title>
+            <mat-card-subtitle style="text-align: center;">{{ (totalPaseadores) }} </mat-card-subtitle>
           </mat-card-header>
         </mat-card>
 
@@ -36,10 +36,10 @@
         <mat-card class="card-info">
           <mat-card-header>
             <div mat-card-avatar>
-              <mat-icon color="accent">attach_money</mat-icon>
+              <mat-icon color="accent">pets</mat-icon>
             </div>
-            <mat-card-title>Ganancias</mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{ formatearNumero(totalGanancia) }} $</mat-card-subtitle>
+            <mat-card-title>Total de Perros</mat-card-title>
+            <mat-card-subtitle style="text-align: center;">{{ (totalPerro) }} </mat-card-subtitle>
           </mat-card-header>
         </mat-card>
 
@@ -54,55 +54,20 @@
             <div mat-card-avatar>
               <mat-icon color="warn">sell</mat-icon>
             </div>
-            <mat-card-title>Total de Ventas</mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{totalVentas}}</mat-card-subtitle>
+            <mat-card-title>Total de Tarifas</mat-card-title>
+            <mat-card-subtitle style="text-align: center;">{{totalTarifa}}</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
 
       </mat-grid-tile>
 
 
-      <mat-grid-tile>
-        <mat-card class="card-info">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon color="warn">collections_bookmark</mat-icon>
-            </div>
-            <mat-card-title>Total de Productos </mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{totalProductos}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-card class="card-info">
           <mat-card-header>
             <div mat-card-avatar>
-              <mat-icon color="accent2">inventory_2</mat-icon>
-            </div>
-            <mat-card-title>Productos En Bodega </mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{totalProductosBodega}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-card class="card-info">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon color="warn">store</mat-icon>
-            </div>
-            <mat-card-title>Total de Proveedores</mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{totalProveedores}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-card class="card-info">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon color="primary">people</mat-icon>
+              <mat-icon color="primary">group</mat-icon>
             </div>
             <mat-card-title>Total de Usuarios </mat-card-title>
             <mat-card-subtitle style="text-align: center;">{{totalUsuarios}}</mat-card-subtitle>
@@ -121,20 +86,7 @@
           </mat-card-header>
         </mat-card>
       </mat-grid-tile>
-      <mat-grid-tile>
-
-        <mat-card class="card-info">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon color="accent2">shopping_basket</mat-icon>
-            </div>
-            <mat-card-title>Productos Vendidos</mat-card-title>
-            <mat-card-subtitle style="text-align: center;"> {{ formatearNumero(totalProductosCantidad)
-              }}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-grid-tile>
-
+  
 
       <mat-grid-tile>
 
@@ -144,7 +96,7 @@
               <mat-icon color="warn">cancel</mat-icon>
             </div>
             <mat-card-title>Total de Anuladas</mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{totalVentasAnulada}}</mat-card-subtitle>
+            <mat-card-subtitle style="text-align: center;">{{totalPaseosAnulada}}</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
 
@@ -185,38 +137,13 @@
             </div>
             <mat-card-subtitle>
               <button mat-raised-button class="minimalist-Ventas" (click)="configurarVentaObjetiva()">
-                {{ isMobile ? 'Configurar Metas' : 'Configurar Meta De Venta' }}
+                {{ isMobile ? 'Configurar Metas' : 'Configurar Meta De Paseos' }}
               </button>
             </mat-card-subtitle>
           </mat-card-header>
         </mat-card>
       </mat-grid-tile>
 
-      <mat-grid-tile>
-
-        <mat-card class="card-info">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon color="warn">sell</mat-icon>
-            </div>
-            <mat-card-title>Ventas Online</mat-card-title>
-            <mat-card-subtitle style="text-align: center;">{{totalVentasOnline}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-
-      </mat-grid-tile>
-
-      <!-- <mat-grid-tile>
-        <mat-card class="card-info">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon color="accent">person</mat-icon>
-            </div>
-            <mat-card-title>Ganancia</mat-card-title>
-            <mat-card-subtitle>{{totalGananciasProductos}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-grid-tile> -->
 
     </mat-grid-list>
 
@@ -224,21 +151,14 @@
       <mat-card-content>
         <div class="chart-container">
           <div class="chart chart-left">
-            <h3>Ventas del Mes</h3>
+            <h3>Paseos del Mes</h3>
             <canvas id="myChart"></canvas>
           </div>
           <div class="chart chart-right">
-            <h3>Venta por Meses</h3>
+            <h3>Paseos por Meses</h3>
             <canvas id="myChartDoce"></canvas>
           </div>
-          <div class="chart chart-left">
-            <h3>Ventas Online del Mes</h3>
-            <canvas id="myChartOnline"></canvas>
-          </div>
-          <div class="chart chart-right">
-            <h3>Venta Online por Meses</h3>
-            <canvas id="myChartDoceOnline"></canvas>
-          </div>
+        
         </div>
       </mat-card-content>
     </mat-card>
@@ -255,102 +175,18 @@
     </mat-card> -->
 
 
-    <h1 style="margin:20px 0px 0px 40px ; text-align: center;">Informacion - resumen último mes</h1>
-
-    <mat-card-content class="dashboard-card-content">
-      <mat-grid-list [cols]="isMobile ? 1 : 3" rowHeight="100px" gutterSize="16px">
-        <mat-grid-tile>
-          <mat-card class="card-info">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <mat-icon color="accent2">shopping_basket</mat-icon>
-              </div>
-              <mat-card-title>Productos Comprado</mat-card-title>
-              <mat-card-subtitle style="text-align: center;"> {{ formatearNumero(totalCompraProductosCantidad)
-                }}</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-        </mat-grid-tile>
-
-        <mat-grid-tile>
-          <mat-card class="card-info">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <mat-icon color="accent">payments</mat-icon>
-              </div>
-              <mat-card-title>Total de Egresos </mat-card-title>
-              <mat-card-subtitle style="text-align: center;">{{ formatearNumero(totalEgresos) }} $</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-        </mat-grid-tile>
-
-        <mat-grid-tile>
-          <mat-card class="card-info">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <mat-icon color="warn">shopping_cart</mat-icon>
-              </div>
-              <mat-card-title>Total de Compras </mat-card-title>
-              <mat-card-subtitle style="text-align: center;">{{totalcompras}}</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-        </mat-grid-tile>
-
-        <mat-grid-tile>
-
-          <mat-card class="card-info">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <mat-icon color="warn">cancel</mat-icon>
-              </div>
-              <mat-card-title>Total de Anuladas</mat-card-title>
-              <mat-card-subtitle style="text-align: center;">{{totalComprasAnulada}}</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-
-        </mat-grid-tile>
-
-
-      </mat-grid-list>
-    </mat-card-content>
-
-    <!-- <mat-card style="margin-top:15px">
-      <mat-card-content>
-        <div style="width: 50%;height:300px">
-          <canvas id="myChartCompra"></canvas>
-        </div>
-      </mat-card-content>
-    </mat-card> -->
-
-    <mat-card class="sales-card">
-      <mat-card-content>
-        <div class="chart-container">
-          <div class="chart">
-            <h3 style="text-align: center;">Compras del Mes</h3>
-            <canvas id="myChartCompra"></canvas>
-          </div>
-          <div class="chart">
-            <h3 style="text-align: center;">Compras por Meses</h3>
-            <canvas id="myChartDoceAnio"></canvas>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-
-
-    <div class="productos-mas-vendidos-container">
+       <div class="productos-mas-vendidos-container">
 
 
 
 
-      <h2 class="titulo-productos-mas-vendidos">Los 3 Productos Más Vendidos</h2>
+      <h2 class="titulo-productos-mas-vendidos">Los 3 mejores paseadores</h2>
 
-      <div *ngIf="topProductosMasVendidos.length > 0" class="productos-mas-vendidos-lista">
-        <div *ngFor="let producto of topProductosMasVendidos; let i = index" class="producto-mas-vendido"
+      <div *ngIf="topPaseadores.length > 0" class="productos-mas-vendidos-lista">
+        <div *ngFor="let paseador of topPaseadores; let i = index" class="producto-mas-vendido"
           [ngClass]="{ 'producto-destacado-1': i === 0, 'producto-destacado-2': i === 1, 'producto-destacado-3': i === 2 }"
-          [@productoHighlight]="producto.estadoAnimacion" (mouseenter)="onMouseEnter(producto, i + 1)"
-          (mouseleave)="onMouseLeave(producto)">
+          [@productoHighlight]="paseador.estadoAnimacion" (mouseenter)="onMouseEnter(paseador, i + 1)"
+          (mouseleave)="onMouseLeave(paseador)">
 
 
 
@@ -358,14 +194,14 @@
         [@productoHighlight]="producto.estadoAnimacion"
         (mouseenter)="onMouseEnter(producto, i + 1)"
         (mouseleave)="onMouseLeave(producto)"> -->
-          <img *ngIf="producto.imagenUrl[0]" class="img-hover-zoom" [src]="producto.imagenUrl[0]"
+          <img *ngIf="paseador.imagenUrl" class="img-hover-zoom" [src]="paseador.imagenUrl"
             alt="Imagen del producto" width="100" height="100" style="object-fit: contain;"
-            (click)="abrirDialogImagen(producto.imagenUrl)">
+            (click)="abrirDialogImagen(paseador.imagenUrl)">
 
           <p class="nombre-producto">
-            {{ producto.nombre.length > 40 ? producto.nombre.slice(0, 40) + '...' : producto.nombre }}
+            {{ paseador.nombrePaseador.length > 40 ? paseador.nombrePaseador.slice(0, 40) + '...' : paseador.nombrePaseador }}
           </p>
-          <p class="cantidad-vendida">Vendidos: {{ producto.cantidadVendida }}</p>
+          <p class="cantidad-vendida">Paseos: {{ paseador.totalPaseos }}</p>
         </div>
 
 
@@ -383,10 +219,72 @@
 
 
 
-      <div *ngIf="topProductosMasVendidos.length === 0" class="sin-productos-mas-vendidos">
+      <div *ngIf="topPaseadores.length === 0" class="sin-productos-mas-vendidos">
         <p>No hay productos más vendidos para mostrar.</p>
       </div>
     </div>
+
+
+    <h1 style="margin:20px 0px 0px 40px ; text-align: center;">Informacion - resumen último mes</h1>
+
+    <mat-card-content class="dashboard-card-content">
+      <mat-grid-list [cols]="isMobile ? 1 : 3" rowHeight="100px" gutterSize="16px">
+        <mat-grid-tile>
+          <mat-card class="card-info">
+            <mat-card-header>
+              <div mat-card-avatar>
+                <mat-icon color="accent2">payments</mat-icon>
+              </div>
+              <mat-card-title>Total de Pagos</mat-card-title>
+              <mat-card-subtitle style="text-align: center;"> {{ (totalPagos)
+                }}</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </mat-grid-tile>
+
+           <mat-grid-tile>
+          <mat-card class="card-info">
+            <mat-card-header>
+              <div mat-card-avatar>
+                <mat-icon color="warn">cancel</mat-icon>
+              </div>
+              <mat-card-title>Total de Pagos Anulados</mat-card-title>
+              <mat-card-subtitle style="text-align: center;"> {{ (totalPagosAnulada)
+                }}</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </mat-grid-tile>
+       
+
+      </mat-grid-list>
+    </mat-card-content>
+
+    <!-- <mat-card style="margin-top:15px">
+      <mat-card-content>
+        <div style="width: 50%;height:300px">
+          <canvas id="myChartCompra"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card> -->
+
+    <mat-card class="sales-card">
+      <mat-card-content>
+        <div class="chart-container">
+          <div class="chart">
+            <h3 style="text-align: center;">Pagos del Mes</h3>
+            <canvas id="myChartCompra"></canvas>
+          </div>
+          <div class="chart">
+            <h3 style="text-align: center;">Pagos por Meses</h3>
+            <canvas id="myChartDoceAnio"></canvas>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+
+
+ 
     <br>
     <!-- Agrega el botón "Ver Más" y la tabla oculta -->
     <div class="ver-mas-container text-center">
@@ -427,22 +325,21 @@
           <thead>
             <tr>
               <th>Imagen</th>
-              <th>Producto</th>
-              <th>Codigo</th>
-              <th>Cantidad Vendida</th>
+              <th>Paseadores</th>
+              <th># de paseos</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let producto of productosPaginados">
               <td>
 
-                <img *ngIf="producto.imagenUrl" class="img-hover-zoom" [src]="producto.imagenUrl[0]"
+                <img *ngIf="producto.imagenUrl" class="img-hover-zoom" [src]="producto.imagenUrl"
                   alt="Imagen del producto" width="80" height="80" style="object-fit: contain;"
                   (click)="abrirDialogImagen( producto.imagenUrl)">
               </td>
-              <td>{{ producto.nombre.length > 40 ? producto.nombre.slice(0, 40) + '...' : producto.nombre }}</td>
-              <td>{{ producto.codigo }}</td>
-              <td>{{ producto.cantidadVendida }}</td>
+              <td>{{ producto.nombrePaseador.length > 40 ? producto.nombrePaseador.slice(0, 40) + '...' : producto.nombrePaseador }}</td>
+              <td>{{ producto.totalPaseos }}</td>
+              
             </tr>
           </tbody>
         </table>

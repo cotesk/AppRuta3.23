@@ -89,6 +89,12 @@ export class PagoService {
         return this.http.get<ReponseApi>(`${this.urlApi}ListaTodos`, { headers });
     }
 
+    pagoCorreo(correo: string): Observable<ReponseApi> {
+        return this.http.get<ReponseApi>(`${this.urlApi}PagosCorreo?correo=${correo}`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
 
     private handleError(error: any) {
         console.error('Error en la solicitud:', error);

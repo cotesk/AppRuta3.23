@@ -53,35 +53,36 @@ Chart.register(...registerables);
 export class DashBoardComponent implements OnInit {
   @ViewChild('tablaProductos', { static: true }) tablaProductos!: ElementRef;
 
-  totalIngresos: string = "0";
-  totalVentas: string = "0";
-  totalVentasAnio: string = "0";
-  //Online
-  totalVentasOnline: string = "0";
-  totalVentasOnlineAnio: string = "0";
-  //
-  totalProductos: string = "0";
-  totalProductosBodega: string = "0";
-  totalProveedores: string = "0";
-  totalUsuarios: string = "0";
-  totalCliente: string = "0";
-  totalGanancia: string = "0";
-  totalProductosCantidad: string = "0";
-  totalcompras: string = "0";
-  totalComprasAnio: string = "0";
-  productosMasVendidos: any[] = [];
-  topProductosMasVendidos: any[] = [];
-  totalVentasAnulada: string = "0";
-  totalComprasAnulada: string = "0";
-  // Agrega una propiedad para controlar la visibilidad de la tabla
-  mostrarTabla: boolean = false;
-  // Agrega una propiedad para almacenar todos los productos
-  todosProductosMasVendidos: any[] = [];
-  totalCompraProductosCantidad: string = "0";
+
+  totalPaseadores: number = 0;
+  totalCliente: number = 0;
+  totalPerro: number = 0;
+  totalTarifa: number = 0;
+  totalUsuarios: number = 0;
+  totalPaseos: number = 0;
+  totalPaseosAnio: number = 0;
+  totalPaseosAnulada: number = 0;
+  totalPagos: number = 0;
+  totalPagosAnio: number = 0;
+  totalPagosAnulada: number = 0;
+
+  // Arrays para gráficas
+  paseoUltimaSemana: any[] = [];
+  paseoDoceMeses: any[] = [];
+  paseoAnuladaUltimaSemana: any[] = [];
+  pagoUltimaSemana: any[] = [];
+  pagoDoceMeses: any[] = [];
+  pagoAnuladaUltimaSemana: any[] = [];
+
+  // Top paseadores
+  topPaseadores: any[] = [];
+  topPaseadoresGlobal: any[] = [];
+
+
   TotalCaja: string = "0";
+  mostrarTabla: boolean = false;
   NombreCaja: string = "No Registrado";
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
-  totalEgresos: string = "0";
   myChart: Chart | undefined;
   productosPorPagina = 5;
   paginaActual = 1;
@@ -105,83 +106,60 @@ export class DashBoardComponent implements OnInit {
   }
 
 
+
   ngOnInit(): void {
 
     this.checkMobile();
 
-    this._dashboardServicio.resumen().subscribe({
+    this._dashboardServicio.resumenPaseos().subscribe({
       next: (data) => {
-
+        console.log(data);
         if (data.status) {
 
-          this.totalIngresos = data.value.totalIngresos;
-          this.totalVentas = data.value.totalVentas;
-          this.totalVentasAnio = data.value.totalVentasAnio;
-          //Online
-          this.totalVentasOnline = data.value.totalVentasOnline;
-          this.totalVentasOnlineAnio = data.value.totalVentasOnlineAnio;
-          //
-          this.totalProductos = data.value.totalProductos;
-          this.totalProductosBodega = data.value.totalProductosBodega;
+
+
+          this.totalPaseadores = data.value.totalPaseadores;
           this.totalCliente = data.value.totalCliente;
-          this.totalProveedores = data.value.totalProveedores;
+          this.totalPerro = data.value.totalPerro;
+          this.totalTarifa = data.value.totalTarifa;
           this.totalUsuarios = data.value.totalUsuarios;
-          this.totalGanancia = data.value.totalGanancia;
-          // this.totalcompras = data.value.totalcompras;
-          this.totalProductosCantidad = data.value.totalProductosCantidad;
-          // this.totalEgresos = data.value.totalEgresos;
-          // this.totalCompraProductosCantidad = data.value.totalCompraProductosCantidad;
-          this.totalVentasAnulada = data.value.totalVentasAnulada;
-          // this.totalComprasAnulada = data.value.totalComprasAnulada;
-          this.productosMasVendidos = data.value.productosMasVendidos;
-          // // Actualizar solo los tres productos más vendidos
-          // this.actualizarTopProductosMasVendidos();
+          this.totalPaseos = data.value.totalPaseos;
+          this.totalPaseosAnio = data.value.totalPaseosAnio;
+          this.totalPaseosAnulada = data.value.totalPaseosAnulada;
 
+          // this.totalPagos = data.value.totalPagos;
+          // this.totalPagosAnio = data.value.totalPagosAnio;
+          // this.totalPagosAnulada = data.value.totalPagosAnulada;
 
-          // Asignar los productos más vendidos
-          if (data.value.productosMasVendidos && Array.isArray(data.value.productosMasVendidos)) {
-            // Actualizar todos los productos
-            this.todosProductosMasVendidos = [...data.value.productosMasVendidos];
-            // Actualizar solo los tres primeros productos
-            this.topProductosMasVendidos = [...this.todosProductosMasVendidos.slice(0, 3)];
-            console.log('topProductosMasVendidos:', this.topProductosMasVendidos);
-            // Llamar a renderizarGraficoDoughnut() después de asignar los datos
-            // this.renderizarGraficoDoughnut();
+          // Gráficos
+          this.paseoUltimaSemana = data.value.paseoUltimaSemana || [];
+          this.paseoDoceMeses = data.value.paseoDoceMeses || [];
+          this.paseoAnuladaUltimaSemana = data.value.paseoAnuladaUltimaSemana || [];
+
+          // this.pagoUltimaSemana = data.value.pagoUltimaSemana || [];
+          // this.pagoDoceMeses = data.value.pagoDoceMeses || [];
+          // this.pagoAnuladaUltimaSemana = data.value.pagoAnuladaUltimaSemana || [];
+
+          // Top paseadores
+          this.topPaseadores = data.value.topPaseadores || [];
+          this.topPaseadoresGlobal = data.value.topPaseadoresGlobal || [];
+
+          // Ejemplo: generar gráfico semanal
+          if (this.paseoUltimaSemana.length > 0) {
+            const labels = this.paseoUltimaSemana.map(p => p.fecha);
+            const totals = this.paseoUltimaSemana.map(p => p.total);
+            this.mostrarGrafico(labels, totals);
           }
 
+          if (this.paseoDoceMeses.length > 0) {
+            const labels = this.paseoDoceMeses.map(p => p.fecha);
+            const totals = this.paseoDoceMeses.map(p => p.total);
+            this.mostrarGraficoDoceMeses(labels, totals);
+          }
+
+
           this.renderizarGraficoDoughnut();
-          //  // Asigna el valor antes de formatear
-          //  this.totalGananciasProductos = data.value.totalGananciasProductos.toString();
 
-          //  // Luego formatea la ganancia
-          //  this.totalGananciasProductos = this.formatearNumero(this.totalGananciasProductos);
-          const arrayData: any[] = data.value.ventasUltimaSemana;
-          const arrayData2: any[] = data.value.ventasDoceMeses;
-          //Online
-          const arrayData3: any[] = data.value.ventasOnlineUltimaSemana;
-          const arrayData4: any[] = data.value.ventasOnlineDoceMeses;
-          //
-          // const arrayData: any[] = data.value.ventasUltimaSemana.filter((value: { anulada: boolean }) => !value.anulada);
-
-          const labelTemp = arrayData.map((value) => value.fecha);
-          const dataTemp = arrayData.map((value) => value.total);
-          this.mostrarGrafico(labelTemp, dataTemp)
-
-
-          const labelTemp2 = arrayData2.map((value) => value.fecha);
-          const dataTemp2 = arrayData2.map((value) => value.total);
-          this.mostrarGraficoDoceMeses(labelTemp2, dataTemp2)
-
-          //Online
-          const labelTemp3 = arrayData3.map((value) => value.fecha);
-          const dataTemp3 = arrayData3.map((value) => value.total);
-          this.mostrarGraficoOnline(labelTemp3, dataTemp3)
-
-
-          const labelTemp4 = arrayData4.map((value) => value.fecha);
-          const dataTemp4 = arrayData4.map((value) => value.total);
-          this.mostrarGraficoDoceMesesOnline(labelTemp4, dataTemp4)
-          //Fin
 
 
         }
@@ -211,7 +189,7 @@ export class DashBoardComponent implements OnInit {
                   console.log('Token actualizado:', response.token);
                   // Guardar el nuevo token de acceso en el almacenamiento local
                   localStorage.setItem('authToken', response.token);
-                  this.GraficaVenta();
+                  this.GraficaPaseo();
                 },
                 (error: any) => {
                   console.error('Error al actualizar el token:', error);
@@ -232,57 +210,68 @@ export class DashBoardComponent implements OnInit {
       complete: () => { }
     })
 
-    this._dashboardServicio.resumenCompra().subscribe({
-      next: (data) => {
 
+    this._dashboardServicio.resumenPagos().subscribe({
+      next: (data) => {
+        console.log(data);
         if (data.status) {
 
-          // this.totalIngresos = data.value.totalIngresos;
-          // // this.totalVentas = data.value.totalVentas;
-          // this.totalProductos = data.value.totalProductos;
+
+
+          // this.totalPaseadores = data.value.totalPaseadores;
           // this.totalCliente = data.value.totalCliente;
-          // this.totalProveedores = data.value.totalProveedores;
+          // this.totalPerro = data.value.totalPerro;
+          // this.totalTarifa = data.value.totalTarifa;
           // this.totalUsuarios = data.value.totalUsuarios;
-          // this.totalGanancia = data.value.totalGanancia;
-          this.totalComprasAnio = data.value.totalComprasAnio;
-          this.totalcompras = data.value.totalcompras;
-          // this.totalProductosCantidad = data.value.totalProductosCantidad;
-          this.totalEgresos = data.value.totalEgresos;
-          this.totalCompraProductosCantidad = data.value.totalCompraProductosCantidad;
-          // this.totalVentasAnulada = data.value.totalVentasAnulada;
-          this.totalComprasAnulada = data.value.totalComprasAnulada;
-          // this.productosMasVendidos = data.value.productosMasVendidos;
-          // // Actualizar solo los tres productos más vendidos
-          // this.actualizarTopProductosMasVendidos();
+          // this.totalPaseos = data.value.totalPaseos;
+          // this.totalPaseosAnio = data.value.totalPaseosAnio;
+          // this.totalPaseosAnulada = data.value.totalPaseosAnulada;
 
+          this.totalPagos = data.value.totalPagos;
+          this.totalPagosAnio = data.value.totalPagosAnio;
+          this.totalPagosAnulada = data.value.totalPagosAnulada;
 
-          // Asignar los productos más vendidos
-          // if (data.value.productosMasVendidos && Array.isArray(data.value.productosMasVendidos)) {
-          //   // Actualizar todos los productos
-          //   this.todosProductosMasVendidos = [...data.value.productosMasVendidos];
-          //   // Actualizar solo los tres primeros productos
-          //   this.topProductosMasVendidos = [...this.todosProductosMasVendidos.slice(0, 3)];
+          // Gráficos
+          // this.paseoUltimaSemana = data.value.paseoUltimaSemana || [];
+          // this.paseoDoceMeses = data.value.paseoDoceMeses || [];
+          // this.paseoAnuladaUltimaSemana = data.value.paseoAnuladaUltimaSemana || [];
+
+          this.pagoUltimaSemana = data.value.pagoUltimaSemana || [];
+          this.pagoDoceMeses = data.value.pagoDoceMeses || [];
+          this.pagoAnuladaUltimaSemana = data.value.pagoAnuladaUltimaSemana || [];
+
+          // Top paseadores
+          // this.topPaseadores = data.value.topPaseadores || [];
+          // this.topPaseadoresGlobal = data.value.topPaseadoresGlobal || [];
+
+          // // Ejemplo: generar gráfico semanal
+          // if (this.paseoUltimaSemana.length > 0) {
+          //   const labels = this.paseoUltimaSemana.map(p => p.fecha);
+          //   const totals = this.paseoUltimaSemana.map(p => p.total);
+          //   this.mostrarGrafico(labels, totals);
           // }
 
+          if (this.pagoUltimaSemana.length > 0) {
+            const labels = this.pagoUltimaSemana.map(p => p.fecha);
+            const totals = this.pagoUltimaSemana.map(p => p.total);
+            this.mostrarGraficoPagos(labels, totals);
+          }
+
+          if (this.pagoDoceMeses.length > 0) {
+            const labels = this.pagoDoceMeses.map(p => p.fecha);
+            const totals = this.pagoDoceMeses.map(p => p.total);
+            this.mostrarGraficoDoceMesesPagos(labels, totals);
+          }
 
 
-          const arrayData: any[] = data.value.compraDoceMeses;
-          const arrayData2: any[] = data.value.compraUltimoMes;
-          // const arrayData: any[] = data.value.ventasUltimaSemana.filter((value: { anulada: boolean }) => !value.anulada);
-
-          const labelTemp = arrayData.map((value) => value.fecha);
-          const dataTemp = arrayData.map((value) => value.total);
-          this.mostrarGraficoDoceMesesCompra(labelTemp, dataTemp)
-          // Suponiendo que hoy es '2024-04-18'
+          // this.renderizarGraficoDoughnut();
 
 
-          const labelTemp2 = arrayData2.map((value) => value.fecha);
-          const dataTemp2 = arrayData2.map((value) => value.total);
-          this.mostrarGraficoCompra(labelTemp2, dataTemp2)
 
         }
       },
       error: (e) => {
+
         let idUsuario: number = 0;
 
 
@@ -306,7 +295,7 @@ export class DashBoardComponent implements OnInit {
                   console.log('Token actualizado:', response.token);
                   // Guardar el nuevo token de acceso en el almacenamiento local
                   localStorage.setItem('authToken', response.token);
-                  this.GraficaCompra();
+                  this.GraficaPagos();
                 },
                 (error: any) => {
                   console.error('Error al actualizar el token:', error);
@@ -345,9 +334,8 @@ export class DashBoardComponent implements OnInit {
 
   productosFiltrados() {
     const filtroLower = this.filtro.toLowerCase();
-    return this.todosProductosMasVendidos.filter(producto =>
-      producto.nombre.toLowerCase().includes(filtroLower) ||
-      producto.codigo.toLowerCase().includes(filtroLower)
+    return this.topPaseadoresGlobal.filter(producto =>
+      producto.nombrePaseador.toLowerCase().includes(filtroLower)
     );
   }
 
@@ -374,28 +362,28 @@ export class DashBoardComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    if (this.topProductosMasVendidos.length > 0) {
+    if (this.topPaseadores.length > 0) {
       this.renderizarGraficoDoughnut();
     }
   }
   renderizarGraficoDoughnut() {
     console.log('Entrando en renderizarGraficoDoughnut');
-    let  nombresProductos ;
-    if(this.isMobile== true){
-       nombresProductos = this.topProductosMasVendidos.slice(0, 3).map(item => {
-        return item.nombre.length > 12 ? item.nombre.slice(0, 12) + '...' : item.nombre;
+    let nombresPaseadores;
+    if (this.isMobile == true) {
+      nombresPaseadores = this.topPaseadores.slice(0, 3).map(item => {
+        return item.nombrePaseador.length > 12 ? item.nombrePaseador.slice(0, 12) + '...' : item.nombrePaseador;
       });
-    }else{
-       nombresProductos = this.topProductosMasVendidos.slice(0, 3).map(item => {
-        return item.nombre.length > 20 ? item.nombre.slice(0, 20) + '...' : item.nombre;
+    } else {
+      nombresPaseadores = this.topPaseadores.slice(0, 3).map(item => {
+        return item.nombrePaseador.length > 20 ? item.nombrePaseador.slice(0, 20) + '...' : item.nombrePaseador;
       });
     }
 
 
-    const cantidadesVendidas = this.topProductosMasVendidos.slice(0, 3).map(item => item.cantidadVendida);
+    const cantidadesPaseos = this.topPaseadores.slice(0, 3).map(item => item.totalPaseos);
 
-    console.log('nombresProductos:', nombresProductos);
-    console.log('cantidadesVendidas:', cantidadesVendidas);
+    // console.log('nombresProductos:', nombresPaseadores);
+    // console.log('cantidadesVendidas:', cantidadesPaseos);
 
     const canvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
     console.log('Canvas:', canvas);
@@ -410,7 +398,7 @@ export class DashBoardComponent implements OnInit {
       const colors = ['color-oro', 'color-plata', 'color-bronce'];
 
       // Iterar sobre los nombres de productos y crear elementos
-      nombresProductos.forEach((nombre, index) => {
+      nombresPaseadores.forEach((nombrePaseador, index) => {
         const productNameElement = document.createElement('div');
         productNameElement.classList.add('product-name');
 
@@ -421,7 +409,7 @@ export class DashBoardComponent implements OnInit {
 
         // Añadir el cuadro de color y el texto al elemento del nombre del producto
         productNameElement.appendChild(colorBox);
-        productNameElement.appendChild(document.createTextNode(`${index + 1}° Puesto: ${nombre}`));
+        productNameElement.appendChild(document.createTextNode(`${index + 1}° Puesto: ${nombrePaseador}`));
 
         // Agregar el elemento del nombre del producto al contenedor
         productNamesDiv.appendChild(productNameElement);
@@ -436,8 +424,8 @@ export class DashBoardComponent implements OnInit {
         data: {
           labels: ["1° Puesto", "2° Puesto", "3° Puesto"],
           datasets: [{
-            label: 'Cantidad Vendida',
-            data: cantidadesVendidas,
+            label: 'Paseos Realizados',
+            data: cantidadesPaseos,
             backgroundColor: [
               'rgba(255, 215, 0, 0.5)', // Oro
               'rgba(192, 192, 192, 0.5)', // Plata
@@ -474,56 +462,56 @@ export class DashBoardComponent implements OnInit {
 
 
 
-  GraficaVenta() {
-    this._dashboardServicio.resumen().subscribe({
+  GraficaPaseo() {
+    this._dashboardServicio.resumenPaseos().subscribe({
       next: (data) => {
-
+        console.log(data);
         if (data.status) {
 
-          this.totalIngresos = data.value.totalIngresos;
-          this.totalVentas = data.value.totalVentas;
-          this.totalVentasAnio = data.value.totalVentasAnio;
-          this.totalProductos = data.value.totalProductos;
-          this.totalProductosBodega = data.value.totalProductosBodega;
+
+
+          this.totalPaseadores = data.value.totalPaseadores;
           this.totalCliente = data.value.totalCliente;
-          this.totalProveedores = data.value.totalProveedores;
+          this.totalPerro = data.value.totalPerro;
+          this.totalTarifa = data.value.totalTarifa;
           this.totalUsuarios = data.value.totalUsuarios;
-          this.totalGanancia = data.value.totalGanancia;
-          // this.totalcompras = data.value.totalcompras;
-          this.totalProductosCantidad = data.value.totalProductosCantidad;
-          // this.totalEgresos = data.value.totalEgresos;
-          // this.totalCompraProductosCantidad = data.value.totalCompraProductosCantidad;
-          this.totalVentasAnulada = data.value.totalVentasAnulada;
-          // this.totalComprasAnulada = data.value.totalComprasAnulada;
-          this.productosMasVendidos = data.value.productosMasVendidos;
-          // // Actualizar solo los tres productos más vendidos
-          // this.actualizarTopProductosMasVendidos();
+          this.totalPaseos = data.value.totalPaseos;
+          this.totalPaseosAnio = data.value.totalPaseosAnio;
+          this.totalPaseosAnulada = data.value.totalPaseosAnulada;
+          this.totalPagos = data.value.totalPagos;
+          this.totalPagosAnio = data.value.totalPagosAnio;
+          this.totalPagosAnulada = data.value.totalPagosAnulada;
 
+          // Gráficos
+          this.paseoUltimaSemana = data.value.paseoUltimaSemana || [];
+          this.paseoDoceMeses = data.value.paseoDoceMeses || [];
+          this.paseoAnuladaUltimaSemana = data.value.paseoAnuladaUltimaSemana || [];
 
-          // Asignar los productos más vendidos
-          if (data.value.productosMasVendidos && Array.isArray(data.value.productosMasVendidos)) {
-            // Actualizar todos los productos
-            this.todosProductosMasVendidos = [...data.value.productosMasVendidos];
-            // Actualizar solo los tres primeros productos
-            this.topProductosMasVendidos = [...this.todosProductosMasVendidos.slice(0, 3)];
+          // this.pagoUltimaSemana = data.value.pagoUltimaSemana || [];
+          // this.pagoDoceMeses = data.value.pagoDoceMeses || [];
+          // this.pagoAnuladaUltimaSemana = data.value.pagoAnuladaUltimaSemana || [];
+
+          // Top paseadores
+          this.topPaseadores = data.value.topPaseadores || [];
+          this.topPaseadoresGlobal = data.value.topPaseadoresGlobal || [];
+
+          // Ejemplo: generar gráfico semanal
+          if (this.paseoUltimaSemana.length > 0) {
+            const labels = this.paseoUltimaSemana.map(p => p.fecha);
+            const totals = this.paseoUltimaSemana.map(p => p.total);
+            this.mostrarGrafico(labels, totals);
           }
-          //  // Asigna el valor antes de formatear
-          //  this.totalGananciasProductos = data.value.totalGananciasProductos.toString();
 
-          //  // Luego formatea la ganancia
-          //  this.totalGananciasProductos = this.formatearNumero(this.totalGananciasProductos);
-          const arrayData: any[] = data.value.ventasUltimaSemana;
-          const arrayData2: any[] = data.value.ventasDoceMeses;
-          // const arrayData: any[] = data.value.ventasUltimaSemana.filter((value: { anulada: boolean }) => !value.anulada);
-
-          const labelTemp = arrayData.map((value) => value.fecha);
-          const dataTemp = arrayData.map((value) => value.total);
-          this.mostrarGrafico(labelTemp, dataTemp)
+          if (this.paseoDoceMeses.length > 0) {
+            const labels = this.paseoDoceMeses.map(p => p.fecha);
+            const totals = this.paseoDoceMeses.map(p => p.total);
+            this.mostrarGraficoDoceMeses(labels, totals);
+          }
 
 
-          const labelTemp2 = arrayData2.map((value) => value.fecha);
-          const dataTemp2 = arrayData2.map((value) => value.total);
-          this.mostrarGraficoDoceMeses(labelTemp2, dataTemp2)
+          this.renderizarGraficoDoughnut();
+
+
 
         }
       },
@@ -552,7 +540,7 @@ export class DashBoardComponent implements OnInit {
                   console.log('Token actualizado:', response.token);
                   // Guardar el nuevo token de acceso en el almacenamiento local
                   localStorage.setItem('authToken', response.token);
-                  this.GraficaVenta();
+                  this.GraficaPaseo();
                 },
                 (error: any) => {
                   console.error('Error al actualizar el token:', error);
@@ -574,58 +562,62 @@ export class DashBoardComponent implements OnInit {
     })
   }
 
-  GraficaCompra() {
-    this._dashboardServicio.resumenCompra().subscribe({
+  GraficaPagos() {
+    this._dashboardServicio.resumenPaseos().subscribe({
       next: (data) => {
-
+        console.log(data);
         if (data.status) {
 
-          // this.totalIngresos = data.value.totalIngresos;
-          // // this.totalVentas = data.value.totalVentas;
-          // this.totalProductos = data.value.totalProductos;
+
+
+          // this.totalPaseadores = data.value.totalPaseadores;
           // this.totalCliente = data.value.totalCliente;
-          // this.totalProveedores = data.value.totalProveedores;
+          // this.totalPerro = data.value.totalPerro;
+          // this.totalTarifa = data.value.totalTarifa;
           // this.totalUsuarios = data.value.totalUsuarios;
-          // this.totalGanancia = data.value.totalGanancia;
-          this.totalComprasAnio = data.value.totalComprasAnio;
-          this.totalcompras = data.value.totalcompras;
-          // this.totalProductosCantidad = data.value.totalProductosCantidad;
-          this.totalEgresos = data.value.totalEgresos;
-          this.totalCompraProductosCantidad = data.value.totalCompraProductosCantidad;
-          // this.totalVentasAnulada = data.value.totalVentasAnulada;
-          this.totalComprasAnulada = data.value.totalComprasAnulada;
-          // this.productosMasVendidos = data.value.productosMasVendidos;
-          // // Actualizar solo los tres productos más vendidos
-          // this.actualizarTopProductosMasVendidos();
+          // this.totalPaseos = data.value.totalPaseos;
+          // this.totalPaseosAnio = data.value.totalPaseosAnio;
+          // this.totalPaseosAnulada = data.value.totalPaseosAnulada;
+
+          this.totalPagos = data.value.totalPagos;
+          this.totalPagosAnio = data.value.totalPagosAnio;
+          this.totalPagosAnulada = data.value.totalPagosAnulada;
+          // Gráficos
+          // this.paseoUltimaSemana = data.value.paseoUltimaSemana || [];
+          // this.paseoDoceMeses = data.value.paseoDoceMeses || [];
+          // this.paseoAnuladaUltimaSemana = data.value.paseoAnuladaUltimaSemana || [];
+
+          this.pagoUltimaSemana = data.value.pagoUltimaSemana || [];
+          this.pagoDoceMeses = data.value.pagoDoceMeses || [];
+          this.pagoAnuladaUltimaSemana = data.value.pagoAnuladaUltimaSemana || [];
+
+          // Top paseadores
+          // this.topPaseadores = data.value.topPaseadores || [];
+          // this.topPaseadoresGlobal = data.value.topPaseadoresGlobal || [];
 
 
-          // Asignar los productos más vendidos
-          // if (data.value.productosMasVendidos && Array.isArray(data.value.productosMasVendidos)) {
-          //   // Actualizar todos los productos
-          //   this.todosProductosMasVendidos = [...data.value.productosMasVendidos];
-          //   // Actualizar solo los tres primeros productos
-          //   this.topProductosMasVendidos = [...this.todosProductosMasVendidos.slice(0, 3)];
-          // }
+
+          if (this.pagoUltimaSemana.length > 0) {
+            const labels = this.pagoUltimaSemana.map(p => p.fecha);
+            const totals = this.pagoUltimaSemana.map(p => p.total);
+            this.mostrarGraficoPagos(labels, totals);
+          }
+
+          if (this.pagoDoceMeses.length > 0) {
+            const labels = this.pagoDoceMeses.map(p => p.fecha);
+            const totals = this.pagoDoceMeses.map(p => p.total);
+            this.mostrarGraficoDoceMesesPagos(labels, totals);
+          }
 
 
-
-          const arrayData: any[] = data.value.compraDoceMeses;
-          const arrayData2: any[] = data.value.compraUltimoMes;
-          // const arrayData: any[] = data.value.ventasUltimaSemana.filter((value: { anulada: boolean }) => !value.anulada);
-
-          const labelTemp = arrayData.map((value) => value.fecha);
-          const dataTemp = arrayData.map((value) => value.total);
-          this.mostrarGraficoDoceMesesCompra(labelTemp, dataTemp)
-          // Suponiendo que hoy es '2024-04-18'
+          // this.renderizarGraficoDoughnut();
 
 
-          const labelTemp2 = arrayData2.map((value) => value.fecha);
-          const dataTemp2 = arrayData2.map((value) => value.total);
-          this.mostrarGraficoCompra(labelTemp2, dataTemp2)
 
         }
       },
       error: (e) => {
+
         let idUsuario: number = 0;
 
 
@@ -649,7 +641,7 @@ export class DashBoardComponent implements OnInit {
                   console.log('Token actualizado:', response.token);
                   // Guardar el nuevo token de acceso en el almacenamiento local
                   localStorage.setItem('authToken', response.token);
-                  this.GraficaCompra();
+                  this.GraficaPagos();
                 },
                 (error: any) => {
                   console.error('Error al actualizar el token:', error);
@@ -669,11 +661,11 @@ export class DashBoardComponent implements OnInit {
       },
       complete: () => { }
     })
-
   }
+
   mostrarGraficoDoceMeses(labelsGrafico: any[], dataGrafico: any[]) {
 
-    const cantidadObjetiva = localStorage.getItem('ventaObjetivaMensual') || '20'; // Valor por defecto si no hay nada en el local storage
+    const cantidadObjetiva = localStorage.getItem('PaseosObjetivaMensual') || '20'; // Valor por defecto si no hay nada en el local storage
     const nuevaLinea = Array(dataGrafico.length).fill(parseFloat(cantidadObjetiva));
     const primeraLinea = parseFloat(nuevaLinea[0]);
 
@@ -711,7 +703,7 @@ export class DashBoardComponent implements OnInit {
       data: {
         labels: labelsFormatted,
         datasets: [{
-          label: '# de Ventas',
+          label: '# de paseos',
           data: dataGrafico,
           backgroundColor: backgroundColors,
           borderWidth: 0,
@@ -719,14 +711,14 @@ export class DashBoardComponent implements OnInit {
         },
         {
           type: 'line',
-          label: 'Meta de Venta Mensual',
+          label: 'Meta de paseos mensual',
           data: nuevaLinea,
           borderColor: 'red', // Cambiar el color de la línea a rojo
           borderWidth: 4, // Ajustar el ancho de la línea
         },
         {
           type: 'line',
-          label: 'Tramo de venta',
+          label: 'Tramo de paseos',
           data: dataGrafico,
           borderColor: 'black',
         }
@@ -749,75 +741,7 @@ export class DashBoardComponent implements OnInit {
 
 
   }
-  mostrarGraficoDoceMesesOnline(labelsGrafico: any[], dataGrafico: any[]) {
 
-    // const cantidadObjetiva = localStorage.getItem('ventaObjetivaMensual') || '20'; // Valor por defecto si no hay nada en el local storage
-    // const nuevaLinea = Array(dataGrafico.length).fill(parseFloat(cantidadObjetiva));
-    // const primeraLinea = parseFloat(nuevaLinea[0]);
-
-    // const backgroundColors = labelsGrafico.map(() => dynamicColors());
-    const dynamicColors = (value: number) => {
-
-        const r = Math.floor(Math.random() * 150) + 100; // Componente rojo en el rango 100-250
-        const g = Math.floor(Math.random() * 150) + 100; // Componente verde en el rango 100-250
-        const b = Math.floor(Math.random() * 150) + 100; // Componente azul en el rango 100-250
-        return `rgba(${r}, ${g}, ${b}, 0.7)`;
-
-    };
-
-
-    const backgroundColors = dataGrafico.map(value => dynamicColors(value));
-
-    const monthNames = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
-    // Convertir las fechas en labelsGrafico a nombres de meses
-    const labelsFormatted = labelsGrafico.map((dateString) => {
-      const parts = dateString.split('/'); // Separar el mes y el año
-      const monthIndex = parseInt(parts[0]) - 1; // Obtener el índice del mes (restar 1 porque los meses en JavaScript son base 0)
-      const year = parts[1]; // Obtener el año
-
-      return `${monthNames[monthIndex]} ${year}`; // Construir el nombre del mes y año
-    });
-
-    const myChart = new Chart('myChartDoceOnline', {
-      type: 'bar',
-      data: {
-        labels: labelsFormatted,
-        datasets: [{
-          label: '# de Ventas',
-          data: dataGrafico,
-          backgroundColor: backgroundColors,
-          borderWidth: 0,
-          borderRadius: 5
-        },
-
-        {
-          type: 'line',
-          label: 'Tramo de venta',
-          data: dataGrafico,
-          borderColor: 'black',
-        }
-
-        ]
-      },
-
-      options: {
-        maintainAspectRatio: false,
-        responsive: false,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-
-    });
-
-
-
-  }
   mostrarGrafico(labelsGrafico: any[], dataGrafico: any[]) {
     // const dynamicColors = () => {
     //   const r = Math.floor(Math.random() * 255);
@@ -825,7 +749,7 @@ export class DashBoardComponent implements OnInit {
     //   const b = Math.floor(Math.random() * 255);
     //   return `rgba(${r}, ${g}, ${b}, 0.2)`;
     // };
-    const cantidadObjetiva = localStorage.getItem('ventaObjetiva') || '20'; // Valor por defecto si no hay nada en el local storage
+    const cantidadObjetiva = localStorage.getItem('PaseoObjetiva') || '20'; // Valor por defecto si no hay nada en el local storage
 
     const nuevaLinea = Array(dataGrafico.length).fill(parseFloat(cantidadObjetiva));
 
@@ -857,21 +781,21 @@ export class DashBoardComponent implements OnInit {
       data: {
         labels: labelsGrafico,
         datasets: [{
-          label: '# de Ventas',
+          label: '# de paseos',
           data: dataGrafico,
           backgroundColor: backgroundColors,
           borderWidth: 0,
           borderRadius: 5
         }, {
           type: 'line',
-          label: 'Meta de Venta Diario',
+          label: 'Meta de paseos diario',
           data: nuevaLinea,
           borderColor: 'red', // Cambiar el color de la línea a rojo
           borderWidth: 4, // Ajustar el ancho de la línea
         },
         {
           type: 'line',
-          label: 'Tramo de venta',
+          label: 'Tramo de paseos',
           data: dataGrafico,
           borderColor: 'black',
         }]
@@ -896,7 +820,7 @@ export class DashBoardComponent implements OnInit {
       data: {
         labels: labelsGrafico,
         datasets: [{
-          label: '# de Ventas',
+          label: '# de paseos',
           data: dataGrafico,
           backgroundColor: backgroundColors,
           borderWidth: 0,
@@ -916,64 +840,8 @@ export class DashBoardComponent implements OnInit {
     });
 
   }
-  mostrarGraficoOnline(labelsGrafico: any[], dataGrafico: any[]) {
 
-
-    const dynamicColors = (value: number) => {
-      // Si la cantidad de venta es menor que 2, devuelve rojo, de lo contrario, un color aleatorio fuerte
-
-        const r = Math.floor(Math.random() * 150) + 100; // Componente rojo en el rango 100-250
-        const g = Math.floor(Math.random() * 150) + 100; // Componente verde en el rango 100-250
-        const b = Math.floor(Math.random() * 150) + 100; // Componente azul en el rango 100-250
-        return `rgba(${r}, ${g}, ${b}, 0.7)`;
-
-
-    };
-
-
-    const backgroundColors = dataGrafico.map(value => dynamicColors(value));
-
-    // const cantidadObjetiva = localStorage.getItem('ventaObjetiva') || '20'; // Valor por defecto si no hay nada en el local storage
-    // const nuevaLinea = Array(dataGrafico.length).fill(parseFloat(cantidadObjetiva));
-
-    const myChartOnline = new Chart('myChartOnline', {
-      type: 'bar',
-      data: {
-        labels: labelsGrafico,
-        datasets: [{
-          label: '# de Ventas',
-          data: dataGrafico,
-          backgroundColor: backgroundColors,
-          borderWidth: 0,
-          borderRadius: 5
-        },
-        {
-          type: 'line',
-          label: 'Tramo de venta',
-          data: dataGrafico,
-          borderColor: 'black',
-        }]
-      },
-
-      options: {
-        maintainAspectRatio: false,
-        responsive: false,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-
-    });
-
-
-
-
-
-  }
-
-  mostrarGraficoDoceMesesCompra(labelsGrafico: any[], dataGrafico: any[]) {
+  mostrarGraficoDoceMesesPagos(labelsGrafico: any[], dataGrafico: any[]) {
 
 
     // const backgroundColors = labelsGrafico.map(() => dynamicColors());
@@ -1007,7 +875,7 @@ export class DashBoardComponent implements OnInit {
       data: {
         labels: labelsFormatted,
         datasets: [{
-          label: '# de Compras',
+          label: '# de Pagos',
           data: dataGrafico,
           backgroundColor: backgroundColors,
           borderWidth: 0,
@@ -1022,7 +890,7 @@ export class DashBoardComponent implements OnInit {
         // },
         {
           type: 'line',
-          label: 'Tramo de Compra',
+          label: 'Tramo de pagos',
           data: dataGrafico,
           borderColor: 'black',
         }
@@ -1045,7 +913,7 @@ export class DashBoardComponent implements OnInit {
 
 
   }
-  mostrarGraficoCompra(labelsGraficoCompra: any[], dataGraficoCompra: any[]) {
+  mostrarGraficoPagos(labelsGraficoCompra: any[], dataGraficoCompra: any[]) {
 
     const dynamicColors = (value: number) => {
 
@@ -1064,7 +932,7 @@ export class DashBoardComponent implements OnInit {
       data: {
         labels: labelsGraficoCompra,
         datasets: [{
-          label: '# de Compras',
+          label: '# de Pagos',
           data: dataGraficoCompra,
           backgroundColor: backgroundColors,
           borderWidth: 0,
@@ -1073,7 +941,7 @@ export class DashBoardComponent implements OnInit {
 
         {
           type: 'line',
-          label: 'Tramo de compra',
+          label: 'Tramo de pagos',
           data: dataGraficoCompra,
           borderColor: 'black',
         }
@@ -1129,7 +997,7 @@ export class DashBoardComponent implements OnInit {
             const sumaTotal: number = (Ingreso !== undefined && Inicial !== undefined)
               ? parseFloat(Ingreso) + parseFloat(Inicial) : NaN;
 
-              const RestaTotal: number = (Gastos !== undefined && Prestamos !== undefined && Devoluciones !== undefined)
+            const RestaTotal: number = (Gastos !== undefined && Prestamos !== undefined && Devoluciones !== undefined)
               ? parseFloat(Gastos) + parseFloat(Prestamos) + parseFloat(Devoluciones) : NaN;
 
             const Resultado = sumaTotal - RestaTotal;
@@ -1236,12 +1104,12 @@ export class DashBoardComponent implements OnInit {
     // const dialogRef = this.dialog.open(VerImagenProductoModalComponent, {
     //   data: { imagenUrl: imagenUrl }
     // });
-       this.dialog.open(VerImagenProductoModalComponent, {
-          data: {
-            imagenes: imagenUrl
-          }
-        });
-    
+    this.dialog.open(VerImagenProductoModalComponent, {
+      data: {
+        imagenes: [imagenUrl]
+      }
+    });
+
   }
   onMouseEnter(producto: any, index: number): void {
     producto.estadoAnimacion = `highlighted-${index}`;
@@ -1274,7 +1142,7 @@ export class DashBoardComponent implements OnInit {
   configurarVentaObjetiva(): void {
 
     Swal.fire({
-      title: '¿Defina su metas de ventas?',
+      title: '¿Defina su metas de paseos?',
       input: 'radio',
       inputOptions: {
         diario: 'Diario',
@@ -1297,9 +1165,9 @@ export class DashBoardComponent implements OnInit {
 
 
           Swal.fire({
-            title: 'Configurar Meta De Venta',
+            title: 'Configurar Meta De Paseos',
             input: 'number',
-            inputLabel: 'Ingrese la cantidad para meta de venta mensual',
+            inputLabel: 'Ingrese la cantidad para meta de paseos mensual',
             inputAttributes: {
               min: '0',
               step: '1'
@@ -1315,7 +1183,7 @@ export class DashBoardComponent implements OnInit {
                 if (isNaN(cantidad) || cantidad < 0) {
                   Swal.showValidationMessage('Por favor ingrese una cantidad válida.');
                 } else {
-                  localStorage.setItem('ventaObjetivaMensual', cantidad);
+                  localStorage.setItem('PaseosObjetivaMensual', cantidad);
                   resolve();
                 }
               });
@@ -1324,8 +1192,8 @@ export class DashBoardComponent implements OnInit {
             if (result.isConfirmed) {
               Swal.fire({
                 icon: 'success',
-                title: '¡Meta de venta mensual configurada!',
-                text: `La cantidad de venta mensual es de: ${result.value}`
+                title: '¡Meta de paseos mensual configurada!',
+                text: `La cantidad de paseos mensual es de: ${result.value}`
               });
               setTimeout(() => {
                 location.reload();
@@ -1348,9 +1216,9 @@ export class DashBoardComponent implements OnInit {
 
 
           Swal.fire({
-            title: 'Configurar Meta De Venta',
+            title: 'Configurar Meta De Paseos',
             input: 'number',
-            inputLabel: 'Ingrese la cantidad para meta de venta diaria',
+            inputLabel: 'Ingrese la cantidad para meta de paseos diaria',
             inputAttributes: {
               min: '0',
               step: '1'
@@ -1366,7 +1234,7 @@ export class DashBoardComponent implements OnInit {
                 if (isNaN(cantidad) || cantidad < 0) {
                   Swal.showValidationMessage('Por favor ingrese una cantidad válida.');
                 } else {
-                  localStorage.setItem('ventaObjetiva', cantidad);
+                  localStorage.setItem('PaseoObjetiva', cantidad);
                   resolve();
                 }
               });
@@ -1375,8 +1243,8 @@ export class DashBoardComponent implements OnInit {
             if (result.isConfirmed) {
               Swal.fire({
                 icon: 'success',
-                title: '¡Meta de venta diaria configurada!',
-                text: `La cantidad de venta diaria es: ${result.value}`
+                title: '¡Meta de paseos diaria configurada!',
+                text: `La cantidad de paseos diaria es: ${result.value}`
               });
               setTimeout(() => {
                 location.reload();
@@ -1513,7 +1381,7 @@ export class DashBoardComponent implements OnInit {
 
 
                 pdf.setFontSize(20);
-                pdf.text('Listado de Productos', 80, 40);
+                pdf.text('Listado de Paseadores', 80, 40);
                 pdf.setFont('Helvetica', 'normal');
                 pdf.setFontSize(12);
                 pdf.text(`Fecha de creación de este reporte : ${moment().format('DD-MM-YYYY hh:mm A')}`, 20, 50);
@@ -1524,18 +1392,17 @@ export class DashBoardComponent implements OnInit {
                 pdf.line(20, 60, 190, 60);  // Adjust the line position
 
 
-                const data = this.todosProductosMasVendidos.map((producto, index) => [
+                const data = this.topPaseadoresGlobal.map((producto, index) => [
                   index + 1, // Número
                   // producto.nombre,
-                  producto.nombre.length > 40 ? producto.nombre.slice(0, 40) + '...' : producto.nombre,
-                  producto.codigo,
-                  producto.cantidadVendida, // Cantidad Vendida
+                  producto.nombrePaseador.length > 40 ? producto.nombrePaseador.slice(0, 40) + '...' : producto.nombrePaseador,
+                  producto.totalPaseos, // Cantidad Vendida
                 ]);
 
                 (pdf as any).autoTable({
                   headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0], fontStyle: 'bold' },
                   bodyStyles: { textColor: [0, 0, 0] },
-                  head: [['#', 'Producto','Codigo De Barra' ,'Cantidad Vendida']],
+                  head: [['#', 'Paseador', 'Paseos Realizados']],
                   body: data,
                   startY: 70,
                   didDrawPage: (dataArg: any) => {
@@ -1550,7 +1417,7 @@ export class DashBoardComponent implements OnInit {
 
                 const uniqueIdentifier = Math.floor(1000 + Math.random() * 9000); // 4 dígitos aleatorios
                 const currentDate = moment().format('YYYYMMDD-HHmmss'); // Fecha y hora actual en formato específico
-                const fileName = `Productos_mas_vendidos_${uniqueIdentifier}_${currentDate}.pdf`;
+                const fileName = `Paseadores_${uniqueIdentifier}_${currentDate}.pdf`;
                 // pdf.save(fileName);
                 // Obtener el base64 del PDF
                 const pdfData = pdf.output('datauristring');
@@ -1575,7 +1442,7 @@ export class DashBoardComponent implements OnInit {
 
                 pdf.setFontSize(20);
                 pdf.setFont('Helvetica', 'normal');
-                pdf.text('Listado de Productos', 80, 30);
+                pdf.text('Listado de Paseadores', 80, 30);
                 pdf.setFont('Helvetica', 'normal');
                 pdf.setFontSize(12);
                 pdf.text(`Fecha de creación de este reporte : ${moment().format('DD-MM-YYYY hh:mm A')}`, 20, 40);
@@ -1585,17 +1452,17 @@ export class DashBoardComponent implements OnInit {
                 pdf.setLineWidth(1);
                 pdf.line(20, 50, 190, 50);  // Adjust the line position
 
-                const data = this.todosProductosMasVendidos.map((producto, index) => [
+                const data = this.topPaseadoresGlobal.map((producto, index) => [
                   index + 1, // Número
                   // producto.nombre,
-                  producto.nombre.length > 40 ? producto.nombre.slice(0, 40) + '...' : producto.nombre,
-                  producto.cantidadVendida, // Cantidad Vendida
+                  producto.nombrePaseador.length > 40 ? producto.nombrePaseador.slice(0, 40) + '...' : producto.nombrePaseador,
+                  producto.totalPaseos, // Cantidad Vendida
                 ]);
 
                 (pdf as any).autoTable({
                   headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0], fontStyle: 'bold' },
                   bodyStyles: { textColor: [0, 0, 0] },//me coloca negro el contenido de la tabla
-                  head: [['#', 'Producto', 'Cantidad Vendida']],
+                  head: [['#', 'Paseador', 'Paseos Realizados']],
                   body: data,
                   startY: 60,
                   didDrawPage: (dataArg: any) => {
@@ -1610,7 +1477,7 @@ export class DashBoardComponent implements OnInit {
 
                 const uniqueIdentifier = Math.floor(1000 + Math.random() * 9000); // 4 dígitos aleatorios
                 const currentDate = moment().format('YYYYMMDD-HHmmss'); // Fecha y hora actual en formato específico
-                const fileName = `Productos_mas_vendidos_${uniqueIdentifier}_${currentDate}.pdf`;
+                const fileName = `Paseadores_${uniqueIdentifier}_${currentDate}.pdf`;
 
 
                 // pdf.save(fileName);
@@ -1747,7 +1614,7 @@ export class DashBoardComponent implements OnInit {
 
 
             pdf.setFontSize(20);
-            pdf.text('Listado de Productos', 80, 40);
+            pdf.text('Listado de Paseadores', 80, 40);
             pdf.setFont('Helvetica', 'normal');
             pdf.setFontSize(12);
             pdf.text(`Fecha de creación de este reporte : ${moment().format('DD-MM-YYYY hh:mm A')}`, 20, 50);
@@ -1758,18 +1625,17 @@ export class DashBoardComponent implements OnInit {
             pdf.line(20, 60, 190, 60);  // Adjust the line position
 
 
-            const data = this.todosProductosMasVendidos.map((producto, index) => [
+            const data = this.topPaseadoresGlobal.map((producto, index) => [
               index + 1, // Número
-              // producto.nombre.slice(0, 40),
-              producto.nombre.length > 40 ? producto.nombre.slice(0, 40) + '...' : producto.nombre,
-              producto.codigo,
-              producto.cantidadVendida,
+              // producto.nombre,
+              producto.nombrePaseador.length > 40 ? producto.nombrePaseador.slice(0, 40) + '...' : producto.nombrePaseador,
+              producto.totalPaseos, // Cantidad Vendida
             ]);
 
             (pdf as any).autoTable({
               headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0], fontStyle: 'bold' },
-              bodyStyles: { textColor: [0, 0, 0] },
-              head: [['#', 'Producto', 'Codigo De Barra','Cantidad Vendida']],
+              bodyStyles: { textColor: [0, 0, 0] },//me coloca negro el contenido de la tabla
+              head: [['#', 'Paseador', 'Paseos Realizados']],
               body: data,
               startY: 70,
               didDrawPage: (dataArg: any) => {
@@ -1784,7 +1650,7 @@ export class DashBoardComponent implements OnInit {
 
             const uniqueIdentifier = Math.floor(1000 + Math.random() * 9000); // 4 dígitos aleatorios
             const currentDate = moment().format('YYYYMMDD-HHmmss'); // Fecha y hora actual en formato específico
-            const fileName = `Productos_mas_vendidos_${uniqueIdentifier}_${currentDate}.pdf`;
+            const fileName = `Paseadores_${uniqueIdentifier}_${currentDate}.pdf`;
             // pdf.save(fileName);
             // Obtener el base64 del PDF
             const pdfData = pdf.output('datauristring');
@@ -1809,7 +1675,7 @@ export class DashBoardComponent implements OnInit {
 
             pdf.setFontSize(20);
             pdf.setFont('Helvetica', 'normal');
-            pdf.text('Listado de Productos', 80, 30);
+            pdf.text('Listado de Paseadores', 80, 30);
             pdf.setFont('Helvetica', 'normal');
             pdf.setFontSize(12);
             pdf.text(`Fecha de creación de este reporte : ${moment().format('DD-MM-YYYY hh:mm A')}`, 20, 40);
@@ -1819,16 +1685,17 @@ export class DashBoardComponent implements OnInit {
             pdf.setLineWidth(1);
             pdf.line(20, 50, 190, 50);  // Adjust the line position
 
-            const data = this.todosProductosMasVendidos.map((producto, index) => [
+            const data = this.topPaseadoresGlobal.map((producto, index) => [
               index + 1, // Número
-              producto.nombre, // Nombre del Producto
-              producto.cantidadVendida, // Cantidad Vendida
+              // producto.nombre,
+              producto.nombrePaseador.length > 40 ? producto.nombrePaseador.slice(0, 40) + '...' : producto.nombrePaseador,
+              producto.totalPaseos, // Cantidad Vendida
             ]);
 
             (pdf as any).autoTable({
               headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0], fontStyle: 'bold' },
               bodyStyles: { textColor: [0, 0, 0] },//me coloca negro el contenido de la tabla
-              head: [['#', 'Producto', 'Cantidad Vendida']],
+              head: [['#', 'Paseador', 'Paseos Realizados']],
               body: data,
               startY: 60,
               didDrawPage: (dataArg: any) => {
@@ -1843,7 +1710,7 @@ export class DashBoardComponent implements OnInit {
 
             const uniqueIdentifier = Math.floor(1000 + Math.random() * 9000); // 4 dígitos aleatorios
             const currentDate = moment().format('YYYYMMDD-HHmmss'); // Fecha y hora actual en formato específico
-            const fileName = `Productos_mas_vendidos_${uniqueIdentifier}_${currentDate}.pdf`;
+            const fileName = `Paseadores_${uniqueIdentifier}_${currentDate}.pdf`;
 
 
             // pdf.save(fileName);
@@ -1939,20 +1806,19 @@ export class DashBoardComponent implements OnInit {
 
         const uniqueIdentifier = Math.floor(1000 + Math.random() * 9000); // 4 dígitos aleatorios
         const currentDate = moment().format('DDMMYYYY'); // Fecha actual en formato específico (sin hora ni minutos)
-        const fileName = `Productos_mas_vendidos_${uniqueIdentifier}_${currentDate}.xlsx`; // Nombre personalizado del archivo
+        const fileName = `Paseadores_${uniqueIdentifier}_${currentDate}.xlsx`; // Nombre personalizado del archivo
 
         // Crear un array de objetos con la misma estructura que la tabla de datos
-        const data = this.todosProductosMasVendidos.map((producto, index) => ({
+        const data = this.topPaseadoresGlobal.map((producto, index) => ({
           '#': index + 1,
           // 'Producto': producto.nombre,
-          'Producto': producto.nombre.length > 40 ? producto.nombre.slice(0, 40) + '...' : producto.nombre,
-          'Codigo': producto.codigo,
-          'Cantidad Vendida': producto.cantidadVendida,
+          'Paseadores': producto.nombrePaseador.length > 40 ? producto.nombrePaseador.slice(0, 40) + '...' : producto.nombrePaseador,
+          'Paseos Realizados': producto.totalPaseos,
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Productos Más Vendidos');
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Paseadores con mas paseos');
 
         XLSX.writeFile(workbook, fileName);
 

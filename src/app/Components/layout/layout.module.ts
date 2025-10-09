@@ -50,6 +50,9 @@ import { HistorialPagosComponent } from './Pages/historial-pagos/historial-pagos
 import { CalendarioModalComponent } from './Modales/calendario-modal/calendario-modal.component';
 import { ModalEditarPaseosComponent } from './Modales/modal-editar-paseos/modal-editar-paseos.component';
 import { MisPaseosComponent } from './Pages/mis-paseos/mis-paseos.component';
+import { ConsultarPagosComponent } from './Pages/consultar-pagos/consultar-pagos.component';
+import { CalificarPaseadorModalComponent } from './Modales/calificar-paseador-modal/calificar-paseador-modal.component';
+import { ComentariosPasadorModalComponent } from './Modales/comentarios-pasador-modal/comentarios-pasador-modal.component';
 
 
 @NgModule({
@@ -96,7 +99,10 @@ import { MisPaseosComponent } from './Pages/mis-paseos/mis-paseos.component';
     HistorialPagosComponent,
     CalendarioModalComponent,
     ModalEditarPaseosComponent,
-    MisPaseosComponent
+    MisPaseosComponent,
+    ConsultarPagosComponent,
+    CalificarPaseadorModalComponent,
+    ComentariosPasadorModalComponent
   ],
   imports: [
     CommonModule,

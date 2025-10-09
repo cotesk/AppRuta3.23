@@ -95,20 +95,29 @@
 
             <!-- Controles de paginación -->
             <div class="pagination-controls">
-                <button mat-icon-button (click)="firstPage()" [disabled]="page === 1">
+                <button mat-icon-button class="pasar" (click)="firstPage()" [disabled]="page === 1"
+                    matTooltip="Primera página">
                     <mat-icon>first_page</mat-icon>
                 </button>
-                <button mat-icon-button (click)="previousPage()" [disabled]="page === 1">
+
+                <button mat-icon-button class="pasar" (click)="previousPage()" [disabled]="page === 1"
+                    matTooltip="Página anterior">
                     <mat-icon>navigate_before</mat-icon>
                 </button>
+
                 <span class="page-info">Página {{ page }} de {{ totalPages }}</span>
-                <button mat-icon-button (click)="nextPage()" [disabled]="page === totalPages">
+
+                <button mat-icon-button class="pasar" (click)="nextPage()" [disabled]="page === totalPages"
+                    matTooltip="Página siguiente">
                     <mat-icon>navigate_next</mat-icon>
                 </button>
-                <button mat-icon-button (click)="lastPage()" [disabled]="page === totalPages">
+
+                <button mat-icon-button class="pasar" (click)="lastPage()" [disabled]="page === totalPages"
+                    matTooltip="Última página">
                     <mat-icon>last_page</mat-icon>
                 </button>
             </div>
+
         </div>
 
     </mat-card-content>

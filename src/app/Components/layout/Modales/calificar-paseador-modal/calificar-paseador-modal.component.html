@@ -1,0 +1,30 @@
+<h2 mat-dialog-title class="titulo">Calificar Paseador</h2>
+
+<div mat-dialog-content>
+    <p>Por favor, califica tu experiencia con el paseador.</p>
+
+    <div class="estrellas">
+        <mat-icon *ngFor="let estrella of [1,2,3,4,5]" (click)="seleccionarEstrella(estrella)"
+            [ngClass]="{'seleccionada': estrella <= estrellasSeleccionadas}">
+            {{ estrella <= estrellasSeleccionadas ? 'star' : 'star_border' }} </mat-icon>
+    </div>
+
+    <form [formGroup]="calificacionForm">
+        <mat-form-field appearance="fill" class="campo-comentario">
+            <mat-label>Comentario (opcional)</mat-label>
+            <textarea matInput rows="3" formControlName="comentario"></textarea>
+            <mat-hint align="end">{{ calificacionForm.get('comentario')?.value?.length || 0 }}/300</mat-hint>
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" class="agregar" (click)="enviarCalificacion()">
+    <mat-icon>send</mat-icon>
+    Enviar
+  </button>
+  <button mat-raised-button color="warn" (click)="cerrar()">
+    <mat-icon>close</mat-icon>
+    Cancelar
+  </button>
+</div>

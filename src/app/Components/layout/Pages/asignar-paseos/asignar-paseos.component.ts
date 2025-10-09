@@ -34,6 +34,8 @@ import { Usuario } from '../../../../Interfaces/usuario';
 import { ModalUsuarioComponent } from '../../Modales/modal-usuario/modal-usuario.component';
 import { VerImagenProductoModalComponent } from '../../Modales/ver-imagen-producto-modal/ver-imagen-producto-modal.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { CalificacionService } from '../../../../Services/calificaciones.service';
+import { ComentariosPasadorModalComponent } from '../../Modales/comentarios-pasador-modal/comentarios-pasador-modal.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -69,6 +71,11 @@ export class AsignarPaseosComponent {
   paseadorSeleccionado: any = null;
   modoEdicion: boolean = false;
 
+  promedioCalificacion: number = 0;
+  comentarioCalificacion: any[] = [];
+  totalCalificaciones: number = 0;
+  estrellas: number[] = [1, 2, 3, 4, 5];
+
   constructor(
     private fb: FormBuilder,
     private paseoService: PaseoService,
@@ -78,6 +85,7 @@ export class AsignarPaseosComponent {
     private _usuarioServicio: UsuariosService,
     private _tarifaServicio: TarifaService,
     private _PerroServicio: PerroService,
+    private calificacionService: CalificacionService,
     // public dialogRef: MatDialogRef<AsignarPaseosComponent>,
     //   @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -350,11 +358,17 @@ export class AsignarPaseosComponent {
     const idPasador = event.value;
     this.paseadorSeleccionado = this.listaPaseador.find(p => p.idUsuario === idPasador) || null;
 
+    // Reiniciar valores
+    this.promedioCalificacion = 0;
+    this.totalCalificaciones = 0;
+    this.comentarioCalificacion = [];
+
     if (idPasador) {
+
+      // 🟢 1. Obtener días disponibles
       this._diasServicio.obtenerDiasPorUsuario(idPasador).subscribe({
         next: (resp) => {
           if (resp.status) {
-            // Filtramos los días que tengan al menos un cupo disponible
             this.listaDiasPasador = resp.value
               .filter((d: any) => d.cupoManana > 0 || d.cupoTarde > 0 || d.cupoNoche > 0)
               .map((d: any) => ({
@@ -365,8 +379,6 @@ export class AsignarPaseosComponent {
                   d.cupoNoche > 0 ? 'Noche' : null
                 ].filter(t => t !== null).join(', ')
               }));
-
-            console.log('🗓️ Días con cupos disponibles:', this.listaDiasPasador);
           } else {
             this.listaDiasPasador = [];
           }
@@ -376,9 +388,47 @@ export class AsignarPaseosComponent {
           this.listaDiasPasador = [];
         }
       });
+
+      // 🟡 2. Obtener calificación y comentarios
+      this.calificacionService.obtenerPromedio(idPasador).subscribe({
+        next: (res) => {
+          if (res.status) {
+            this.promedioCalificacion = res.value.promedio || 0;
+            this.totalCalificaciones = res.value.total || 0;
+            this.comentarioCalificacion = res.value.comentarios || [];
+          } else {
+            this.promedioCalificacion = 0;
+            this.totalCalificaciones = 0;
+            this.comentarioCalificacion = [];
+          }
+        },
+        error: (err) => {
+          console.error('❌ Error al obtener calificación del pasador:', err);
+          this.promedioCalificacion = 0;
+          this.totalCalificaciones = 0;
+          this.comentarioCalificacion = [];
+        }
+      });
+    } else {
+      this.listaDiasPasador = [];
+      this.comentarioCalificacion = [];
     }
   }
 
+  abrirModalComentarios() {
+    if (!this.paseadorSeleccionado) return;
+
+    this.dialog.open(ComentariosPasadorModalComponent, {
+      data: { idPasador: this.paseadorSeleccionado.idUsuario },
+      width: '600px',
+      maxHeight: '90vh'
+    });
+  }
+
+
+  obtenerEstrellas(): number[] {
+    return Array(5).fill(0).map((x, i) => i);
+  }
 
   onPerrosChange(event: any) {
     const idsSeleccionados = event.value; // array de IDs seleccionados

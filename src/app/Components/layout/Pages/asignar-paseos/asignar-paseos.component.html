@@ -3,11 +3,40 @@
 </h2>
 
 <!-- Vista previa del paseador -->
+<!-- Vista previa del paseador -->
 <div *ngIf="paseadorSeleccionado" class="paseador-preview">
     <img [src]="paseadorSeleccionado.imagenUrl" (click)="verImagen2(paseadorSeleccionado)"
         alt="{{ paseadorSeleccionado.nombreCompleto }}" />
-    <p>{{ paseadorSeleccionado.nombreCompleto }}</p>
+    <p style="font-weight: 600; margin-bottom: 5px;">
+        {{ paseadorSeleccionado.nombreCompleto }}
+    </p>
+
+    <div *ngIf="paseadorSeleccionado" class="info-paseador">
+        <!-- <h3>{{ paseadorSeleccionado.nombre }}</h3> -->
+
+        <div class="estrellas">
+            <ng-container *ngFor="let estrella of estrellas">
+                <i class="fa-star" [ngClass]="{
+          'fas': estrella <= promedioCalificacion,
+          'far': estrella > promedioCalificacion
+        }"></i>
+            </ng-container>
+            <span class="promedio-texto">
+                {{ promedioCalificacion.toFixed(1) }} / 5
+            </span>
+        </div>
+
+        <p class="total-opiniones" (click)="abrirModalComentarios()" style="cursor: pointer; color: #2196f3;">
+            ({{ totalCalificaciones }} opiniones)
+        </p>
+
+    </div>
+
+
 </div>
+
+
+
 
 <form [formGroup]="formularioPaseo" class="formulario-paseo">
     <div mat-dialog-content class="content">
