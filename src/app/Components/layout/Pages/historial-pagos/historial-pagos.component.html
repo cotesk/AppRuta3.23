@@ -38,21 +38,30 @@
                 <ng-container matColumnDef="idPago">
                     <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">ID
                     </th>
-                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ pago.idPago }}</td>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;"
+                      [style.color]="pago.anulada ? 'red' : 'initial'"
+                        [style.font-weight]="pago.anulada ? 'bold' : 'normal'"
+                    >{{ pago.idPago }}</td>
                 </ng-container>
 
                 <!-- Nombre del Usuario -->
                 <ng-container matColumnDef="nombreUsuario">
                     <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
                         Usuario</th>
-                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ pago.nombreUsuario }}</td>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;"
+                      [style.color]="pago.anulada ? 'red' : 'initial'"
+                        [style.font-weight]="pago.anulada ? 'bold' : 'normal'"
+                    >{{ pago.nombreUsuario }}</td>
                 </ng-container>
 
                 <!-- Fecha -->
                 <ng-container matColumnDef="fechaPago">
                     <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
                         Fecha</th>
-                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ formatearFecha(pago.fechaPago) }}
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;"
+                      [style.color]="pago.anulada ? 'red' : 'initial'"
+                        [style.font-weight]="pago.anulada ? 'bold' : 'normal'"
+                    >{{ formatearFecha(pago.fechaPago) }}
                     </td>
                 </ng-container>
 
@@ -60,15 +69,35 @@
                 <ng-container matColumnDef="tipoPago">
                     <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">Tipo
                     </th>
-                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ pago.tipoPago }}</td>
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;" 
+                      [style.color]="pago.anulada ? 'red' : 'initial'"
+                        [style.font-weight]="pago.anulada ? 'bold' : 'normal'"
+                    >{{ pago.tipoPago }}</td>
                 </ng-container>
 
+                
                 <!-- Monto -->
                 <ng-container matColumnDef="monto">
                     <th mat-header-cell *matHeaderCellDef style="background:#2c3e50;color:white;text-align:center;">
                         Monto</th>
-                    <td mat-cell *matCellDef="let pago" style="text-align:center;">{{ formatearNumero(pago.montoTexto)
+                    <td mat-cell *matCellDef="let pago" style="text-align:center;"
+                        [style.color]="pago.anulada ? 'red' : 'initial'"
+                        [style.font-weight]="pago.anulada ? 'bold' : 'normal'"
+                        >{{ formatearNumero(pago.montoTexto)
                         }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="anulada">
+                    <th mat-header-cell *matHeaderCellDef
+                        style="background-color: #2c3e50; color: white; text-align: center;">
+                        Estado de pago </th>
+                    <td mat-cell *matCellDef="let element" [style.color]="element.anulada ? 'red' : 'initial'"
+                        [style.font-weight]="element.anulada ? 'bold' : 'normal'" style="text-align: center;">
+                        <button mat-raised-button [style.backgroundColor]="element.anulada  ? 'red' : 'green'"
+                            [style.color]="'white'">
+                            {{ element.anulada ? 'Anulada' : 'No Anulada' }}
+                        </button>
+                    </td>
                 </ng-container>
 
                 <!-- Acciones -->
@@ -78,6 +107,10 @@
                     <td mat-cell *matCellDef="let pago" style="text-align:center;">
                         <button mat-icon-button color="primary" (click)="verDetallePago(pago)">
                             <mat-icon>visibility</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="anular(pago)" [disabled]="pago.anulada "
+                            [ngClass]="{'disabled-button': pago.anulada}">
+                            <mat-icon>block</mat-icon>
                         </button>
                         <!-- <button mat-icon-button class="eliminar" (click)="eliminarPago(pago)">
               <mat-icon>delete</mat-icon>

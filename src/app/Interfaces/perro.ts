@@ -20,6 +20,7 @@ export interface Perro {
   alergias?: string;
   medicacion?: string;
   observaciones?: string;
+  esActivo?: number
 
   imageData: string[] | null;
   imagenUrl: string[] | null

@@ -1,0 +1,24 @@
+<h2 class="titulo">💰 Tarifas de Paseos</h2>
+
+<div *ngIf="cargando" class="cargando">
+    <mat-spinner></mat-spinner>
+    <p>Cargando tarifas...</p>
+</div>
+
+<div *ngIf="!cargando && tarifas.length > 0" class="tarifas-container">
+    <div *ngFor="let t of tarifas" class="tarifa-card">
+        <h3>🐾 {{ t.nombre }}</h3>
+        <p class="duracion">Duración: <strong>{{ t.duracionHoras }} hora{{ t.duracionHoras! > 1 ? 's' : '' }}</strong>
+        </p>
+        <p class="precio">Precio por hora: <strong>${{ t.precioPorHoraTexto }}</strong></p>
+    </div>
+
+</div>
+
+<div *ngIf="!cargando && tarifas.length === 0" class="no-data">
+    <p>No hay tarifas disponibles actualmente.</p>
+</div>
+
+<footer class="footer">
+  <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>

@@ -48,11 +48,13 @@ table th {
     color: #fff;
     font-weight: 500;
     font-size: 14px;
+    text-align: center;
 }
 
 table td {
     font-size: 14px;
     padding: 10px;
+    text-align: center;
 }
 
 .mat-form-field {
@@ -79,38 +81,42 @@ button {
     padding: 10px;
     left: -20px;
     /* Salir del contenedor principal */
-    width: calc(100% + 20px);
+    width: calc(99% + 10px);
 }
 
 .formulario-grupo {
-  display: flex;
-  gap: 20px; /* separación entre campos */
-  flex-wrap: wrap; /* que no se rompa en pantallas pequeñas */
+    display: flex;
+    gap: 20px;
+    /* separación entre campos */
+    flex-wrap: wrap;
+    /* que no se rompa en pantallas pequeñas */
 }
 
 .campo-busqueda,
 .campo-id {
-  flex: 1; /* que ambos ocupen el mismo espacio */
-  min-width: 180px; /* ancho mínimo para que no se encoja demasiado */
+    flex: 1;
+    /* que ambos ocupen el mismo espacio */
+    min-width: 180px;
+    /* ancho mínimo para que no se encoja demasiado */
 }
 
 button.agregar {
-  background-color: #3351aa;
-  /* Fondo del botón Cancelar */
-  color: #fff;
-  /* Color del texto del botón Cancelar */
+    background-color: #3351aa;
+    /* Fondo del botón Cancelar */
+    color: #fff;
+    /* Color del texto del botón Cancelar */
 }
 
 button.agregar:hover {
-  background-color: rgb(79, 96, 113);
-  /* Cambia el color de fondo al pasar el ratón sobre el botón */
+    background-color: rgb(79, 96, 113);
+    /* Cambia el color de fondo al pasar el ratón sobre el botón */
 }
 
 button.agregar[disabled] {
-  background-color: #ccc;
-  /* Fondo del botón en gris cuando está deshabilitado */
-  color: #666;
-  /* Color del texto en gris cuando está deshabilitado */
+    background-color: #ccc;
+    /* Fondo del botón en gris cuando está deshabilitado */
+    color: #666;
+    /* Color del texto en gris cuando está deshabilitado */
 }
 
 @media (max-width: 768px) {
@@ -120,9 +126,9 @@ button.agregar[disabled] {
 
         font-size: 10px;
         position: relative;
-        left: -25px;
+        left: -15px;
         /* Salir del contenedor principal */
-        width: calc(97% + 36px);
+        width: calc(95% + 16px);
         /* Hacerlo más largo que el mat-card */
         background-color: #2c3e50;
         /* Cambiar color si es necesario */

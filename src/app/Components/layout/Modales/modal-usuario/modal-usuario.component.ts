@@ -611,7 +611,7 @@ export class ModalUsuarioComponent implements OnInit {
       barrio: barrio ?? null,
       referencia: referencia ?? null,
     }
-    console.log(_usuario);
+    // console.log(_usuario);
 
     if (this.datosUsuario == null) {
 

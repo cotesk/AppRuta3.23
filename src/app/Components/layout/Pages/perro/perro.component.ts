@@ -53,6 +53,7 @@ export class PerroComponent implements OnInit, AfterViewInit {
     'tamano',
     'dueno',
     'estado',
+    'activo',
     'acciones'
   ];
   dataInicio: Perro[] = [];

@@ -64,6 +64,13 @@ catchError(this.handleError)
 );
 }
 
+perfilTarifa(): Observable<ReponseApi> {
+  return this.http.get<ReponseApi>(`${this.urlApi}PerfilTarifa`).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
 private handleError(error: any) {
 console.error('Error en la solicitud:', error);
 return throwError(() => 'Ocurrió un error en la solicitud. Por favor, inténtelo de nuevo más tarde.');

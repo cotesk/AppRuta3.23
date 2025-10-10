@@ -77,7 +77,7 @@ export class ModalEditarPaseosComponent {
     private _usuarioServicio: UsuariosService,
     private _tarifaServicio: TarifaService,
     private _PerroServicio: PerroService,
-    public dialogRef: MatDialogRef<ModalEditarPaseosComponent>,
+    private modalActual: MatDialogRef<ModalUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.formularioPaseo = this.fb.group({
@@ -134,7 +134,7 @@ export class ModalEditarPaseosComponent {
         if (data.status) {
 
           this.listaPaseador = data.value
-            .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() === 'paseador')
+            .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() === 'paseador' && u.esActivo == 1)
             .sort((a: Usuario, b: Usuario) => a.nombreCompleto!.localeCompare(b.nombreCompleto!));
 
           // console.log(this.listaPaseador);
@@ -278,7 +278,10 @@ export class ModalEditarPaseosComponent {
       next: (data) => {
         if (data.status) {
           // console.log(data);
-          this.listaPerros = data.value;
+          // this.listaPerros = data.value;
+          this.listaPerros = data.value
+            .filter((u: Perro) => u.esActivo! === 1)
+            .sort((a: Perro, b: Perro) => a.nombre!.localeCompare(b.nombre!));
 
         } else {
 
@@ -423,7 +426,7 @@ export class ModalEditarPaseosComponent {
 
 
     const paseo = this.data?.paseo;
-    console.log(paseo);
+    // console.log(paseo);
     if (paseo) {
       // 🔹 Cargar datos iniciales en el formulario
       this.formularioPaseo.patchValue({
@@ -583,25 +586,32 @@ export class ModalEditarPaseosComponent {
       idTarifa: this.formularioPaseo.value.idTarifa,
       turno: this.formularioPaseo.value.turno,
       fecha: this.formularioPaseo.value.fecha ?? new Date(),
-      estado:this.data?.paseo.estado,
+      estado: this.data?.paseo.estado,
 
     };
-     console.log(_paseo);
+    console.log(_paseo);
     // Llamamos al servicio para guardar
     let todaSemana = this.formularioPaseo.value.todaSemana;
     // console.log(todaSemana);
     if (todaSemana == true) {
-      this.paseoService.guardarSemana(_paseo, idsPerros).subscribe({
+      this.paseoService.editarSemana(_paseo, idsPerros).subscribe({
         next: (resp) => {
           // console.log(resp);
           if (resp.status) {
-            Swal.fire('Éxito', 'Paseo asignado correctamente', 'success');
+            Swal.fire('Éxito', 'Paseos editados correctamente', 'success');
             this.formularioPaseo.reset();
             this.perrosSeleccionados = [];
             this.listaDiasPasador = [];
             this.paseadorSeleccionado = false;
+            this.modalActual.close("true");
+            
           } else {
-            Swal.fire('Error', resp.msg, 'error');
+            if (resp.msg == "No hubo ningún cambio en el paseo.") {
+              Swal.fire('Informacion', resp.msg, 'info');
+            } else {
+              Swal.fire('Error', resp.msg, 'error');
+
+            }
           }
         },
         error: (err) => {
@@ -612,15 +622,21 @@ export class ModalEditarPaseosComponent {
     } else {
       this.paseoService.editar(_paseo, idsPerros).subscribe({
         next: (resp) => {
-          console.log(resp);
+          // console.log(resp);
           if (resp.status) {
             Swal.fire('Éxito', 'Paseo editado correctamente', 'success');
             this.formularioPaseo.reset();
             this.perrosSeleccionados = [];
             this.listaDiasPasador = [];
             this.paseadorSeleccionado = false;
+            this.modalActual.close("true");
           } else {
-            Swal.fire('Error', resp.msg, 'error');
+            if (resp.msg == "No hubo ningún cambio en el paseo.") {
+              Swal.fire('Informacion', resp.msg, 'info');
+            } else {
+              Swal.fire('Error', resp.msg, 'error');
+
+            }
           }
         },
         error: (err) => {

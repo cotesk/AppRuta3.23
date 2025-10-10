@@ -142,10 +142,9 @@ export class AsignarPaseosComponent {
         //  console.log(data);
         if (data.status) {
 
-          this.listaPaseador = data.value
-            .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() === 'paseador')
+       this.listaPaseador = data.value
+            .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() === 'paseador' && u.esActivo ==1)
             .sort((a: Usuario, b: Usuario) => a.nombreCompleto!.localeCompare(b.nombreCompleto!));
-
           // console.log(this.listaPaseador);
         }
 
@@ -287,7 +286,10 @@ export class AsignarPaseosComponent {
       next: (data) => {
         if (data.status) {
           // console.log(data);
-          this.listaPerros = data.value;
+          // this.listaPerros = data.value;
+          this.listaPerros = data.value
+            .filter((u: Perro) => u.esActivo! === 1)
+            .sort((a: Perro, b: Perro) => a.nombre!.localeCompare(b.nombre!));
 
         } else {
 

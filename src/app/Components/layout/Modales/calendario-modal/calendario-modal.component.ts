@@ -293,61 +293,82 @@ export class CalendarioModalComponent {
     }
   }
 
-  mostrarInfoDia(paseosDelDia: any[]) {
-    const esCliente = this.data.tipo === "Cliente"; // ✅ Saber si se abrió desde cliente o paseador
+ mostrarInfoDia(paseosDelDia: any[]) {
+  const esCliente = this.data.tipo === "Cliente";
 
-    let html = `<h3>📅 Paseos para ${paseosDelDia[0].fecha.format('DD/MM/YYYY')}</h3>`;
+  let html = `<h3 style="text-align:center;">📅 Paseos para ${paseosDelDia[0].fecha.format('DD/MM/YYYY')}</h3>`;
 
-    paseosDelDia.forEach((paseo, idx) => {
-      // ✅ Según el tipo, usar el nombre correcto
-      const nombreMostrar = esCliente
-        ? paseo.nombreCliente ?? 'N/A'
-        : paseo.nombrePasador ?? 'N/A';
-      console.log(nombreMostrar);
-      html += `
+  paseosDelDia.forEach((paseo, idx) => {
+    const nombreMostrar = esCliente
+      ? paseo.nombreCliente ?? 'N/A'
+      : paseo.nombrePasador ?? 'N/A';
+
+    html += `
       <div style="border:1px solid #ddd; padding:10px; margin:10px 0; border-radius:8px;">
         <p><b>#${idx + 1} - Estado:</b> ${paseo.estado}</p>
         <p><b>${esCliente ? 'Cliente' : 'Paseador'}:</b> ${nombreMostrar}</p>
         <p><b>Tarifa:</b> ${paseo.nombreTarifa ?? 'N/A'}</p>
-        <p><b>Costo:</b> ${paseo.costoTotal
-          ? new Intl.NumberFormat('es-CO', {
-            style: 'currency',
-            currency: 'COP',
-            minimumFractionDigits: 0,
-          }).format(paseo.costoTotal)
-          : 'N/A'
+        <p><b>Costo:</b> ${
+          paseo.costoTotal
+            ? new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0,
+              }).format(paseo.costoTotal)
+            : 'N/A'
         }</p>
     `;
 
-      // 🐶 Mostrar perros si existen
-      if (paseo.perros && paseo.perros.length > 0) {
-        html += `<h4>🐶 Perros:</h4>`;
-        paseo.perros.forEach((perro: any) => {
-          const foto = perro.imagenUrl?.length ? perro.imagenUrl[0] : null;
-          html += `
-          <div style="display:flex; align-items:center; gap:10px; margin: 8px 0;">
-            ${foto
-              ? `<img src="${foto}" alt="${perro.nombre}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">`
-              : ''
+    // 🐶 Mostrar perros en 3 columnas
+    if (paseo.perros && paseo.perros.length > 0) {
+      html += `
+        <h4>🐶 Perros:</h4>
+        <div style="
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          margin-top: 10px;
+        ">
+      `;
+
+      paseo.perros.forEach((perro: any) => {
+        const foto = perro.imagenUrl?.length ? perro.imagenUrl[0] : null;
+
+        html += `
+          <div style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          ">
+            ${
+              foto
+                ? `<img src="${foto}" alt="${perro.nombre}" style="width:60px; height:60px; border-radius:50%; object-fit:cover; margin-bottom:5px;">`
+                : `<div style="width:60px; height:60px; border-radius:50%; background:#ddd; margin-bottom:5px;"></div>`
             }
-            <b>${perro.nombre}</b>
+            <b style="font-size: 13px; text-align:center;">${perro.nombre}</b>
           </div>
         `;
-        });
-      }
+      });
 
       html += `</div>`;
-    });
+    }
 
-    Swal.fire({
-      title: `📅 Detalles del ${esCliente ? 'Cliente' : 'Paseo'}`,
-      html: html,
-      width: 600,
-      showCloseButton: true,
-      confirmButtonText: 'Cerrar',
-      confirmButtonColor: '#3085d6',
-    });
-  }
+    html += `</div>`;
+  });
+
+  Swal.fire({
+    title: `📅 Detalles del ${esCliente ? 'Cliente' : 'Paseo'}`,
+    html: html,
+    width: 700,
+    showCloseButton: true,
+    confirmButtonText: 'Cerrar',
+    confirmButtonColor: '#3085d6',
+  });
+}
 
 
 

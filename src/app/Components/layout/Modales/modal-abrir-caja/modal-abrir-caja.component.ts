@@ -234,7 +234,7 @@ export class ModalAbrirCajaComponent implements OnInit {
 
     // Almacena el valor filtrado en la variable clienteFiltrado
     this.usuarioFiltrado = soloLetras;
-
+    // this.usuarioFiltrado = inputCliente;
     // Establece el valor en el control del formulario
     this.formularioCaja.get('usuario')?.setValue(this.usuarioFiltrado);
   }
@@ -323,35 +323,7 @@ export class ModalAbrirCajaComponent implements OnInit {
       }
     });
   }
-  getRoleIcon(roleName: string): string {
-    switch (roleName) {
-      case 'Administrador':
-        return 'administrador-icon';
-      case 'Empleado':
-        return 'empleado-icon';
-      case 'Supervisor':
-        return 'supervisor-icon';
-      case 'Clientes':
-        return 'cliente-icon';
-      default:
-        return '';
-    }
-  }
 
-  getRoleIconName(roleName: string): string {
-    switch (roleName) {
-      case 'Administrador':
-        return 'admin_panel_settings';
-      case 'Empleado':
-        return 'work';
-      case 'Supervisor':
-        return 'supervisor_account';
-      case 'Clientes':
-        return 'person';
-      default:
-        return '';
-    }
-  }
   lista() {
     this._usuarioServicio.listaUsuario().subscribe({
       next: (data) => {
@@ -468,7 +440,7 @@ export class ModalAbrirCajaComponent implements OnInit {
         if (data.status) {
           // Filtrar y ordenar la lista de usuarios
           this.listaUsuario = (data.value as Usuario[])
-            .filter(p => p.esActivo == 1 && p.rolDescripcion !== "Clientes")
+            .filter(p => p.esActivo == 1 && p.rolDescripcion == "Administrador")
             .sort((a: Usuario, b: Usuario) => {
               // Verificar si nombreCompleto está definido
               if (a.nombreCompleto && b.nombreCompleto) {
@@ -823,7 +795,7 @@ export class ModalAbrirCajaComponent implements OnInit {
         idUsuario: event.option.value.idUsuario,
         nombreCompleto: event.option.value.nombreCompleto
       });
-      this.formularioCaja.get('usuario')?.setValue('');
+       this.formularioCaja.get('usuario')?.setValue('');
     } else {
       this.nombreUsuario = ''; // Reiniciar el nombre de usuario si no se selecciona ningún valor
       this.rolUsuario = '';

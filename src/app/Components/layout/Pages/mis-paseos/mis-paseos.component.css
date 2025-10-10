@@ -1,40 +1,4 @@
-.paseos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-}
 
-.paseo-card {
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-
-.paseos-carrusel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.paseos-grid {
-  display: flex;
-  gap: 5px;
-  overflow-x: auto;  /* permitir scroll horizontal en móvil */
-  scroll-snap-type: x mandatory; /* snap al deslizar */
-  -webkit-overflow-scrolling: touch; /* scroll suave en iOS */
-  flex: 1;
-  padding-bottom: 10px;
-}
-.paseo-card {
-  min-width: 260px;
-  max-width: 260px;
-}
-.paseo-card:hover {
-  transform: translateY(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border: 2px solid #eb9b19;   /* borde naranja */
-}
 .perros-lista {
   display: flex;
   flex-wrap: wrap;
@@ -139,23 +103,96 @@ button[color="warn"]:hover {
   background-color: #bb4141;
   /* Cambia el color al pasar el ratón sobre el botón */
 }
+.encabezado-paseos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
 
-@media (max-width: 600px) {
-  h2 {
+.filtros-superiores {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🔹 Flechas arriba centradas */
+.controles-carrusel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* 🔹 Carrusel */
+.paseos-carrusel {
+  display: flex;
+  justify-content: center;
+}
+
+.paseos-grid {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  padding-bottom: 10px;
+}
+
+.paseo-card {
+  min-width: 250px;
+  max-width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.paseo-card:hover {
+  transform: translateY(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid #eb9b19;
+}
+
+.footer {
+ position: relative;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  left: -20px;
+  /* Salir del contenedor principal */
+  width: calc(100% + 20px);
+}
+
+@media (max-width: 768px) {
+    .footer {
+
+    font-size: 10px;
+    position: relative;
+    left: -25px;
+    /* Salir del contenedor principal */
+    width: calc(97% + 36px);
+    /* Hacerlo más largo que el mat-card */
+    background-color: #2c3e50;
+    /* Cambiar color si es necesario */
+  }
+  
+  .paseo-card {
+    min-width: 220px;
+    max-width: 220px;
+  }
+
+  .encabezado-paseos h2 {
     font-size: 18px;
   }
 
-  .paseo-card {
-    min-width: 260px;
-    max-width: 100%;
-  }
-
-  .perro-img {
-    width: 40px;
-    height: 40px;
-  }
-
-  .perro-item span {
-    font-size: 11px;
+  .controles-carrusel {
+    margin-bottom: 4px;
+    gap: 4px;
   }
 }

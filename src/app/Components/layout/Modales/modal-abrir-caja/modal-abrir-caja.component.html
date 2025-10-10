@@ -46,7 +46,7 @@
     <mat-form-field appearance="fill" class="input-field">
       <mat-label>Buscar Usuario</mat-label>
       <input matInput type="text" placeholder="Buscar Usuarios" [matAutocomplete]="autoCliente"
-        formControlName="usuario" (focus)="mostrarListaUsuario()" (input)="filtrarEntrada($event)">
+        formControlName="usuario" (focus)="mostrarListaUsuario()" (input)="filtrarEntrada($event)" [value]="usuarioFiltrado">
       <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete"
         (optionSelected)="onUsuarioSeleccionado($event)" [displayWith]="mostrarUsuario">
         <mat-option *ngFor="let option of listaUsuarioFiltrada" [value]="option">
@@ -58,6 +58,10 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
+
+
+  
+
 
     <!-- Información de Usuario Seleccionado -->
     <div class="user-info">

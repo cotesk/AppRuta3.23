@@ -112,7 +112,7 @@ export class ConsultarPagosComponent {
       next: (resp) => {
         if (resp.status && resp.value?.pagos?.length > 0) {
           const pagos = resp.value.pagos;
-
+          console.log(resp);
           this.dataListaVenta.data = pagos;
           this.dataInicio = pagos;
 
@@ -136,6 +136,24 @@ export class ConsultarPagosComponent {
     });
   }
 
+  formatearFecha(fecha: string): string {
+    if (!fecha) return '';
+
+    const date = new Date(fecha);
+
+    // Verifica si la fecha es válida
+    if (isNaN(date.getTime())) return fecha;
+
+    // Formato colombiano con hora y AM/PM
+    return date.toLocaleString('es-CO', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true, // Muestra AM/PM
+    });
+  }
 
 
 

@@ -75,7 +75,7 @@ button[color="accent"]:hover {
   background-color: #194f1c; /* Cambia el color al pasar el ratón sobre el botón */
 }
 button[color="warn"]:hover {
-  background-color: #9e3434; /* Cambia el color al pasar el ratón sobre el botón */
+  background-color: #c9a2a2; /* Cambia el color al pasar el ratón sobre el botón */
 }
 button.eliminar {
   /* background-color: #9b8f67;  */

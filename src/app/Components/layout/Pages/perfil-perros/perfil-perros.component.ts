@@ -173,7 +173,7 @@ export class PerfilPerrosComponent implements OnInit, AfterViewInit {
 
 
           this.dataListaPerros = new MatTableDataSource<Perro>(data.value);
-           console.log(this.dataListaPerros);
+           console.log(data);
           this.dataListaPerros.paginator = this.paginacionTabla;
 
         } else {

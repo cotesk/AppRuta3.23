@@ -45,7 +45,7 @@ export class HistorialPaseoComponent {
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
   pagedPaseos: any[] = [];
   page = 1;
-  pageSize = 4;
+  pageSize = 5;
   totalUsuario = 0;
   totalPages = 0;
   searchTerm = '';
@@ -204,9 +204,13 @@ export class HistorialPaseoComponent {
     this.dialog.open(ModalEditarPaseosComponent, {
       width: '900px',
       data: { paseo }  // <-- pasa el paseo al modal
-    }).afterClosed().subscribe(() => {
-      this.ngOnInit(); // refrescar después de editar
-    });
+    }).afterClosed().subscribe(resultado => {
+    
+          if (resultado === "true") this.cargarPaseos();
+    
+        });
+
+    
   }
 
   verImagen(usuario: any): void {
@@ -272,7 +276,7 @@ export class HistorialPaseoComponent {
                   confirmButtonColor: '#286aa7ff'
                 }).then(() => {
                   // 🟢 Abrir modal de calificación
-                  console.log(paseo);
+                  // console.log(paseo);
                   this.dialog.open(CalificarPaseadorModalComponent, {
                     width: '450px',
                     disableClose: true,

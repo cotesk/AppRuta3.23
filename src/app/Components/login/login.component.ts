@@ -460,7 +460,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   navigateToRoute() {
     // this.router.navigate(['/']);
-    this.router.navigate(['/menu/cards']);
+    this.router.navigate(['/menu/perfiles_tarifas']);
   }
   cambiarContra() {
     this.dialog.open(SolicitarRestablecimientoComponent, {

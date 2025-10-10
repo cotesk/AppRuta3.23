@@ -21,6 +21,7 @@ export class ComentariosPasadorModalComponent implements OnInit {
     private calificacionService: CalificacionService
   ) {
     this.idPasador = data.idPasador;
+    console.log(data);
   }
 
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class ComentariosPasadorModalComponent implements OnInit {
   }
 
   cargarComentarios() {
+    
     this.calificacionService.obtenerPromedio(this.idPasador, this.paginaActual, 5).subscribe({
       next: (res) => {
         if (res.status) {

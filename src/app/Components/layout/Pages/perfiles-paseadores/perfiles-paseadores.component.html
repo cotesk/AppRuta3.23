@@ -1,0 +1,39 @@
+<div class="titulo">
+  <h2><mat-icon color="primary">pets</mat-icon> Paseadores Disponibles</h2>
+</div>
+
+<p style="text-align: center;">Conoce a nuestros paseadores certificados y sus valoraciones ⭐</p>
+
+<div *ngIf="cargando" class="cargando">
+  <mat-spinner diameter="50" color="accent"></mat-spinner>
+</div>
+
+<div *ngIf="!cargando" class="paseadores-grid">
+  <mat-card *ngFor="let p of paseadores" class="paseador-card" matTooltip="Haz clic para ver opiniones"
+    (click)="verOpiniones(p)">
+    <img mat-card-image [src]="p.imagenUrl || 'assets/default-user.png'" alt="{{ p.nombreCompleto }}">
+    <mat-card-content>
+      <h3>{{ p.nombreCompleto }}</h3>
+      <p class="correo">{{ p.correo }}</p>
+
+      <div class="estrellas">
+        <ng-container *ngFor="let estrella of estrellas">
+          <i class="fa-star" [ngClass]="{
+               'fas': estrella <= p.promedioValoracion,
+               'far': estrella > p.promedioValoracion
+             }"></i>
+        </ng-container>
+        <span class="promedio-texto">
+          {{ p.promedioValoracion ? p.promedioValoracion.toFixed(1) : '0.0' }} / 5
+        </span>
+      </div>
+
+      <div class="valoracion">
+        <span *ngIf="p.totalValoraciones">({{ p.totalValoraciones }} opiniones)</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<footer class="footer">
+  <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>

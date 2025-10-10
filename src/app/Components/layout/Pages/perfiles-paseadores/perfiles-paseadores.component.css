@@ -1,0 +1,168 @@
+.titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.titulo mat-icon {
+  margin-right: 10px;
+  color: #eb9b19;
+  font-size: 1.7rem;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+/* 🔹 Animación del ícono (salta suavemente) */
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+
+.paseadores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.paseador-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* .paseador-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+} */
+.paseador-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid #eb9b19;
+}
+
+mat-card-content {
+  text-align: center;
+  padding: 12px;
+}
+
+.valoracion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.correo {
+  color: #666;
+  font-size: 14px;
+  margin-top: -5px;
+}
+
+.cargando {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+
+.estrellas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #ffd700;
+  margin: 5px 0;
+}
+
+.estrellas i {
+  margin: 0 3px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.estrellas i:hover {
+  transform: scale(1.2);
+}
+
+.promedio-texto {
+  margin-left: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* 🐾 Efecto animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔄 Spinner de carga */
+.cargando {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.footer {
+  position: relative;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  left: -20px;
+  /* Salir del contenedor principal */
+  width: calc(99% + 10px);
+}
+
+
+
+@media (max-width: 768px) {
+
+  .footer {
+
+    font-size: 10px;
+    position: relative;
+    left: -15px;
+    /* Salir del contenedor principal */
+    width: calc(95% + 16px);
+    /* Hacerlo más largo que el mat-card */
+    background-color: #2c3e50;
+    /* Cambiar color si es necesario */
+  }
+
+  .estrellas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #ffd700;
+    margin: 5px 0;
+  }
+
+  .paseadores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+    padding: 10px;
+  }
+
+
+
+}

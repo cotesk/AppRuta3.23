@@ -1,17 +1,24 @@
 <h1 style="margin:0px 0px 10px ; text-align: center;">Registrar Pagos</h1>
 
 
-<div *ngIf="usuarioSeleccionado" appearance="fill" class="minimalist-precio" (click)="deseleccionarCliente()">
-    Cliente seleccionado: {{ usuarioSeleccionado.nombreCompleto }}
+<div *ngIf="usuarioSeleccionado" class="cliente-seleccionado-centralizado" >
+  <img 
+    [src]="usuarioSeleccionado.imagenUrl || 'assets/default-user.png'" (click)="verImagen(usuarioSeleccionado)"
+    alt="Foto del cliente" 
+    class="foto-cliente">
+  <span class="nombre-cliente" (click)="deseleccionarCliente()">Cliente seleccionado: {{ usuarioSeleccionado.nombreCompleto }}</span>
 </div>
+
 
 <form [formGroup]="formularioProductoVenta" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
 
+
+    
     <!-- Cliente -->
     <mat-form-field class="small-input4">
         <input matInput type="text" placeholder="Buscar Clientes" [matAutocomplete]="autoCliente" formControlName="cliente"
             (focus)="mostrarListaCliente()" (input)="filtrarEntradaCliente($event)" [value]="clienteFiltrado">
-        <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete" (optionSelected)="mesaParaVenta($event)"
+        <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete" (optionSelected)="pagoParaVenta($event)"
             [displayWith]="mostrarMesas">
             <mat-option *ngFor="let option of listaClienteFiltrada" [value]="option">
                 {{ option.nombreCompleto }}
@@ -100,6 +107,8 @@
         </mat-select>
     </mat-form-field>
 </form>
+
+
 <div *ngIf="paseos.length > 0" style="text-align: center; margin-top: 15px;">
   <button mat-raised-button color="primary" class="boton-pagar-todos"
           (click)="pagarTodosLosPaseos()">
@@ -158,6 +167,12 @@
           <button mat-icon-button class="icon-green" matTooltip="Registrar pago" (click)="pagarPaseo(paseo)">
             <mat-icon>attach_money</mat-icon>
           </button>
+           <!-- <button mat-icon-button color="warn"
+              (click)="anular(paseo)"
+              [disabled]="paseo.anulada "
+              [ngClass]="{'disabled-button': paseo.anulada}">
+              <mat-icon>block</mat-icon>
+            </button> -->
           <!-- <button mat-icon-button color="primary" matTooltip="Ver detalle" (click)="verDetallePaseo(paseo)">
             <mat-icon>visibility</mat-icon>
           </button> -->

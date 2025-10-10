@@ -19,6 +19,8 @@ import { PendientePaymentComponent } from './Components/pendiente-payment/pendie
 // import { ConsultarVentasComponent } from './Components/layout/Pages/consultar-ventas/consultar-ventas.component';
 import { LicenciaComponent } from './Components/layout/Pages/licencias/licencias.component';
 import { ConsultarPagosComponent } from './Components/layout/Pages/consultar-pagos/consultar-pagos.component';
+import { PerfilesPaseadoresComponent } from './Components/layout/Pages/perfiles-paseadores/perfiles-paseadores.component';
+import { PerfilesTarifasComponent } from './Components/layout/Pages/perfiles-tarifas/perfiles-tarifas.component';
 const routes: Routes = [
 
 
@@ -47,6 +49,8 @@ const routes: Routes = [
       // { path: "consultar_Compra_Online", component: ConsultarCompraOnlineComponent },
       // { path: "consultar_Compra_Online", component: MercadoPagoCompraOnlineComponent },
         { path: "consultar_Pagos", component: ConsultarPagosComponent },
+        { path: "perfiles_paseador", component: PerfilesPaseadoresComponent },
+         { path: "perfiles_tarifas", component: PerfilesTarifasComponent },
     ]
   },
   {

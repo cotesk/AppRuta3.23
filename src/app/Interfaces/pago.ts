@@ -8,4 +8,6 @@ export interface Pago {
   precioPagadoTexto?: string,
   precioEfectivoTexto?: string,
   precioTransferenciaTexto?: string,
+  anulada: boolean,
+  idCaja: number;
 }

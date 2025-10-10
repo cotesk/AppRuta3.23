@@ -1,5 +1,5 @@
 <div class="contenedor-principal">
-    <h2 mat-dialog-title class="titulo">Consultar Ventas</h2>
+    <h2 mat-dialog-title class="titulo">Consultar Pagos</h2>
 
     <!-- Contenedor superior dividido en dos columnas -->
     <div class="contenedor-superior">
@@ -21,7 +21,7 @@
                         <mat-label>Buscar por</mat-label>
                         <mat-select [(value)]="Selector" (selectionChange)="onSelectChange($event)">
                             <mat-option value="id">
-                                <mat-icon class="icono-compra">confirmation_number</mat-icon> # Compra
+                                <mat-icon class="icono-compra">mail</mat-icon> Correo
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -47,7 +47,7 @@
 
     <!-- Tabla de productos -->
     <div class="table-container" *ngIf="dataListaVenta">
-        <h3 class="subtitulo">Detalle de Productos</h3>
+        <h3 class="subtitulo">Detalle de pago</h3>
         <table mat-table [dataSource]="dataListaVenta" class="mat-elevation-z2 full-width-table">
 
             <ng-container matColumnDef="idPago">
@@ -62,7 +62,7 @@
 
             <ng-container matColumnDef="fechaPago">
                 <th mat-header-cell *matHeaderCellDef>Fecha de Pago</th>
-                <td mat-cell *matCellDef="let element">{{ element.fechaPago | date:'short' }}</td>
+                <td mat-cell *matCellDef="let element">{{ formatearFecha(element.fechaPago) }}</td>
             </ng-container>
 
             <ng-container matColumnDef="tipoPago">
@@ -72,12 +72,12 @@
 
             <ng-container matColumnDef="tipoTranferencia">
                 <th mat-header-cell *matHeaderCellDef>Transferencia</th>
-                <td mat-cell *matCellDef="let element">{{ element.tipoTranferencia }}</td>
+                <td mat-cell *matCellDef="let element">{{ element.tipoTranferencia === 'Sin ningún tipo de pago' ? 'N/A' : element.tipoTranferencia }}</td>
             </ng-container>
 
             <ng-container matColumnDef="montoTexto">
                 <th mat-header-cell *matHeaderCellDef>Monto</th>
-                <td mat-cell *matCellDef="let element">{{ formatearNumero(element.montoTexto) }}</td>
+                <td mat-cell *matCellDef="let element">{{ (element.montoTexto) }}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
@@ -90,5 +90,5 @@
 </div>
 
 <footer class="footer">
-    <p>&copy; 2025 - Hecho con orgullo en Colombia</p>
+    <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
 </footer>

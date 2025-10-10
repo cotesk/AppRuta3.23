@@ -42,6 +42,7 @@ export class ModalPerroComponent implements OnInit {
   imagenes: any[] = [];
   imagenBlob: Blob = new Blob();
   modoEdicion: boolean = false;
+  modoEdicion2: boolean = true;
   imagenPorDefecto: string = 'assets/Images/Caja.png';
   inputFileRef: ElementRef | undefined;
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
@@ -58,7 +59,7 @@ export class ModalPerroComponent implements OnInit {
 
   idProduct: number = 0; // Asegúrate de inicializar esta variable
 
-  // Asegúrate de inicializar esta lista
+
   constructor(
     private modalActual: MatDialogRef<ModalPerroComponent>,
     @Inject(MAT_DIALOG_DATA) public datosPerro: Perro, private fb: FormBuilder,
@@ -78,7 +79,7 @@ export class ModalPerroComponent implements OnInit {
       Urlimagen: [''],
       imageData: [''],
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
-      raza: ['', [Validators.maxLength(100),this.letrasSinNumerosValidator(), ]],
+      raza: ['', [Validators.maxLength(100), this.letrasSinNumerosValidator(),]],
       edad: [null, [Validators.min(0), Validators.max(30)]],
       sexo: ['', Validators.required],
       tamano: ['', Validators.required],
@@ -93,22 +94,20 @@ export class ModalPerroComponent implements OnInit {
       esterilizado: [false],
       alergias: [''],
       medicacion: [''],
-      observaciones: ['']
+      observaciones: [''],
+      esActivo: ['1',],
     });
 
     if (datosPerro != null) {
       this.tituloAccion = "Editar";
       this.botonAccion = "Actualizar";
       this.modoEdicion = true;
+      this.modoEdicion2 = false;
     }
 
     // console.log(datosPerro);
 
-    if (this.formularioPerro) {
 
-      const idProductoAsignacion = datosPerro?.idPerro ?? 0; // ✅ protección contra null
-      // console.log(idProductoAsignacion);
-    }
 
 
   }
@@ -158,7 +157,7 @@ export class ModalPerroComponent implements OnInit {
     if (this.datosPerro != null) {
 
       this.idProduct = (this.datosPerro.idPerro!);
-      console.log(this.idProduct);
+      console.log(this.datosPerro);
 
 
 
@@ -179,7 +178,8 @@ export class ModalPerroComponent implements OnInit {
         esterilizado: this.datosPerro.esterilizado,
         alergias: this.datosPerro.alergias,
         medicacion: this.datosPerro.medicacion,
-        observaciones: this.datosPerro.observaciones
+        observaciones: this.datosPerro.observaciones,
+        esActivo: this.datosPerro.esActivo?.toString() || 'valor_predeterminado',
       });
 
     }
@@ -422,7 +422,7 @@ export class ModalPerroComponent implements OnInit {
     console.log(datosDesencriptados);
     const usuario = JSON.parse(datosDesencriptados);
     idUsuario = usuario.idUsuario; // Obtener el idUsuario del objeto usuario
-    nombreDueno= usuario.nombreCompleto;
+    nombreDueno = usuario.nombreCompleto;
 
     const _perro: Perro = {
       idPerro: this.datosPerro == null ? 0 : this.datosPerro.idPerro,
@@ -443,12 +443,11 @@ export class ModalPerroComponent implements OnInit {
       entrenadoBasicos: this.formularioPerro.value.entrenadoBasicos,
       vacunasAlDia: this.formularioPerro.value.vacunasAlDia,
       esterilizado: this.formularioPerro.value.esterilizado,
-
+      esActivo: parseInt(this.formularioPerro.value.esActivo),
       alergias: this.formularioPerro.value.alergias,
       medicacion: this.formularioPerro.value.medicacion,
       observaciones: this.formularioPerro.value.observaciones,
       imageData: this.imageData ? [this.imageData.split(',')[1]] : [],
-      // manejo de imágenes
       imagenUrl: [],
       nombreImagen: this.nombreImagen ? [this.nombreImagen] : [],
 
@@ -464,7 +463,7 @@ export class ModalPerroComponent implements OnInit {
     if (this.datosPerro == null) {
       this._productoServicio.guardar(_perro).subscribe({
         next: (data) => {
-           console.log(data);
+          console.log(data);
           if (data.status) {
             Swal.fire({
               icon: 'success',

@@ -22,40 +22,30 @@
 
       <button mat-button [matMenuTriggerFor]="menu">
 
-        <mat-label [class]="getTextColorClass()">Productos</mat-label>
+        <mat-label [class]="getTextColorClass()">Menu</mat-label>
         <mat-icon [class]="getIconColorClass()">arrow_drop_down</mat-icon>
       </button>
 
 
 
       <mat-menu #menu="matMenu">
-        <button mat-menu-item [routerLink]="['cards']">
-          <mat-icon class="icon-green">attach_money</mat-icon>
-          <span>Cards</span>
-        </button>
-        <button mat-menu-item [routerLink]="['presentacion']">
-          <mat-icon class="icon-blue">slideshow</mat-icon>
-          <span>Presentacion</span>
-        </button>
-        <button mat-menu-item [routerLink]="['consultar_Abonos']">
-          <mat-icon class="icon-green">attach_money</mat-icon>
-          <span>Consultar Abonos</span>
-        </button>
-        <button mat-menu-item [routerLink]="['consultar_Compra_Online']">
-          <mat-icon class="icon-green">check_circle</mat-icon>
-          <span>Consultar Compras Online</span>
+    
+        <button mat-menu-item [routerLink]="['perfiles_paseador']">
+          <mat-icon class="icon-brown">pets</mat-icon>
+          <span>Perfil Paseadores</span>
         </button>
 
-          <button mat-menu-item [routerLink]="['consultar_Venta']">
-          <mat-icon class="icon-green">check_circle</mat-icon>
-          <span>Consultar Compras</span>
+        <button mat-menu-item [routerLink]="['consultar_Pagos']">
+          <mat-icon class="icon-blue">payments</mat-icon>
+          <span>Consultar Pagos</span>
         </button>
-        <!-- <button mat-menu-item [routerLink]="['login']">
-          <mat-icon class="icon-green">check_circle</mat-icon>
-          <span>Login</span>
-        </button> -->
 
+        <button mat-menu-item [routerLink]="['perfiles_tarifas']">
+          <mat-icon class="icon-green">price_change</mat-icon>
+          <span>Perfil Tarifas</span>
+        </button>
       </mat-menu>
+
     </div>
 
 
@@ -65,7 +55,7 @@
 
 
 
-       <!-- Contenedor para centrar el botón del menú -->
+      <!-- Contenedor para centrar el botón del menú -->
 
 
 
@@ -87,8 +77,8 @@
         <option value="azul">Azul</option>
       </select>
 
-      <button [class]="getTextColorClass()" style="margin: 0 10px 0 0;"
-       mat-icon-button (click)="iniciarSesion()" matTooltip="Iniciar Sesión">
+      <button [class]="getTextColorClass()" style="margin: 0 10px 0 0;" mat-icon-button (click)="iniciarSesion()"
+        matTooltip="Iniciar Sesión">
         <mat-icon>login</mat-icon>
       </button>
 
@@ -148,8 +138,8 @@
 
 
 <!-- <mat-sidenav-content> -->
-  <!-- Mostrar el carrusel si el router-outlet está vacío -->
-  <!-- <ng-container *ngIf="isRouterOutletEmpty">
+<!-- Mostrar el carrusel si el router-outlet está vacío -->
+<!-- <ng-container *ngIf="isRouterOutletEmpty">
     <div style="height: 90vh;">
       <div class="vertical-carousel">
         <div class="carousel-inner">
@@ -161,8 +151,8 @@
     </div>
   </ng-container> -->
 
-  <!-- Mostrar el contenido del router-outlet si hay un componente activo -->
-  <!-- <ng-container *ngIf="!isRouterOutletEmpty">
+<!-- Mostrar el contenido del router-outlet si hay un componente activo -->
+<!-- <ng-container *ngIf="!isRouterOutletEmpty">
     <div style="height: 90vh;">
       <router-outlet></router-outlet>
     </div>

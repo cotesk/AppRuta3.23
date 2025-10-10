@@ -127,6 +127,14 @@ export class UsuariosService {
     );
   }
 
+  listaPaseador(): Observable<ReponseApi> {
+
+    return this.http.get<any>(`${this.urlApi}ListaPaseadores`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
   obtenerImagenUsuario(idUsuario: number): Observable<any> {
     const url = `${this.urlApi}imagen/${idUsuario}`;
     return this.http.get<any>(url);

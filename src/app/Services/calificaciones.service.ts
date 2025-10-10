@@ -33,13 +33,20 @@ export class CalificacionService {
         );
     }
 
-    obtenerPromedio(idPaseador: number, page: number = 1, pageSize: number = 5): Observable<ReponseApi> {
-        const headers = this.getHeaders();
+    
+    obtenerPromedio(idPaseador: number, page: number = 1, pageSize: number = 3): Observable<ReponseApi> {
+        // const headers = this.getHeaders();
         const params = new HttpParams()
             .set('page', page)
             .set('pageSize', pageSize);
 
-        return this.http.get<ReponseApi>(`${this.urlApi}Promedio/${idPaseador}`, { headers, params }).pipe(
+        return this.http.get<ReponseApi>(`${this.urlApi}Promedio/${idPaseador}`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    obtenerPromedioGeneral(): Observable<ReponseApi> {
+        return this.http.get<ReponseApi>(`${this.urlApi}PromedioGeneral`).pipe(
             catchError(this.handleError)
         );
     }

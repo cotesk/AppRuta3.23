@@ -76,6 +76,17 @@ export class PaseoService {
     );
   }
 
+    editarSemana(paseo: Paseo, idsPerros: number[]): Observable<ReponseApi> {
+    const headers = this.getHeaders();
+    return this.http.put<ReponseApi>(
+      `${this.urlApi}EditarSemana?${idsPerros.map(id => `idsPerros=${id}`).join('&')}`,
+      paseo,
+      { headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   // Cambiar estado a entregado
   entregar(id: number): Observable<ReponseApi> {
     const headers = this.getHeaders();

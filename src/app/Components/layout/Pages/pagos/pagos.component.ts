@@ -150,7 +150,8 @@ export class PagosComponent implements OnInit, OnDestroy {
   Vueltos: number = 0;
   PrecioEfectivo: number | null = null;
   PrecioTransferencia: number | null = null;
-
+  dataInicioCaja: Caja[] = [];
+  dataListaCaja = new MatTableDataSource(this.dataInicioCaja);
 
   constructor(
 
@@ -200,9 +201,9 @@ export class PagosComponent implements OnInit, OnDestroy {
 
 
     this.formularioProductoVenta = this.fb.group({
-      producto: ['', Validators.required],
-      mesa: ['', [Validators.maxLength(35)]],
-      mesaId: [''],
+      cliente: ['', Validators.required],
+      // cliente: ['', [Validators.maxLength(35)]],
+      // mesaId: [''],
       precioPagadoTexto: ['0', Validators.required],
       tipoBusqueda: ['',],
       metodoBusqueda: ['Pagado'],
@@ -275,7 +276,7 @@ export class PagosComponent implements OnInit, OnDestroy {
     console.log(this.usuarioSeleccionado.idUsuario!);
     console.log(this.paginaActual);
     console.log(this.tamanioPagina);
-    this.paseoService.obtenerPorCliente(this.usuarioSeleccionado.idUsuario!, this.paginaActual, this.tamanioPagina, this.searchTerm, "")
+    this.paseoService.obtenerPorCliente(this.usuarioSeleccionado.idUsuario!, this.paginaActual, this.tamanioPagina, this.searchTerm, "Entregado")
       .subscribe(resp => {
         console.log('Respuesta del backend:', resp);
 
@@ -315,10 +316,10 @@ export class PagosComponent implements OnInit, OnDestroy {
 
 
     this.formularioProductoVenta = this.fb.group({
-      producto: ['', Validators.required],
+      cliente: ['', Validators.required],
       cantidad: ['', [Validators.required, Validators.min(1)]],
-      mesa: ['', [Validators.maxLength(35)]],
-      mesaId: [''],
+      // mesa: ['', [Validators.maxLength(35)]],
+      // mesaId: [''],
       precioPagadoTexto: ['0', Validators.required],
       tipoBusqueda: ['',],
       metodoBusqueda: [''],
@@ -612,13 +613,22 @@ export class PagosComponent implements OnInit, OnDestroy {
     }
   }
 
-  mesaParaVenta(event: MatAutocompleteSelectedEvent) {
+  pagoParaVenta(event: MatAutocompleteSelectedEvent) {
     this.usuarioSeleccionado = event.option.value;
     this.paginaActual = 1;
-
+    // console.log( this.usuarioSeleccionado);
     this.cargarpaseosPendiente();
   }
 
+
+  verImagen(data: any): void {
+    // console.log(data);
+    this.dialog.open(VerImagenProductoModalComponent, {
+      data: {
+        imagenes: [data.imagenUrl]
+      }
+    });
+  }
 
 
 
@@ -884,7 +894,9 @@ export class PagosComponent implements OnInit, OnDestroy {
                     tipoTranferencia: TipoPago,
                     precioEfectivoTexto: (this.PrecioEfectivo!).toString(),
                     precioPagadoTexto: PrecioPagado,
-                    precioTransferenciaTexto: (this.PrecioTransferencia!).toString()
+                    precioTransferenciaTexto: (this.PrecioTransferencia!).toString(),
+                    anulada: false,
+                    idCaja: idCaja
                   };
                   console.log(pago);
 
@@ -933,7 +945,9 @@ export class PagosComponent implements OnInit, OnDestroy {
                     tipoTranferencia: TipoPago,
                     precioEfectivoTexto: '0',
                     precioPagadoTexto: PrecioPagado,
-                    precioTransferenciaTexto: '0'
+                    precioTransferenciaTexto: '0',
+                    anulada: false,
+                    idCaja: idCaja
                   };
                   console.log(pago);
                   this.confirmarGeneracionFactura(pago, idCaja, paseo);
@@ -1229,7 +1243,7 @@ export class PagosComponent implements OnInit, OnDestroy {
 
   procesarRegistroPagos2(pago: Pago, idCaja: number, paseo: Paseo) {
     this.bloquearBotonRegistrar = true;
-    console.log(pago);
+    // console.log(pago);
 
     this.pagoService.registrarUno(pago, paseo.idPaseo!).subscribe({
       next: (resp) => {
@@ -1243,10 +1257,10 @@ export class PagosComponent implements OnInit, OnDestroy {
           });
           // Refrescar tabla o estado
           this.cargarpaseosPendiente();
-          if (this.tipodeFacturaPorDefecto == "Ticket") {
-            this.generarTicket(resp);
+          // if (this.tipodeFacturaPorDefecto == "Ticket") {
+          //   this.generarTicket(resp);
 
-          }
+          // }
 
         } else {
           Swal.fire({
@@ -1289,10 +1303,10 @@ export class PagosComponent implements OnInit, OnDestroy {
           });
           // Refrescar tabla o estado
           this.cargarpaseosPendiente();
-          if (this.tipodeFacturaPorDefecto == "Ticket") {
-            this.generarTicket(resp);
+          // if (this.tipodeFacturaPorDefecto == "Ticket") {
+          //   this.generarTicket(resp);
 
-          }
+          // }
 
         } else {
           Swal.fire({
@@ -1553,8 +1567,8 @@ export class PagosComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonText: 'Sí, pagar todos',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#4caf50',
-      cancelButtonColor: '#f44336'
+      confirmButtonColor: '#1337E8',
+      cancelButtonColor: '#d33',
     }).then(result => {
       if (result.isConfirmed) {
 
@@ -1630,42 +1644,66 @@ export class PagosComponent implements OnInit, OnDestroy {
                     let paseo = resp.value.paseos;
                     this.paseoSeleccionadoTemporal = paseo;
 
-                    let TipoPago: any
+                    // 1️⃣ Mostrar resumen total antes de continuar
+                    const paseosDetalleHtml = Array.isArray(paseo)
+                      ? paseo.map((p: any) =>
+                        `<li>#${p.idPaseo} - ${new Date(p.fecha).toLocaleDateString('es-CO')} - ${p.turno} - $${p.costoTotal.toLocaleString()}</li>`
+                      ).join('')
+                      : '';
+
+                    const { isConfirmed } = await Swal.fire({
+                      title: `Resumen del pago`,
+                      html: `
+          <p>Cliente: <b>${this.usuarioSeleccionado!.nombreCompleto}</b></p>
+          <p>Total a pagar: <b>$${totalDeuda.toLocaleString()}</b></p>
+          <p>Número de paseos: <b>${paseo.length}</b></p>
+          <ul style="text-align:left;">${paseosDetalleHtml}</ul>
+        `,
+                      icon: 'info',
+                      showCancelButton: true,
+                      confirmButtonText: 'Continuar',
+                      cancelButtonText: 'Cancelar',
+                      confirmButtonColor: '#1337E8',
+                      cancelButtonColor: '#d33',
+                      width: '500px'
+                    });
+
+                    if (!isConfirmed) return; // si canceló, salir
+
+                    // 2️⃣ Ahora continúa tu lógica existente para pago combinado o normal
+                    let TipoPago: any;
                     const metodo: string = this.formularioProductoVenta.value.metodoBusqueda;
                     let PrecioPagado: string = this.formularioProductoVenta.value.precioPagadoTexto ?? "0";
-                    // console.log(PrecioPagado);
+
                     if (this.tipodePagoPorDefecto == 'Transferencia' || this.tipodePagoPorDefecto == 'Combinado') {
                       if (PrecioPagado != "0") {
                         Swal.fire({
                           icon: 'error',
                           title: 'Error',
-                          text: `Precio pagado no puede tener ningun valor porque es por ${this.tipodePagoPorDefecto}`,
-
+                          text: `Precio pagado no puede tener ningún valor porque es por ${this.tipodePagoPorDefecto}`,
                           confirmButtonText: 'Aceptar'
                         });
-                        return
+                        return;
                       }
                       TipoPago = this.tipodePago;
-
                     } else {
-
                       TipoPago = "Sin ningún tipo de pago";
                     }
 
                     console.log(this.tipodePagoPorDefecto);
+
                     if (this.tipodePagoPorDefecto === 'Combinado') {
                       const totalVenta = totalDeuda;
-                      // const totalVenta = 0;
                       const { value: formValues } = await Swal.fire({
                         title: `Pago combinado<br><small>Total: $${totalVenta.toLocaleString()}</small>`,
                         html: `
-      <div style="display: flex; flex-direction: column; gap: 10px; text-align: left;">
-        <label for="efectivo">💵 Efectivo:</label>
-        <input id="efectivo" type="number" class="swal2-input" placeholder="Ingrese valor en efectivo">
-        <label for="transferencia">🏦 Transferencia:</label>
-        <input id="transferencia" type="number" class="swal2-input" placeholder="Ingrese valor en transferencia">
-      </div>
-    `,
+            <div style="display: flex; flex-direction: column; gap: 10px; text-align: left;">
+              <label for="efectivo">💵 Efectivo:</label>
+              <input id="efectivo" type="number" class="swal2-input" placeholder="Ingrese valor en efectivo">
+              <label for="transferencia">🏦 Transferencia:</label>
+              <input id="transferencia" type="number" class="swal2-input" placeholder="Ingrese valor en transferencia">
+            </div>
+          `,
                         focusConfirm: false,
                         showCancelButton: true,
                         confirmButtonColor: '#1337E8',
@@ -1702,37 +1740,25 @@ export class PagosComponent implements OnInit, OnDestroy {
                           tipoTranferencia: TipoPago,
                           precioEfectivoTexto: (this.PrecioEfectivo!).toString(),
                           precioPagadoTexto: PrecioPagado,
-                          precioTransferenciaTexto: (this.PrecioTransferencia!).toString()
+                          precioTransferenciaTexto: (this.PrecioTransferencia!).toString(),
+                          anulada: false,
+                          idCaja: idCaja
                         };
                         console.log(pago);
 
                         this.confirmarGeneracionTodoPagosFactura(pago, idCaja, paseo);
 
-
                       } else {
                         this.bloquearBotonRegistrar = true;
                         console.log('El usuario canceló el pago combinado');
                       }
+
                     } else {
+                      let pagado: number = parseFloat(PrecioPagado.replace(/\./g, '').replace(',', '.'));
+                      let total: number = totalDeuda;
+                      this.Vueltos = pagado - total;
 
-
-                      let pagado: number = 0;
-                      let total: number = 0;
-                      let suma: number = 0;
-                      // console.log(PrecioPagado);
-                      pagado = parseFloat(PrecioPagado.replace(/\./g, '').replace(',', '.'));
-                      total = totalDeuda
-
-                      this.Vueltos = pagado - total
-
-                      console.log(pagado);
-                      // console.log(total);
-
-                      if (pagado == 0) {
-                        pagado = total;
-
-                      }
-
+                      if (pagado == 0) pagado = total;
 
                       if (pagado < total) {
                         Swal.fire({
@@ -1740,35 +1766,27 @@ export class PagosComponent implements OnInit, OnDestroy {
                           title: 'Error',
                           text: `Precio pagado no puede ser menor al total`,
                         });
-                        return
-
-                      } else {
-
-                        const pago: Pago = {
-                          idUsuario: this.usuarioSeleccionado!.idUsuario,
-                          montoTexto: totalDeuda!.toString(),
-                          tipoPago: this.tipodePagoPorDefecto,
-                          tipoTranferencia: TipoPago,
-                          precioEfectivoTexto: '0',
-                          precioPagadoTexto: PrecioPagado,
-                          precioTransferenciaTexto: '0'
-                        };
-                        console.log(pago);
-                        this.confirmarGeneracionTodoPagosFactura(pago, idCaja, paseo);
-
+                        return;
                       }
 
-
-
+                      const pago: Pago = {
+                        idUsuario: this.usuarioSeleccionado!.idUsuario,
+                        montoTexto: totalDeuda!.toString(),
+                        tipoPago: this.tipodePagoPorDefecto,
+                        tipoTranferencia: TipoPago,
+                        precioEfectivoTexto: '0',
+                        precioPagadoTexto: PrecioPagado,
+                        precioTransferenciaTexto: '0',
+                        anulada: false,
+                        idCaja: idCaja
+                      };
+                      console.log(pago);
+                      this.confirmarGeneracionTodoPagosFactura(pago, idCaja, paseo);
                     }
-
-
-
                   }
                 },
                 error: (err) => console.error('Error al obtener total:', err)
               });
-
 
 
 
@@ -2982,6 +3000,437 @@ export class PagosComponent implements OnInit, OnDestroy {
         .replace(/\./g, '')   // quitar separadores de miles
         .replace(/,/g, '.')   // reemplazar coma decimal por punto
     );
+  }
+
+  anular(pago: Pago) {
+    Swal.fire({
+      title: '¿Anular pago?',
+      text: 'Esta acción revertirá los paseos asociados a este pago.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, anular',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        let totalDevolucionDecimal: number
+        let totalDevolucion: string
+        let precioEfectivoTexto: number
+        let precioTransferenciaTexto: number
+        let totalDevolucionTransferencia: string
+        let totalDevolucionEfectivo: string
+
+        if (pago.tipoPago == "Combinado") {
+          totalDevolucionDecimal = pago ? parseFloat(pago.montoTexto!) : 0;
+          totalDevolucion = totalDevolucionDecimal.toString();
+
+          precioEfectivoTexto = pago ? parseFloat(pago.montoTexto!) : 0;
+          totalDevolucionEfectivo = precioEfectivoTexto.toString();
+
+          precioTransferenciaTexto = pago ? parseFloat(pago.precioTransferenciaTexto!) : 0;
+          totalDevolucionTransferencia = precioTransferenciaTexto.toString();
+
+
+
+        } else {
+          totalDevolucionDecimal = pago ? parseFloat(pago.montoTexto!) : 0;
+          totalDevolucion = totalDevolucionDecimal.toString();
+
+        }
+
+
+        let idUsuario: number = 0;
+        let idCaja: number = 0;
+        let nombreUsua: string = "";
+        let nombreUsua2: string = "";
+        let cajaActualizada2: Caja;
+
+
+        // Obtener el idUsuario del localStorage
+        const usuarioString = localStorage.getItem('usuario');
+        const bytes = CryptoJS.AES.decrypt(usuarioString!, this.CLAVE_SECRETA);
+        const datosDesencriptados = bytes.toString(CryptoJS.enc.Utf8);
+        if (datosDesencriptados !== null) {
+          const usuario = JSON.parse(datosDesencriptados);
+          idUsuario = usuario.idUsuario; // Obtener el idUsuario del objeto usuario
+          nombreUsua2 = usuario.nombreCompleto;
+        }
+
+
+
+
+        // Verificar que se haya obtenido el idUsuario
+        if (idUsuario !== 0) {
+          this.cajaService.obtenerCajaPoridCaja(pago.idCaja).subscribe({
+            next: (caja: Caja | null) => {
+              if (caja !== null) {
+                // Si se encuentra una caja abierta para el idUsuario
+                idCaja = caja.idCaja;
+                nombreUsua = caja.nombreUsuario;
+
+                let cajaActualizada: Caja = {
+                  idCaja: idCaja,
+                  devolucionesTexto: totalDevolucion,
+                  ingresosTexto: totalDevolucion,
+                  transaccionesTexto: totalDevolucion,
+                  metodoPago: pago.tipoPago,
+                  estado: '',
+                  nombreUsuario: '',
+                  idUsuario: idUsuario
+                };
+
+                if (pago.tipoPago == "Combinado") {
+                  cajaActualizada.devolucionesTexto = totalDevolucion;
+                  cajaActualizada.ingresosTexto = totalDevolucionEfectivo;
+                  cajaActualizada.transaccionesTexto = totalDevolucionTransferencia;
+                }
+
+
+
+                // Verificar si cajaActualizada está definida antes de intentar actualizar la caja
+                if (cajaActualizada2 !== undefined) {
+                  // Actualizar la caja
+                  this.actualizarCaja(cajaActualizada2);
+                }
+
+                // Verificar si el idCaja de la venta es diferente al idCaja actual del usuario
+                // if (idCajaVenta !== idCaja) {
+                //   Swal.fire({
+                //     icon: 'error',
+                //     title: 'Error',
+                //     text: 'No puede anular una venta realizada en una caja diferente a la actual.',
+                //     confirmButtonText: 'Aceptar'
+                //   });
+                //   return; // Detener la ejecución
+                // }
+                // Verificar si el idCaja de la venta es diferente al idCaja actual del usuario
+                if (nombreUsua !== nombreUsua2) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No puede anular un pago realizado  desde una caja diferente a la actual.',
+                    confirmButtonText: 'Aceptar'
+                  });
+                  return; // Detener la ejecución
+                }
+                cajaActualizada2 = cajaActualizada;
+
+
+                this.pagoService.anularPago(pago.idPago!).subscribe({
+                  next: (rsp) => {
+                    if (rsp.status) {
+                      // Swal.fire('✅ Anulado', rsp.msg, 'success');
+                      // this.cargarpaseosPendiente(); 
+
+
+                      Swal.fire({
+                        title: 'Realizar un comentario',
+                        html:
+                          // '<input id="prestamosTexto" class="swal2-input" placeholder="Valor del préstamo">' +
+                          // '<input id="comentariosDevoluciones" class="swal2-input" placeholder="Comentario">',
+                          '<textarea id="comentariosDevoluciones" class="swal2-textarea" placeholder="Comentario" style="height: 150px;"></textarea>',
+                        showCancelButton: true,
+                        confirmButtonColor: '#1337E8',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Realizar comentario',
+                        cancelButtonText: 'Cancelar',
+                        allowOutsideClick: false, // Evitar que se cierre haciendo clic fuera del diálogo
+                        preConfirm: () => {
+                          // const prestamosTexto = parseFloat((<HTMLInputElement>document.getElementById('prestamosTexto')).value);
+                          const comentariosDevoluciones = (<HTMLInputElement>document.getElementById('comentariosDevoluciones')).value;
+                          // Verificar si el saldo disponible es mayor o igual al valor del préstamo
+
+                          // Verificar si el campo de comentario está vacío
+                          if (comentariosDevoluciones.trim() === '') {
+                            Swal.showValidationMessage('Por favor, ingrese un comentario.'); // Mostrar mensaje de validación
+                          } else {
+                            // Verificar que idCaja tenga un valor asignado
+                            if (idCaja !== undefined) {
+                              // Actualizar la caja correspondiente con los nuevos valores de ingresosTexto y metodoPago
+                              const cajaActualizada2: Caja = {
+                                idCaja: idCaja,
+                                devolucionesTexto: totalDevolucion,
+                                ingresosTexto: totalDevolucion,
+                                transaccionesTexto: totalDevolucion,
+                                metodoPago: pago.tipoPago,
+                                estado: '',
+                                nombreUsuario: '',
+                                idUsuario: idUsuario
+                              };
+
+                              if (pago.tipoPago == "Combinado") {
+                                cajaActualizada.devolucionesTexto = totalDevolucionEfectivo;
+                                cajaActualizada.ingresosTexto = totalDevolucionEfectivo;
+                                cajaActualizada.transaccionesTexto = totalDevolucionTransferencia;
+                              }
+
+                            }
+
+                            this.ComentarioDevoluciones(idCaja, pago.idPago!.toString(), comentariosDevoluciones);
+
+                            // Verificar si cajaActualizada está definida antes de intentar actualizar la caja
+                            if (cajaActualizada2 !== undefined) {
+                              // Actualizar la caja
+                              this.actualizarCaja(cajaActualizada2);
+                            }
+
+
+                            // Swal.fire({
+                            //   icon: 'success',
+                            //   title: 'Venta Anulada ',
+                            //   text: `Solicitud de anulación de venta completada.`,
+                            // });
+
+
+                            // Recargar los datos después de anular la venta
+                            // this.buscarVentas(this.page, this.pageSize,this.searchTerm);
+                            this.cargarpaseosPendiente();
+                          }
+
+
+                        }
+                      });
+
+
+                    } else {
+                      Swal.fire('⚠️ Error', rsp.msg, 'warning');
+                    }
+                  },
+                  error: (err) => {
+                    let idUsuario: number = 0;
+
+
+                    // Obtener el idUsuario del localStorage
+                    const usuarioString = localStorage.getItem('usuario');
+                    const bytes = CryptoJS.AES.decrypt(usuarioString!, this.CLAVE_SECRETA);
+                    const datosDesencriptados = bytes.toString(CryptoJS.enc.Utf8);
+                    if (datosDesencriptados !== null) {
+                      const usuario = JSON.parse(datosDesencriptados);
+                      idUsuario = usuario.idUsuario; // Obtener el idUsuario del objeto usuario
+
+                      this._usuarioServicio.obtenerUsuarioPorId(idUsuario).subscribe(
+                        (usuario: any) => {
+
+                          console.log('Usuario obtenido:', usuario);
+                          let refreshToken = usuario.refreshToken
+
+                          // Manejar la renovación del token
+                          this._usuarioServicio.renovarToken(refreshToken).subscribe(
+                            (response: any) => {
+                              console.log('Token actualizado:', response.token);
+                              // Guardar el nuevo token de acceso en el almacenamiento local
+                              localStorage.setItem('authToken', response.token);
+                              this.anular(pago);
+                            },
+                            (error: any) => {
+                              console.error('Error al actualizar el token:', error);
+                            }
+                          );
+
+
+
+                        },
+                        (error: any) => {
+                          console.error('Error al obtener el usuario:', error);
+                        }
+                      );
+                    }
+
+                  }
+                });
+
+
+
+
+
+
+                //  this.actualizarCaja(cajaActualizada);
+              } else {
+                // Manejar el caso en el que no se encuentre una caja abierta para el idUsuario
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'No se encontró una caja abierta para el usuario actual',
+                  confirmButtonText: 'Aceptar'
+                });
+                // Detener la ejecución
+                return;
+              }
+            },
+            error: (error) => {
+              let idUsuario: number = 0;
+
+
+              // Obtener el idUsuario del localStorage
+              const usuarioString = localStorage.getItem('usuario');
+              const bytes = CryptoJS.AES.decrypt(usuarioString!, this.CLAVE_SECRETA);
+              const datosDesencriptados = bytes.toString(CryptoJS.enc.Utf8);
+              if (datosDesencriptados !== null) {
+                const usuario = JSON.parse(datosDesencriptados);
+                idUsuario = usuario.idUsuario; // Obtener el idUsuario del objeto usuario
+
+                this._usuarioServicio.obtenerUsuarioPorId(idUsuario).subscribe(
+                  (usuario: any) => {
+
+                    console.log('Usuario obtenido:', usuario);
+                    let refreshToken = usuario.refreshToken
+
+                    // Manejar la renovación del token
+                    this._usuarioServicio.renovarToken(refreshToken).subscribe(
+                      (response: any) => {
+                        console.log('Token actualizado:', response.token);
+                        // Guardar el nuevo token de acceso en el almacenamiento local
+                        localStorage.setItem('authToken', response.token);
+                        this.anular(pago);
+                      },
+                      (error: any) => {
+                        console.error('Error al actualizar el token:', error);
+                      }
+                    );
+
+
+
+                  },
+                  (error: any) => {
+                    console.error('Error al obtener el usuario:', error);
+                  }
+                );
+              }
+            },
+            complete: () => {
+
+
+            }
+          });
+
+        }
+
+
+      }
+    });
+  }
+
+  ComentarioDevoluciones(idCaja: number, numeroDocumento: string, comentariosDevoluciones: string) {
+    const estado = "Pago"
+    this.cajaService.devoluciones(idCaja, numeroDocumento, comentariosDevoluciones, estado).subscribe(
+      () => {
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Pago Anulado.',
+          text: `Solicitud de anulación de pago completada.`,
+        });
+
+
+        // Swal.fire('Comentario guardado exitosamente', '', 'success');
+        // Aquí puedes agregar lógica adicional después de realizar el préstamo, como volver a cargar la lista de cajas
+
+        this.obtenerCaja();
+      },
+      error => {
+        let idUsuario: number = 0;
+
+
+        // Obtener el idUsuario del localStorage
+        const usuarioString = localStorage.getItem('usuario');
+        const bytes = CryptoJS.AES.decrypt(usuarioString!, this.CLAVE_SECRETA);
+        const datosDesencriptados = bytes.toString(CryptoJS.enc.Utf8);
+        if (datosDesencriptados !== null) {
+          const usuario = JSON.parse(datosDesencriptados);
+          idUsuario = usuario.idUsuario; // Obtener el idUsuario del objeto usuario
+
+          this._usuarioServicio.obtenerUsuarioPorId(idUsuario).subscribe(
+            (usuario: any) => {
+
+              console.log('Usuario obtenido:', usuario);
+              let refreshToken = usuario.refreshToken
+
+              // Manejar la renovación del token
+              this._usuarioServicio.renovarToken(refreshToken).subscribe(
+                (response: any) => {
+                  console.log('Token actualizado:', response.token);
+                  // Guardar el nuevo token de acceso en el almacenamiento local
+                  localStorage.setItem('authToken', response.token);
+                  this.ComentarioDevoluciones(idCaja, numeroDocumento, comentariosDevoluciones);
+                },
+                (error: any) => {
+                  console.error('Error al actualizar el token:', error);
+                }
+              );
+
+
+
+            },
+            (error: any) => {
+              console.error('Error al obtener el usuario:', error);
+            }
+          );
+        }
+      }
+    );
+  }
+
+
+  obtenerCaja() {
+
+    this.cajaService.lista().subscribe({
+
+      next: (data) => {
+        if (data.status)
+          this.dataListaCaja.data = data.value;
+        else
+          Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia',
+            text: `no se encontraron datos`,
+          });
+        // this._utilidadServicio.mostrarAlerta("no se encontraron datos", "Oops!");
+      },
+      error: (e) => {
+        let idUsuario: number = 0;
+
+
+        // Obtener el idUsuario del localStorage
+        const usuarioString = localStorage.getItem('usuario');
+        const bytes = CryptoJS.AES.decrypt(usuarioString!, this.CLAVE_SECRETA);
+        const datosDesencriptados = bytes.toString(CryptoJS.enc.Utf8);
+        if (datosDesencriptados !== null) {
+          const usuario = JSON.parse(datosDesencriptados);
+          idUsuario = usuario.idUsuario; // Obtener el idUsuario del objeto usuario
+
+          this._usuarioServicio.obtenerUsuarioPorId(idUsuario).subscribe(
+            (usuario: any) => {
+
+              console.log('Usuario obtenido:', usuario);
+              let refreshToken = usuario.refreshToken
+
+              // Manejar la renovación del token
+              this._usuarioServicio.renovarToken(refreshToken).subscribe(
+                (response: any) => {
+                  console.log('Token actualizado:', response.token);
+                  // Guardar el nuevo token de acceso en el almacenamiento local
+                  localStorage.setItem('authToken', response.token);
+                  this.obtenerCaja();
+                },
+                (error: any) => {
+                  console.error('Error al actualizar el token:', error);
+                }
+              );
+
+
+
+            },
+            (error: any) => {
+              console.error('Error al obtener el usuario:', error);
+            }
+          );
+        }
+
+      }
+
+    })
   }
 
 

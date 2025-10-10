@@ -18,7 +18,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/assets/Images/FondoGYM.jpg');
+  background-image: url('/assets/Images/fondo2.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -99,6 +99,7 @@
 .dia-mes-alt:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
+  border: 2px solid #eb9b19;
 }
 
 .dia-vacio-alt {

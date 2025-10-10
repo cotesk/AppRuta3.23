@@ -100,4 +100,18 @@ export class PagoService {
         console.error('Error en la solicitud:', error);
         return throwError(() => 'Ocurrió un error en la solicitud. Por favor, inténtelo de nuevo más tarde.');
     }
+
+    // Anular un pago
+    anularPago(id: number): Observable<ReponseApi> {
+        const headers = this.getHeaders();
+        return this.http.put<ReponseApi>(
+            `${this.urlApi}Anular/${id}`,
+            {}, // No envía cuerpo, solo la URL con el ID
+            { headers }
+        ).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+
 }

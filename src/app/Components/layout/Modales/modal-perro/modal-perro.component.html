@@ -221,10 +221,24 @@
                 <textarea matInput rows="3" formControlName="observaciones"></textarea>
             </mat-form-field>
 
-
-
         </div>
 
+
+        <div class="row">
+         <mat-form-field appearance="fill" *ngIf="!modoEdicion2">
+                <mat-label>Estado</mat-label>
+                <mat-select asp-for="esActivo" formControlName="esActivo">
+                    <mat-option value="1">
+                        <mat-icon class="icon-green">check_circle</mat-icon>
+                        Activo
+                    </mat-option>
+                    <mat-option value="0">
+                        <mat-icon class="icon-red">highlight_off</mat-icon>
+                        No Activo
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
 
     </div>

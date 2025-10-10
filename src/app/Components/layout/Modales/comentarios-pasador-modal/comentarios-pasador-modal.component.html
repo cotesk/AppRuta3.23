@@ -1,20 +1,24 @@
-<h2 mat-dialog-title style="text-align: center;">Opiniones del Paseador</h2>
+<h2 mat-dialog-title class="titulo-dialogo">
+  <mat-icon>star_rate</mat-icon> Opiniones del Paseador
+</h2>
 
 <mat-dialog-content>
-  <div *ngIf="comentarios.length === 0" class="text-center">
+  <div *ngIf="comentarios.length === 0" class="sin-comentarios">
+    <mat-icon>chat_bubble_outline</mat-icon>
     <p>No hay comentarios disponibles.</p>
   </div>
 
   <div *ngFor="let c of comentarios" class="comentario-card">
     <div class="comentario-header">
-      <strong>{{ c.cliente }}</strong>
-      <span class="fecha">{{ c.fecha }}</span>
-    </div>
-
-    <div class="estrellas">
-      <ng-container *ngFor="let i of [1,2,3,4,5]">
-        <i class="fa-star" [ngClass]="{'fas': i <= c.estrellas, 'far': i > c.estrellas}"></i>
-      </ng-container>
+      <div>
+        <strong>{{ c.cliente }}</strong>
+        <span class="fecha">{{ c.fecha }}</span>
+      </div>
+      <div class="estrellas">
+        <ng-container *ngFor="let i of [1,2,3,4,5]">
+          <i class="fa-star" [ngClass]="{'fas': i <= c.estrellas, 'far': i > c.estrellas}"></i>
+        </ng-container>
+      </div>
     </div>
 
     <p class="comentario-texto">{{ c.comentario || 'Sin comentario.' }}</p>

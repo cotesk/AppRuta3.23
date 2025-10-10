@@ -53,6 +53,8 @@ import { MisPaseosComponent } from './Pages/mis-paseos/mis-paseos.component';
 import { ConsultarPagosComponent } from './Pages/consultar-pagos/consultar-pagos.component';
 import { CalificarPaseadorModalComponent } from './Modales/calificar-paseador-modal/calificar-paseador-modal.component';
 import { ComentariosPasadorModalComponent } from './Modales/comentarios-pasador-modal/comentarios-pasador-modal.component';
+import { PerfilesPaseadoresComponent } from './Pages/perfiles-paseadores/perfiles-paseadores.component';
+import { PerfilesTarifasComponent } from './Pages/perfiles-tarifas/perfiles-tarifas.component';
 
 
 @NgModule({
@@ -102,7 +104,9 @@ import { ComentariosPasadorModalComponent } from './Modales/comentarios-pasador-
     MisPaseosComponent,
     ConsultarPagosComponent,
     CalificarPaseadorModalComponent,
-    ComentariosPasadorModalComponent
+    ComentariosPasadorModalComponent,
+    PerfilesPaseadoresComponent,
+    PerfilesTarifasComponent
   ],
   imports: [
     CommonModule,

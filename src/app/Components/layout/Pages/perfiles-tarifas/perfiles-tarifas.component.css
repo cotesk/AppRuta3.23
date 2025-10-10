@@ -1,0 +1,167 @@
+.titulo {
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #1c5481;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.titulo::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #4caf50, #eb9b19);
+  margin: 10px auto 0;
+  border-radius: 10px;
+}
+
+.cargando {
+  text-align: center;
+  margin-top: 40px;
+  color: #1c5481;
+}
+
+.tarifas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.tarifa-card {
+  background: linear-gradient(145deg, #ffffff, #f0f8ff);
+  border-radius: 18px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tarifa-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(235, 155, 25, 0.15) 0%, transparent 60%);
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.tarifa-card:hover::before {
+  opacity: 1;
+}
+
+.tarifa-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  border: 2px solid #eb9b19;
+}
+
+.tarifa-card h3 {
+  color: #4caf50;
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.duracion {
+  color: #444;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.duracion::before {
+  content: "⏱️";
+  font-size: 1.2rem;
+}
+
+.precio {
+  font-size: 1.4rem;
+  color: #1c5481;
+  font-weight: 700;
+  background: linear-gradient(90deg, #4caf50, #eb9b19);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 10px;
+}
+
+.precio::before {
+  content: "💲";
+  margin-right: 4px;
+}
+
+.no-data {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  margin-top: 40px;
+  font-weight: 500;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.footer {
+  position: relative;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px;
+  left: -20px;
+  /* Salir del contenedor principal */
+  width: calc(99% + 10px);
+}
+
+
+@media (max-width: 768px) {
+  .footer {
+  
+      font-size: 10px;
+      position: relative;
+      left: -15px;
+      /* Salir del contenedor principal */
+      width: calc(95% + 16px);
+      /* Hacerlo más largo que el mat-card */
+      background-color: #2c3e50;
+      /* Cambiar color si es necesario */
+    }
+
+}

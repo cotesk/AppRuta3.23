@@ -1,51 +1,56 @@
-<div style="display: flex; justify-content: space-between; align-items: center; margin: 0px 0 20px 0;">
-  <h2 style="margin: 0;">Mis Paseos</h2>
+<!-- Encabezado y filtros -->
+<div class="encabezado-paseos">
+  <h2>Mis Paseos</h2>
 
-  <!-- Filtro aquí mismo -->
-  <mat-form-field appearance="fill" style="width: 250px; margin-right: 20px;">
-    <mat-label>Filtrar por estado</mat-label>
-    <mat-select [(value)]="estadoSeleccionado" (selectionChange)="ngOnInit()">
-      <mat-option value="">
-        <mat-icon style="color:#607d8b; margin-right:6px;">list</mat-icon>
-        Todos
-      </mat-option>
-      <mat-option *ngFor="let estado of estados" [value]="estado">
-        <mat-icon [ngStyle]="{ 'margin-right.px': 6, 'color': getColorEstado(estado) }">
-          {{ getIconoEstado(estado) }}
-        </mat-icon>
-        {{ estado }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="filtros-superiores">
+    <mat-form-field appearance="fill" style="width: 200px;">
+      <mat-label>Filtrar por estado</mat-label>
+      <mat-select [(value)]="estadoSeleccionado" (selectionChange)="ngOnInit()">
+        <mat-option value="">
+          <mat-icon style="color:#607d8b; margin-right:6px;">list</mat-icon>
+          Todos
+        </mat-option>
+        <mat-option *ngFor="let estado of estados" [value]="estado">
+          <mat-icon [ngStyle]="{ 'margin-right.px': 6, 'color': getColorEstado(estado) }">
+            {{ getIconoEstado(estado) }}
+          </mat-icon>
+          {{ estado }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <button mat-mini-fab color="primary" matTooltip="Ver Calendario" (click)="vercalendario()">
-    <mat-icon>calendar_today</mat-icon>
-  </button>
+    <button mat-mini-fab color="primary" matTooltip="Ver Calendario" (click)="vercalendario()">
+      <mat-icon>calendar_today</mat-icon>
+    </button>
+  </div>
 </div>
 
-
-
-<!-- Calendario -->
-<!-- <div style="display: flex; justify-content: center; margin: 20px 0;">
-  <mat-calendar [dateClass]="dateClass"></mat-calendar>
-</div> -->
-
-<div class="paseos-carrusel">
-
-  <!-- Ir a la primera página -->
-  <button mat-icon-button color="primary" (click)="irPrimeraPagina()" [disabled]="page === 1">
+<!-- 🔹 Controles arriba -->
+<div class="controles-carrusel">
+  <button mat-icon-button color="primary" matTooltipPosition="above" matTooltip="Primera página" (click)="irPrimeraPagina()"
+    [disabled]="page === 1">
     <mat-icon>first_page</mat-icon>
   </button>
 
-  <!-- Página anterior -->
-  <button mat-icon-button color="primary" (click)="anteriorCard()" [disabled]="page === 1">
+  <button mat-icon-button color="primary" matTooltipPosition="above" matTooltip="Página anterior" (click)="anteriorCard()" [disabled]="page === 1">
     <mat-icon>chevron_left</mat-icon>
   </button>
 
+  <button mat-icon-button color="primary" matTooltipPosition="above" matTooltip="Página siguiente" (click)="siguienteCard()"
+    [disabled]="page === totalPages">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <button mat-icon-button color="primary" matTooltipPosition="above" matTooltip="Última página" (click)="irUltimaPagina()"
+    [disabled]="page === totalPages">
+    <mat-icon>last_page</mat-icon>
+  </button>
+</div>
+
+<!-- 🔹 Carrusel -->
+<div class="paseos-carrusel">
   <div class="paseos-grid">
-
     <mat-card *ngFor="let paseo of paseos" class="paseo-card">
-
       <mat-card-header>
         <mat-card-title>{{ paseo.nombreTarifa }}</mat-card-title>
         <mat-card-subtitle>
@@ -66,7 +71,6 @@
           </button>
         </div>
 
-
         <!-- Lista de perros -->
         <div *ngIf="paseo.perros?.length" class="perros-lista-scroll">
           <div *ngFor="let perro of paseo.perros" class="perro-item">
@@ -75,39 +79,31 @@
             <span>{{ perro.nombre }}</span>
           </div>
         </div>
-
       </mat-card-content>
 
-
       <mat-card-actions align="end">
-        <button mat-mini-fab class="agregar" matTooltip="Perro Recibido"[disabled]="paseo.estado == 'Cancelado' || paseo.estado == 'Entregado'
-        || paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'"
+        <button mat-mini-fab class="agregar" matTooltip="Perro Recibido"
+          [disabled]="paseo.estado == 'Cancelado' || paseo.estado == 'Entregado' || paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'"
           (click)="paseoRecibido(paseo)">
           <mat-icon>check</mat-icon>
         </button>
-        <button mat-mini-fab class="ver" [disabled]="paseo.estado == 'Cancelado'|| paseo.estado == 'EnCurso' || paseo.estado == 'Entregado'
-        || paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'" matTooltip="Editar Paseo"
-          (click)="editarPaseo(paseo)">
+
+        <button mat-mini-fab class="ver"
+          [disabled]="paseo.estado == 'Cancelado'|| paseo.estado == 'EnCurso' || paseo.estado == 'Entregado'|| paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'"
+          matTooltip="Editar Paseo" (click)="editarPaseo(paseo)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-mini-fab color="warn" [disabled]="paseo.estado == 'Cancelado'|| paseo.estado == 'EnCurso' || paseo.estado == 'Entregado'
-        || paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'" matTooltip="Cancelar Paseo"
-          (click)="eliminarPaseo(paseo)">
+  
+        <button mat-mini-fab color="warn"
+          [disabled]="paseo.estado == 'Cancelado'|| paseo.estado == 'EnCurso' || paseo.estado == 'Entregado'|| paseo.estado == 'Finalizado'|| paseo.estado == 'Pagado'"
+          matTooltip="Cancelar Paseo" (click)="eliminarPaseo(paseo)">
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-card-actions>
-
     </mat-card>
   </div>
-
-  <!-- Página siguiente -->
-  <button mat-icon-button color="primary" (click)="siguienteCard()" [disabled]="page === totalPages">
-    <mat-icon>chevron_right</mat-icon>
-  </button>
-
-  <!-- Ir a la última página -->
-  <button mat-icon-button color="primary" (click)="irUltimaPagina()" [disabled]="page === totalPages">
-    <mat-icon>last_page</mat-icon>
-  </button>
-
 </div>
+<br>
+<footer class="footer">
+  <p>Copyright &copy; 2025 - Hecho con orgullo en Colombia. Todos los derechos reservados.</p>
+</footer>
