@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -27,13 +27,15 @@ import { Empresa } from '../../../../Interfaces/empresa';
 import { UsuariosService } from '../../../../Services/usuarios.service';
 import * as CryptoJS from 'crypto-js';
 import { ModalTarifaComponent } from '../../Modales/modal-tarifa/modal-tarifa.component';
+import { SignalRService } from '../../../../Services/signalr.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tarifa',
   templateUrl: './tarifa.component.html',
   styleUrl: './tarifa.component.css'
 })
-export class TarifaComponent implements OnInit {
+export class TarifaComponent implements OnInit,OnDestroy {
 
 
   columnasTarifa: string[] = ['nombre', 'precioPorHora', 'duracionHoras', 'activo', 'acciones'];
@@ -50,7 +52,8 @@ export class TarifaComponent implements OnInit {
     private _tarifaServicio: TarifaService,
     private _utilidadServicio: UtilidadService,
     private _usuarioServicio: UsuariosService,
-
+     private signalRService: SignalRService,
+    private router: Router
   ) {
 
 
@@ -123,7 +126,107 @@ export class TarifaComponent implements OnInit {
   }
 
 
+   ngOnDestroy(): void {
+    console.log('[PerroComponent] Destruyendo...');
+
+    this.listeners.forEach((unsubscribe, i) => {
+      unsubscribe();
+      console.log(`[PerroComponent] Listener ${i} desuscrito`);
+    });
+
+    this.listeners = []; // Limpia el array
+    // this.signalRService.stopConnection(); // si aplica
+  }
+
+  private listeners: (() => void)[] = [];
+  private listenerRegistrado = false;
+
+
   ngOnInit(): void {
+
+
+    this.signalRService.startConnection();
+
+    const tarifa = this.signalRService.onTarifasRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/tarifas') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerTarifas();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(tarifa);
+     const tarifa2 = this.signalRService.onTarifasEditada((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/tarifas') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerTarifas();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(tarifa2);
+
+     const tarifa3 = this.signalRService.onTarifasEliminada((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/tarifas') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerTarifas();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(tarifa3);
+
     this.obtenerTarifas();
   }
 

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -29,13 +29,15 @@ import { Empresa } from '../../../../Interfaces/empresa';
 
 import { UsuariosService } from '../../../../Services/usuarios.service';
 import * as CryptoJS from 'crypto-js';
+import { SignalRService } from '../../../../Services/signalr.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perro',
   templateUrl: './perro.component.html',
   styleUrl: './perro.component.css'
 })
-export class PerroComponent implements OnInit, AfterViewInit {
+export class PerroComponent implements OnInit, AfterViewInit, OnDestroy {
 
   urlApi: string = environment.endpoint;
   usuario: any; // Define una variable para almacenar la información del usuario
@@ -74,9 +76,10 @@ export class PerroComponent implements OnInit, AfterViewInit {
     private _PerroServicio: PerroService,
     private _utilidadServicio: UtilidadService, private http: HttpClient,
     private snackBar: MatSnackBar,
-
     private empresaService: EmpresaService,
     private _usuarioServicio: UsuariosService,
+    private signalRService: SignalRService,
+    private router: Router
   ) {
 
     const usuarioString = localStorage.getItem('usuario');
@@ -249,9 +252,192 @@ export class PerroComponent implements OnInit, AfterViewInit {
   //   return formattedPrice;
   // }
 
+  ngOnDestroy(): void {
+    console.log('[PerroComponent] Destruyendo...');
 
+    this.listeners.forEach((unsubscribe, i) => {
+      unsubscribe();
+      console.log(`[PerroComponent] Listener ${i} desuscrito`);
+    });
+
+    this.listeners = []; // Limpia el array
+    // this.signalRService.stopConnection(); // si aplica
+  }
+
+  private listeners: (() => void)[] = [];
+  private listenerRegistrado = false;
 
   ngOnInit(): void {
+
+
+
+    this.signalRService.startConnection();
+
+    const perro = this.signalRService.onPerroRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/perros') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro);
+
+
+    const perro2 = this.signalRService.onPerroEditado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/perros') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro2);
+
+    const perro3 = this.signalRService.onPerroEliminado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/perros') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro3);
+
+    this.listeners.push(perro2);
+
+    const perro4 = this.signalRService.onPerroEliminarImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/perros') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro4);
+
+    const perro5 = this.signalRService.onPerroImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/perros') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro5);
+
+    const perro6 = this.signalRService.onPerroNuevaImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/perros') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro6);
+
     this.obtenerPerro();
 
 
@@ -508,10 +694,12 @@ export class PerroComponent implements OnInit, AfterViewInit {
   // }
 
 
-  cambiarImagen(Perro: Perro) {
+  cambiarImagen(perro: Perro) {
+    // console.log(perro);
+
     this.dialog.open(CambiarImagenComponent, {
       disableClose: true,
-      data: { Perro: Perro } // Asegúrate de pasar correctamente el Perro en la propiedad "data"
+      data: { perro: perro } // Asegúrate de pasar correctamente el Perro en la propiedad "data"
     }).afterClosed().subscribe(resultado => {
       if (resultado === true) {
         this.obtenerPerro();

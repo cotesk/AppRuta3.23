@@ -7,7 +7,8 @@ import { UtilidadService } from '../../../../Reutilizable/utilidad.service';
 import { PagoService } from '../../../../Services/pago.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SignalRService } from '../../../../Services/signalr.service';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class ConsultarPagosComponent {
     private _pagoServicio: PagoService,
     private _utilidadServicio: UtilidadService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private signalRService: SignalRService,
+    private router: Router
   ) {
 
     this.formularioVenta = this.fb.group({
@@ -47,7 +50,58 @@ export class ConsultarPagosComponent {
 
   }
 
+  ngOnDestroy(): void {
+    console.log('[PedidoComponent] Destruyendo...');
+
+    this.listeners.forEach((unsubscribe, i) => {
+      unsubscribe();
+      console.log(`[PedidoComponent] Listener ${i} desuscrito`);
+    });
+
+    this.listeners = []; // Limpia el array
+    // this.signalRService.stopConnection(); // si aplica
+  }
+  private listeners: (() => void)[] = [];
+
   ngOnInit(): void {
+
+
+    this.signalRService.startConnection();
+
+    const pago = this.signalRService.onPagoAnulado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/menu/consultar_Pagos') {
+        this.buscarCompra();
+      }
+    });
+    this.listeners.push(pago);
+
+    const pago2 = this.signalRService.onPagoRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/menu/consultar_Pagos') {
+        this.buscarCompra();
+      }
+    });
+    this.listeners.push(pago2);
+
+    const pago3 = this.signalRService.onTodosPagoRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/menu/consultar_Pagos') {
+        this.buscarCompra();
+      }
+    });
+    this.listeners.push(pago3);
+
+
     this.route.queryParams.subscribe(params => {
       const numeroQR = params['pagos'];
       if (numeroQR) {

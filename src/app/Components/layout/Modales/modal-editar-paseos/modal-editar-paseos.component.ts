@@ -34,6 +34,8 @@ import { Usuario } from '../../../../Interfaces/usuario';
 import { ModalUsuarioComponent } from '../../Modales/modal-usuario/modal-usuario.component';
 import { VerImagenProductoModalComponent } from '../../Modales/ver-imagen-producto-modal/ver-imagen-producto-modal.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { SignalRService } from '../../../../Services/signalr.service';
+import { Router } from '@angular/router';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -77,6 +79,8 @@ export class ModalEditarPaseosComponent {
     private _usuarioServicio: UsuariosService,
     private _tarifaServicio: TarifaService,
     private _PerroServicio: PerroService,
+    private signalRService: SignalRService,
+    private router: Router,
     private modalActual: MatDialogRef<ModalUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -134,7 +138,7 @@ export class ModalEditarPaseosComponent {
         if (data.status) {
 
           this.listaPaseador = data.value
-            .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() === 'paseador' && u.esActivo == 1)
+            .filter((u: Usuario) => u.rolDescripcion?.toLowerCase() !== 'cliente' && u.esActivo == 1)
             .sort((a: Usuario, b: Usuario) => a.nombreCompleto!.localeCompare(b.nombreCompleto!));
 
           // console.log(this.listaPaseador);
@@ -422,8 +426,347 @@ export class ModalEditarPaseosComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    console.log('[PedidoComponent] Destruyendo...');
+
+    this.listeners.forEach((unsubscribe, i) => {
+      unsubscribe();
+      console.log(`[PedidoComponent] Listener ${i} desuscrito`);
+    });
+
+    this.listeners = []; // Limpia el array
+    // this.signalRService.stopConnection(); // si aplica
+  }
+  private listeners: (() => void)[] = [];
+
+
   ngOnInit(): void {
 
+
+
+
+
+    this.signalRService.startConnection();
+
+    const perfil = this.signalRService.onUsuarioImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+
+
+        this.obtenerDiaPaseador();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perfil);
+
+    const perfil2 = this.signalRService.onUsuarioEditado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+
+
+
+        this.obtenerDiaPaseador();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perfil2);
+
+    const perfil3 = this.signalRService.onUsuarioEliminado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+
+
+        this.obtenerDiaPaseador();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perfil3);
+
+
+    const perfil4 = this.signalRService.onUsuarioNuevoCliente((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+
+
+        this.obtenerDiaPaseador();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perfil4);
+
+    const perfil5 = this.signalRService.onUsuarioRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+
+
+        this.obtenerDiaPaseador();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perfil5);
+
+    const perro = this.signalRService.onPerroRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro);
+
+
+    const perro2 = this.signalRService.onPerroEditado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro2);
+
+    const perro3 = this.signalRService.onPerroEliminado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro3);
+
+    this.listeners.push(perro2);
+
+    const perro4 = this.signalRService.onPerroEliminarImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro4);
+
+    const perro5 = this.signalRService.onPerroImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro5);
+
+    const perro6 = this.signalRService.onPerroNuevaImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerPerro();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(perro6);
+
+
+    const tarifa = this.signalRService.onTarifasRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerTarifas();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(tarifa);
+    const tarifa2 = this.signalRService.onTarifasEditada((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerTarifas();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(tarifa2);
+
+    const tarifa3 = this.signalRService.onTarifasEliminada((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/Historial_paseos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerTarifas();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(tarifa3);
+
+    
 
     const paseo = this.data?.paseo;
     // console.log(paseo);
@@ -604,7 +947,7 @@ export class ModalEditarPaseosComponent {
             this.listaDiasPasador = [];
             this.paseadorSeleccionado = false;
             this.modalActual.close("true");
-            
+
           } else {
             if (resp.msg == "No hubo ningún cambio en el paseo.") {
               Swal.fire('Informacion', resp.msg, 'info');

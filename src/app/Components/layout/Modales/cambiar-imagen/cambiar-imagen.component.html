@@ -23,7 +23,7 @@
     <!-- Mostrar imágenes actuales -->
     <h3>Imágenes actuales:</h3>
     <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-      <div *ngFor="let img of imagenesProducto" (click)="seleccionarImagenParaReemplazar(img)"
+      <div *ngFor="let img of imagenesPerro" (click)="seleccionarImagenParaReemplazar(img)"
         [ngClass]="{'selected-image': imagenSeleccionada === img}"
         style="border: 2px solid transparent; cursor: pointer; padding: 4px; border-radius: 6px;">
         <img [src]="img" alt="Imagen del producto" style="width: 100px; height: auto; border-radius: 5px;">

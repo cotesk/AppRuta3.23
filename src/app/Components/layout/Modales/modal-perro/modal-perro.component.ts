@@ -473,7 +473,7 @@ export class ModalPerroComponent implements OnInit {
             // this._utilidadServicio.mostrarAlerta("El producto fue registrado", "Exito");
             this.modalActual.close("true");
           } else {
-            if (data.msg == "Ya existe un producto con el mismo nombre") {
+            if (data.msg == "Ya existe un perro con el mismo nombre") {
               Swal.fire({
                 icon: 'error',
                 title: 'ERROR',
@@ -555,17 +555,17 @@ export class ModalPerroComponent implements OnInit {
           if (data.status) {
             Swal.fire({
               icon: 'success',
-              title: 'Producto Editado',
-              text: `El producto fue editado.`,
+              title: 'Perro Editado',
+              text: `El perro fue editado.`,
             });
             // this._utilidadServicio.mostrarAlerta("El producto fue registrado", "Exito");
             this.modalActual.close("true");
           } else {
-            if (data.msg == "Ya existe un producto con el mismo nombre") {
+            if (data.msg == "Ya existe un perro con el mismo nombre") {
               Swal.fire({
                 icon: 'error',
                 title: 'ERROR',
-                text: `Ya existe un producto con el mismo nombre`,
+                text: `Ya existe un perro con el mismo nombre`,
               });
 
 

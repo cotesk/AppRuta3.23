@@ -29,7 +29,7 @@ export class CambiarImagenComponent implements OnInit {
   fileName: string = '';
   formularioProducto: FormGroup;
   private readonly CLAVE_SECRETA = '9P#5a^6s@Lb!DfG2@17#Co-Tes#07';
-  imagenesProducto: string[] = []; // URLs de imágenes actuales
+  imagenesPerro: string[] = []; // URLs de imágenes actuales
   imagenSeleccionada: string = ''; // URL seleccionada a reemplazar
   accionSeleccionada: string = 'Agregar';
 
@@ -56,7 +56,8 @@ export class CambiarImagenComponent implements OnInit {
   ngOnInit(): void {
     // Extraer las imágenes del perro
     if (this.data?.perro?.imagenUrl) {
-      this.imagenesProducto = this.data.perro.imagenUrl || [];
+      this.imagenesPerro = this.data.perro.imagenUrl || [];
+      
     }
   }
 
@@ -65,7 +66,7 @@ export class CambiarImagenComponent implements OnInit {
 
     switch (this.accionSeleccionada) {
       case 'Agregar':
-        if (this.imagenesProducto.length >= 6) {
+        if (this.imagenesPerro.length >= 6) {
           Swal.fire('Máximo alcanzado', 'Solo puedes tener hasta 6 imágenes.', 'warning');
           return;
         }
@@ -100,7 +101,7 @@ export class CambiarImagenComponent implements OnInit {
         break;
 
       case 'Eliminar':
-        if (this.imagenesProducto.length <= 1) {
+        if (this.imagenesPerro.length <= 1) {
           Swal.fire('No permitido', 'Debe quedar al menos una imagen.', 'warning');
           return;
         }
@@ -271,7 +272,7 @@ export class CambiarImagenComponent implements OnInit {
 
     this._perroServicio.obtenerImagenesPerro(idPerro).subscribe({
       next: (imagenes: string[]) => {
-        this.imagenesProducto = imagenes;
+        this.imagenesPerro = imagenes;
          this.dialogRef.close(true);
       },
       error: () => {

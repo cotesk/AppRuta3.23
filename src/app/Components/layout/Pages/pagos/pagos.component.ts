@@ -239,6 +239,34 @@ export class PagosComponent implements OnInit, OnDestroy {
 
     this.signalRService.startConnection();
 
+       const pago = this.signalRService.onPagoAnulado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/pagos') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.listaUsuariosClientes();
+        // this.obtenerCategorias();
+      }
+    });
+    this.listeners.push(pago);
+
+
 
     this.inicializar
     // this.cargarProductos();

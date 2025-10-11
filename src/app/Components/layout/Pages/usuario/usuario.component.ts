@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -15,13 +15,15 @@ import { ModalListaClientesComponent } from '../../Modales/modal-lista-clientes/
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../../Services/auth.service';
 import { ImageUpdatedService } from '../../../../Services/image-updated.service';
+import { Router } from '@angular/router';
+import { SignalRService } from '../../../../Services/signalr.service';
 
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
-export class UsuarioComponent implements OnInit, AfterViewInit {
+export class UsuarioComponent implements OnInit, AfterViewInit,OnDestroy {
 
   columnasTabla: string[] = ['imagen', 'nombreCompleto', 'correo', 'rolDescripcion', 'estado', 'acciones'];
   dataInicio: Usuario[] = [];
@@ -46,6 +48,8 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
     private _utilidadServicio: UtilidadService,
     private authService: AuthService,
     private imageUpdatedService: ImageUpdatedService,
+     private signalRService: SignalRService,
+        private router: Router
   ) { }
 
   // obtenerUsuario() {
@@ -144,7 +148,175 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
     });
   }
 
+ ngOnDestroy(): void {
+    console.log('[PerroComponent] Destruyendo...');
+
+    this.listeners.forEach((unsubscribe, i) => {
+      unsubscribe();
+      console.log(`[PerroComponent] Listener ${i} desuscrito`);
+    });
+
+    this.listeners = []; // Limpia el array
+    // this.signalRService.stopConnection(); // si aplica
+  }
+
+  private listeners: (() => void)[] = [];
+  private listenerRegistrado = false;
+
+
   ngOnInit(): void {
+
+
+    this.signalRService.startConnection();
+
+    const perfil = this.signalRService.onUsuarioImagen((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/usuarios') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerUsuario();
+        // this.obtenerCategorias();
+      } else if (currentRoute === '/menu/perfiles_paseador') {
+        this.obtenerUsuario();
+      }
+    });
+  this.listeners.push(perfil);
+
+    const perfil2 = this.signalRService.onUsuarioEditado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/usuarios') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerUsuario();
+        // this.obtenerCategorias();
+      } else if (currentRoute === '/menu/perfiles_paseador') {
+        this.obtenerUsuario();
+      }
+    });
+  this.listeners.push(perfil2);
+
+    const perfil3 = this.signalRService.onUsuarioEliminado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/usuarios') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerUsuario();
+        // this.obtenerCategorias();
+      } else if (currentRoute === '/menu/perfiles_paseador') {
+        this.obtenerUsuario();
+      }
+    });
+  this.listeners.push(perfil3);
+
+
+    const perfil4 = this.signalRService.onUsuarioNuevoCliente((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/usuarios') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerUsuario();
+        // this.obtenerCategorias();
+      } else if (currentRoute === '/menu/perfiles_paseador') {
+        this.obtenerUsuario();
+      }
+    });
+  this.listeners.push(perfil4);
+
+    const perfil5 = this.signalRService.onUsuarioRegistrado((pedido) => {
+      const currentRoute = this.router.url;
+      console.log('📦 Pedido actualizado:', pedido);
+      console.log(currentRoute);
+      // Solo muestra mensaje si está en /pages/historial_Pedidos
+      if (currentRoute === '/pages/usuarios') {
+        // Swal.fire({
+        //   toast: true,
+        //   position: 'top-end', // O 'bottom-end'
+        //   icon: 'success',
+        //   title: `Nuevo pedido para la mesa ${pedido.nombreMesa || 'un cliente'} #${pedido.idPedido}`,
+        //   showConfirmButton: false,
+        //   timer: 5000,
+        //   timerProgressBar: true,
+        //   didOpen: (toast) => {
+        //     toast.addEventListener('mouseenter', Swal.stopTimer);
+        //     toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //   }
+        // });
+
+
+        this.obtenerUsuario();
+        // this.obtenerCategorias();
+      } else if (currentRoute === '/menu/perfiles_paseador') {
+        this.obtenerUsuario();
+      }
+    });
+  this.listeners.push(perfil5);
+
+
+
     // this.obtenerClaveSecreta();
     this.obtenerUsuario();
 
